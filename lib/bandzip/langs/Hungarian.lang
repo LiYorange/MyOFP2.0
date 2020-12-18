@@ -1,0 +1,916 @@
+;
+; Auto generated file by doc2langs (bandizip7)
+; 
+; DO NOT MODIFY THIS FILE MANUALLY!!!
+; 
+; If you want to modify this file, please visit https://go.bandi.so/apptranslation for more information.
+;
+
+[GENERAL]
+LANG_NAME                               = Magyar
+TRANSLATORS                             = Zodarr (at Gmail dot com)
+
+
+[TEXT]
+TEXT_BUILDNO                            = Build#
+TEXT_FILE                               = Fájl
+TEXT_FOLDER                             = Mappa
+TEXT_ARCHIVE_SIZE                       = Teljes méret
+TEXT_ORIGINAL_SIZE                      = Eredeti méret
+TEXT_ARCHIVE_FORMAT                     = Archive Type
+TEXT_COMPRESSED_SIZE                    = Archívum méret
+TEXT_SOLID                              = Egybefüggő
+TEXT_BETA                               = Béta
+TEXT_ASSOC                              = Archívum (${str1})
+TEXT_PORTABLE                           = Hordozható
+TEXT_NEW_FOLDER                         = Új Mappa
+TEXT_FILESIZE_UNKNOWN                   = Ismeretlen
+TEXT_FILEDATE_UNKNOWN                   = Ismeretlen
+TEXT_HELP_LINK                          = [Segítség]
+TEXT_APP_DESC                           = Bandizip is a lightweight, fast and free all-in-one Zip archiver. It handles the most popular compression formats, including Zip, 7z, Rar, and so on.
+
+TEXT_MESSAGEBOX_OK                      = Rendben
+TEXT_MESSAGEBOX_CANCEL                  = Mégse
+TEXT_MESSAGEBOX_ABORT                   = Megszakítás
+TEXT_MESSAGEBOX_RETRY                   = Újrapróbálás
+TEXT_MESSAGEBOX_IGNORE                  = Figyelmen kívül hagyás
+TEXT_MESSAGEBOX_YES                     = Igen
+TEXT_MESSAGEBOX_NO                      = Nem
+TEXT_MESSAGEBOX_CONTINUE                = Folytatás
+TEXT_MESSAGEBOX_HELP                    = Help
+
+TEXT_COLUMN_NAME                        = Név
+TEXT_COLUMN_COMPSIZE                    = Archívum mérete
+TEXT_COLUMN_ORIGSIZE                    = Eredeti méret
+TEXT_COLUMN_KIND                        = Típus
+TEXT_COLUMN_DATE_MOD                    = Módosítva
+TEXT_COLUMN_COMPMETHOD                  = Tömörítési Módszer
+TEXT_COLUMN_ENCRMETHOD                  = Titkosítási Módszer
+TEXT_COLUMN_CRC                         = CRC
+TEXT_COLUMN_ATTRIB                      = Attribútumok
+TEXT_COLUMN_COMMENT                     = Megjegyzés
+TEXT_COLUMN_PATHNAME                    = Elérési út
+
+TEXT_ICONPACK_NAME                      = Név
+TEXT_ICONPACK_DESIGNER                  = Rajzoló
+TEXT_ICONPACK_COPYRIGHT                 = Szerzői Jog
+
+TEXT_ARCHIVE_COLUMN_NAME                = Név
+TEXT_ARCHIVE_COLUMN_FILESIZE            = méret
+TEXT_ARCHIVE_COLUMN_FOLDERPATH          = Elérési út
+TEXT_ARCHIVEDLG_FILESIZE_SUM            = Teljes méret
+
+TEXT_SELECT_ARCHIVE_FILE                = Fájl kiválasztása
+TEXT_SELECT_TEXT_FILE                   = Fájl kiválasztása
+TEXT_SELECT_DEST_FOLDER                 = Célmappa kiválasztása
+TEXT_SELECT_ARCHIVE_FILE_FILETERNAME    = Archívum
+TEXT_REGISTRY_FILE                      = Registry file
+
+TEXT_OPENDLG_ARCHIVEFILES               = Archívumok
+TEXT_OPENDLG_ARCHIVEFILE                = Archive File
+TEXT_OPENDLG_ALLFILES                   = Minden Fájl
+TEXT_OPENDLG_EXEFILES                   = Exe fájlok
+
+TEXT_ABOUTBOX_TAB1                      = A Bandizip-ről
+
+TEXT_ASSOC_GROUP0                       = Archívumok
+TEXT_ASSOC_GROUP1                       = UNIX
+TEXT_ASSOC_GROUP2                       = Egyéb
+TEXT_ASSOC_GROUP3                       = CD/DVD
+
+TEXT_OPENERR_INVALIDVERSION             = A fájl megnyitásához töltse le a Bandizip legújabb verzióját.
+TEXT_OPENERR_NOT_A_FIRST_VOLUME_FILE    = Csak a többkötetes archívum legelső elemét válassza ki.
+TEXT_OPENERR_CANT_OPEN_FILE             = Nem tudom megnyitni a(z) (${str1}) fájlt.
+TEXT_OPENERR_CANT_OPEN_FILE_LOCKED      = Nem tudom megnyitni a(z) (${str1}) fájlt, mert azt egy másik program használja.
+TEXT_OPENERR_GENERAL                    = Nem tudom megnyitni a(z) (${str1}) fájlt. (Hibakód:${xnum1})
+TEXT_OPENERR_USER_ABORT                 = Megszakítva
+TEXT_OPENERR_UNKNOWN_FILEFORMAT         = Ismeretlen fájl formátum: (${str1})
+TEXT_OPENERR_NOT_ARCHIVE_FILE           = Nem archívum: (${str1})
+TEXT_OPENERR_NOT_SUPPORTED_FILEFORMAT   = Nem támogatott fájl formátum: (${str1})
+TEXT_OPENERR_NOT_SUPPORTED_ENC_METHOD   = Not supported encryption method (${str1})
+TEXT_OPENERR_PASSWORD_NOT_SET           = Írjon be egy jelszót.
+TEXT_OPENERR_INVALID_PASSWORD           = Érvénytelen jelszó.
+TEXT_OPENERR_INVALID_CONTAINER_HEADER   = Nem tudom megnyitni ezt a fájlt, mert a fájl fejléce sérült.
+
+TEXT_ERR_INIT_FAILED                    = Nem sikerült inicalizálni.
+TEXT_ERR_NOFILE_OR_INVALIDPASS          = The password is incorrect or there is no file in the archive.
+TEXT_ERR_PASSOWRD_NOT_MATCH             = Jelszavak nem egyeznek.
+TEXT_ERR_PASSWORD_NOT_SET               = Írjon be egy jelszót.
+TEXT_ERR_INVALID_PASSWORD_CHAR          = Érvénytelen karaktert használt. Írjon be betűt/számot/írásjelet.
+TEXT_ERR_INVALID_SPLIT_FILE_SIZE        = Érvénytelen kötetméret.
+TEXT_ERR_SFX_SPLIT_SIZE_4G_LIMIT        = Az SFX fájlok mérete korlátozva van 4GB-ra.
+TEXT_ERR_INTERNAL_ERROR                 = Belső hiba.
+TEXT_ERR_CANT_MODIFY_ARCHIVE            = Nem tudom módosítani az archívumot.
+TEXT_ERR_OCCURRED_WHEN_MODIFY_ARCHIVE   = Hiba történt az archívum módosítása közben.
+TEXT_ERR_INVALID_FOLDER_PATH            = Érvénytelen elérési út.
+TEXT_ERR_EDIT_ZIPFILE_ONLY_SUPPORTED    = Csak a ZIP fájlt lehet szerkeszteni.
+TEXT_ERR_EDIT_SINGLEFILE_ONLY_SUPPORTED = Nem tudom szerkeszteni a többkötetes archívumot.
+TEXT_ERR_EDIT_SFX_NOT_SUPPORTED         = Nem tudom szerkeszteni az SFX fájlt. (*.exe)
+TEXT_ERR_EDIT_BROKENARCH_NOT_SUPPORTED  = Nem tudom szerkeszteni a sérült fájlt.
+TEXT_ERR_EDIT_NOT_SUPPORTED_ARCHIVE     = Nem tudom szerkeszteni ezt a fájlt/fájlkiterjesztést.
+TEXT_ERR_CANT_CHANGE_FILENAME           = Nem tudom megváltoztatni ezt a fájlnevet.
+TEXT_ERR_CANT_CHANGE_FILENAME_WITH      = Nem lehet használni a fájlnévben [br]? : \ / * < > | " [br]karaktereket.
+TEXT_ERR_CANT_CHANGE_FILENAME_SAMENAME  = Ugyanilyen fájl/mappa már létezik. Nem tudom megváltoztatni a(z) (${str1}) fájl nevét.
+TEXT_ERR_CANT_CREATE_FOLDER             = Nem tudom létrehozni a mappát.
+TEXT_ERR_NO_FILES_TO_ARCHIVE            = Nincsenek tömöríthető fájlok.
+TEXT_ERR_INVALID_PARAM                  = Érvénytelen paraméter.
+TEXT_ERR_CANT_ADD_TO_ARCHIVE            = Nem tudom hozzáadni ezt az fájlt az archívumhoz: [br] - ${str1}
+TEXT_ERR_CANT_OPEN_THIS_ARCHIVE         = Nem tudom megnyitni ezt az archívumot: [br] - ${str1}
+TEXT_ERR_SAME_NAME_FOLDER_EXIST         = Már létezik ilyen mappa.
+TEXT_ERR_FILENAME_EMPTY                 = Érvénytelen fájlnév.
+TEXT_ERR_AT_DRAGANDDROP                 = A "Fogd és Vidd" művelet nem sikerült.
+TEXT_ERR_AT_DRAGANDDROP_OFF_FAST_DND    = Drag and Drop failed. [br]Bandizip has just turned off the 'Fast Drag and Drop' function, please try it again.
+TEXT_ERR_AT_CANT_OPEN_MMF               = Nem tudom megnyitni a(z) (mmf:${str1}) MMF-et.
+TEXT_ERR_NO_FILES_SELECTED              = Nincs fájl kiválasztva.
+TEXT_ERR_ICONPACK_CANTCREATEFOLDER      = Nem tudom létrehozni a mappát az Ikoncsomag telepítéséhez.
+TEXT_ERR_ICONPACK_CANTCREATEFILE        = Nem tudom létrehozni a fájlt az Ikoncsomag telepítéséhez.
+TEXT_ERR_AT_EXECUTE_DIRECT              = Nem tudom megnyitni ezt a fájlt. Bontsa ki a fájlt és próbálja újra.
+TEXT_ERR_FILESIZE_OVER_4GB_INCLUDED     = Nem tudok 4GB-nál nagyobb fájlt létrehozni.[br]Kérem válasszon egy másik fájl formátumot (ZIP vagy 7Z)
+TEXT_ERR_CANT_SAVE_AS                   = Cannot save this file.
+TEXT_ERR_ERROR_AT_EDIT                  = Bandizip has encountered a problem while editing the file.(${str1})[br][br]Would you like to send an error report to Bandisoft?[br][br]Submitting this report helps Bandisoft improve Bandizip.
+
+TEXT_MSG_TEST_OK                        = Nincsenek hibák az archívumban.
+TEXT_MSG_EXTRACT_FAIL_WITH_ERRCODE      = A kibontás nem sikerült.[br]Hibakód: (${str1})
+TEXT_MSG_EXTRACT_SUCCESS                = A kibontás sikerült.
+TEXT_MSG_EXTRACT_CANCELED               = Kibontás megszakítva.
+TEXT_MSG_COMPRESS_SUCCESS               = Tömörítés befejezve.
+TEXT_MSG_INTERNAL_ERROR                 = Belső hiba
+TEXT_MSG_TEMP_FILE_NOT_EXIST            = Cannot open the following file in the temp folder:[br](${str1})
+TEXT_MSG_CANT_DELETE_ARCHIVE            = Nem tudom törölni ezt az archívumot.
+TEXT_MSG_CRASH_REPORT                   = A program összeomlott. Kilépés a programból.
+TEXT_MSG_CRASH_REPORT2                  = Bandizip has encountered a problem and needs to close. Do you want to send a crash report to the Bandizip developer?
+TEXT_MSG_HANGAPP_REPORT                 = Bandizip is not responding.[br][br]Do you want to send a crash report to the Bandizip developer and close the program?
+TEXT_MSG_SET_TEMP_PATH                  = Állítsa be az Átmeneti mappa elérési útvonalát.
+TEXT_MSG_SET_PATH                       = Állítsa be az elérési útvonalat.
+TEXT_MSG_ICONPACK_INSTALL_COMPLETED     = Az Ikoncsomag telepítése sikerült.
+TEXT_MSG_NOTICE_RESTART                 = A program újra fog indulni.
+TEXT_MSG_ARCHVIE_OPENING                = Archívum megnyitása.
+TEXT_MSG_COMPLETING                     = ${num1}% elkészült.
+TEXT_MSG_CANT_CREATE_FOLDER             = Cannot create a folder.[br] - ${str1}
+TEXT_MSG_GX_XZ_CANT_ARCHIVE_FOLDER      = Cannot compress a folder into a .GZ/XZ archive.
+TEXT_MSG_GX_XZ_CANT_ARCHIVE_MULTI       = Cannot compress multiple files into a .GZ/XZ archive. Please check the "Compress to each file/folder name" option.
+TEXT_MSG_TRAY_MINIMIZED                 = Bandizip has been minimized to the system tray. Click the tray icon to restore it.
+TEXT_MSG_TRAY_COMPLETED                 = The operation has been completed.
+TEXT_MSG_BATCH_ARCHVING                 = Archiving: ${str1}
+TEXT_MSG_BATCH_EXTRACTING               = Extracting: ${str1}
+TEXT_MSG_BATCH_TESTING                  = - Testing: ${str1}
+TEXT_MSG_BATCH_DELETING                 = - Deleting: ${str1}
+TEXT_MSG_BATCH_DEL_FAILED               = - Failed to delete: ${str1}
+TEXT_MSG_WORK_IN_PROGRESS               = Work in progress...
+
+TEXT_NOTICE_AUTODETECTCODEPAGE          = Ha a karakterek nem megfelelően jelennek meg, kattintson fent a <font color=red><b>Kódolás</b></font> ikonra és próbálja meg az <font color=red><b>Automatikus észlelés</b></font>menüpontot használni.
+
+TEXT_ASK_DELETE_ARCHIVE                 = Az eredeti fájl le lesz törölve.[br]Törli ezt a fájlt?
+TEXT_ASK_DELETE_CUR_ARCHIVE             = Törli az aktuális fájlt?
+TEXT_ASK_PERM_DELETE_CUR_ARCHIVE        = Do you want to delete the current archive permanently?
+TEXT_ASK_CHANGE_FILENAME                = Létezik már ilyen fájl.[br][br]Megváltoztatja a fájlnevet ${str1}-ról/ről[br]${str2}-ra/re?
+TEXT_ASK_DELETE_FILE                    = Törli a kiválasztott fájlt?
+TEXT_ASK_STOP_EXTRACT                   = Leállítja a kibontást?
+TEXT_ASK_OVERWRITE_ARCHIVE              = Létezik ilyen fájl.[br][br]Felülírja?
+TEXT_ASK_INIT_SETTING                   = Visszatér az alapbeállításokra? A Bandizip újra fog indulni.
+TEXT_ASK_STOP_ARCHIVING                 = Leállítja a tömörítést?
+TEXT_ASK_STOP_MODIFYING                 = Leállítja ezt a műveletet?
+TEXT_ASK_APPLY_MODIFIED_FILE            = Menti a megváltoztatott fájlt [br](${str1})[br]a Archívum fájlba?
+TEXT_ASK_INSTALL_ICONPACK               = Telepíti és beállítja a(z) (${str1}) Ikoncsomagot?
+TEXT_ASK_MAKE_FOLDER                    = The folder doesn't exist. Do you want to create it?[br][br]- ${str1}
+TEXT_ASK_CONT_WITHOUTWRITEPERMISSION    = The destination folder doesn't have write permission.[br][br]- ${str1}[br][br]Do you want to proceed?
+TEXT_ASK_CONT_NOFREESPACE               = The destination folder doesn't have enough space. Change the destination folder. [br][br]- ${str1}[br][br]Do you want to proceed?
+TEXT_ASK_ASK_UAC_ELEVATION              = You do not have permission to change these files. [br][br]Do you want to restart this program as an administrator?
+TEXT_ASK_OPENERR_FIRST_VOLUME           = Cannot open this archive file. [br][br]Do you want to open the first part of the split file (${str1})?
+TEXT_ASK_DELSRC_TURN_ON_TEST_ARCHIVE    = If you delete files after archiving, you could lose important files if the files are broken.[br][br]Do you want to check the "Test Archive" option?
+TEXT_ASK_DEST_FOLDER_SPACE_NOT_ENOUGH   = Not enough disk space to extract. Do you want to proceed?[br][br]Destination Folder: ${str1}[br]Free disk space: ${str2}[br]Extracting file size: ${str3}
+
+TEXT_WARN_BROKEN_FILE                   = Ez a fájl sérült.
+TEXT_WARN_BROKEN_OR_MULTIVOL_PROBLEM    = A fájl sérült, vagy a többkötetes archívum további elemére van szükség.
+
+TEXT_BTN_PAUSE                          = Szünet
+TEXT_BTN_RESUME                         = Folytatás
+
+TEXT_ERRDLG_ERROR_OCCURRED              = Hiba történt.
+TEXT_ERRDLG_USER_ABORT                  = Megszakítva.
+
+TEXT_ARKERR_CANT_OPEN_FILE              = Nem tudom megnyitni ezt a fájlt.
+TEXT_ARKERR_CANT_OPEN_FILE_LOCKED       = Nem tudom megnyitni ezt a fájlt mert egy másik program használja.
+TEXT_ARKERR_PASSWORD_NOT_SET            = Jelszó szükséges.
+TEXT_ARKERR_INVALID_PASSWD              = Érvénytelen Jelszó.
+TEXT_ARKERR_USER_ABORTED                = Megszakítva.
+TEXT_ARKERR_INVALID_FILE_CRC            = CRC hiba (sérült fájl).
+TEXT_ARKERR_CANT_OPEN_FILE_TO_WRITE     = Nem tudom megnyitni ezt a fájlt.
+TEXT_ARKERR_CANT_READ_DATA              = Nem tudok adatot kiolvasni az archívumból.
+TEXT_ARKERR_INFLATE_FAILED              = Adathiba - Ez a fájl sérült.
+TEXT_ARKERR_BZIP2_ERROR                 = Adathiba - Ez a fájl sérült.
+TEXT_ARKERR_DATA_CORRUPTED              = A fájl sérült, vagy a többkötetes archívum további elemére van szükség.
+TEXT_ARKERR_CANT_OPEN_DEST_FILE         = Nem tudom megnyitni ezt a fájlt.
+TEXT_ARKERR_CANT_CREATE_FOLDER          = Nem tudom létrehozni a mappát.
+TEXT_ARKERR_UNKNOWN_COMPRESSION_METHOD  = Not supported compression method
+TEXT_ARKERR_WRITE_FAIL                  = Hiba történt a lemezre írás közben.
+TEXT_ARKERR_DISK_FULL                   = A lemez megtelt.
+TEXT_ARKERR_FILENAME_EXCED_RANGE        = A fájl elérési út és a fájlnév együttesen nem haladhatja meg a 260 karaktert.
+TEXT_ARKERR_CANT_CREATE_FILE            = Nem sikerült létrehozni a fájlt.
+TEXT_ARKERR_CANT_CREATE_FILE_UAC        = Nem sikerült fájlt létrehozni. Futtassa a programot rendszergazdai jogosultságokkal.
+TEXT_ARKERR_USER_SKIP                   = Kihagyva.
+TEXT_ARKERR_FILE_TRUNCATED              = Ennek a fájlnak a vége sérült vagy hiányzik.
+TEXT_ARKERR_INVALID_PASSWD_OR_BROKEN    = A jelszó érvénytelen vagy a fájl sérült.
+TEXT_ARKERR_7ZERR_BROKEN_ARCHIVE        = Ez a fájl sérült.
+TEXT_ARKERR_SFX_SIZE_OVER_4GB           = Az SFX fájl (*.exe) nagyobb, mint 4GB.[br]Windows alatt nem tud elindítani 4GB-nál nagyobb fájlt.
+TEXT_ARKERR_ZIP_LAST_VOL_ONLY           = Nem tudom megnyitni ezt az archívumot. Az ezt követő kötetfájlok (.z01, .z02..) szükségesek.
+TEXT_ARKERR_ZIP_LAST_VOL_ONLY_WARN      = Nem tudom megnyitni ezt a Zip fájlt. Az ezt követő kötetfájlok (.z01, .z02..) szükségesek.
+TEXT_ARKERR_CANNOT_FIND_NEXT_VOLUME     = Nem tudom megnyitni ezt az archívumot. Szükséges a többi kötetfájl is.
+TEXT_ARKERR_CORRUPTED_FILE              = Ez a fájl sérült.
+TEXT_ARKERR_ACCESS_DENIED_DEST_PATH     = Nincs a mappára írási engedély.
+TEXT_ARKERR_ACCESS_DENIED_DEST_PATH_UAC = Nincs a mappára írási engedély.[br]Futtassa a programot rendszergazdai jogosultságokkal.
+TEXT_ARKERR_NOT_SUPPORTED_ENC_METHOD    = Nincs támogatva ez a titkosítási algoritmus.
+TEXT_ARKERR_NOT_ENOUGH_MEMORY           = Túl kevés memória (RAM).
+TEXT_ARKERR_NOT_ENOUGH_MEMORY_LZMA_ENC  = Túl kevés memória (RAM). Változtassa meg a tömörítési szintet.
+TEXT_ARKERR_NOT_SUPPORTED_OPERATION     = Ezt a műveletet nem támogatott.
+TEXT_ARKERR_NOT_MATCH_FILE_SIZE         = A kibontott fájl mérete és az archívum fejléc információja különböznek.
+TEXT_ARKERR_FILE_SIZE_OVER_4GB          = Nem tudok 4GB-nál nagyobb fájlt létrehozni. Válasszon egy másik fájl formátumot (ZIP vagy 7Z)
+TEXT_ARKERR_TOO_LONG_NAME_AND_TRUNCATED = A hosszú fájlnevet automatikusan rövidítettem.
+TEXT_ARKERR_CANT_OPEN_SRC_FILE_TO_COPY  = Cannot open source file to copy.
+TEXT_ARKERR_NOTIMPL                     = Not implemented.
+TEXT_ARKERR_CANT_READ_FILE              = Cannot read file.
+TEXT_ARKERR_NEED_ADMIN_SYMLINK          = Run Bandizip as administrator to create a symbolic link.
+TEXT_ARKERR_CANT_MAKE_SYMLINK           = Cannot create a symbolic link.
+
+TEXT_SPLITCOMBO_NOSPLIT                 = Nem darabolt
+TEXT_SPLITCOMBO_3MB                     = 3MB
+TEXT_SPLITCOMBO_4MB                     = 4MB
+TEXT_SPLITCOMBO_5MB                     = 5MB
+TEXT_SPLITCOMBO_10MB                    = 10MB
+TEXT_SPLITCOMBO_20MB                    = 20MB
+TEXT_SPLITCOMBO_GMAIL                   = 25MB (Gmail)
+TEXT_SPLITCOMBO_100MB                   = 100MB
+TEXT_SPLITCOMBO_300MB                   = 300MB
+TEXT_SPLITCOMBO_CD650                   = 650MB (CD)
+TEXT_SPLITCOMBO_CD700                   = 700MB (CD)
+TEXT_SPLITCOMBO_FAT32                   = 4GB (FAT32)
+TEXT_SPLITCOMBO_DVD                     = 4.7GB (DVD)
+TEXT_SPLITCOMBO_USERINPUT               = Egyéni méret
+
+TEXT_COMPRESSIONMETHOD_STORE            = 0-Nincs tömörítés
+TEXT_COMPRESSIONMETHOD_FAST             = 1-Gyors tömörítés
+TEXT_COMPRESSIONMETHOD_NORMAL           = 2-Normál tömörítés
+TEXT_COMPRESSIONMETHOD_MAX              = 3-Maximális tömörítés
+
+TEXT_NEW_ARCHIVE_FILE_NAME              = Új Archívum
+TEXT_ADD_FILE_2_ARCHIVE_DLG_TITLE       = Fájlok hozzáadása az archívumhoz
+TEXT_DUPEFILE_PROCESS_METHOD_RENAME     = &Átnevezés: ${str1}
+TEXT_TITLE_TEST_MODE                    = Archívum Tesztelése
+TEXT_TITLE_TEMPFOLDER_MODE              = Kibontás az átmeneti mappába...
+TEXT_TITLE_MODIFYING                    = Módosítás...
+TEXT_DLG_STATIC_DUPEFILE_NEW            = Kibontandó fájl
+TEXT_MSG_SELECTED_FILE                  = ${num1} fájl kiválasztva
+TEXT_MSG_SELECTED_FOLDER                = ${num1} mappa kiválasztva
+TEXT_MSG_SELECTED_FILEFOLDER            = ${num1} fájl, ${num2} mappa
+TEXT_MSG_SELECTED_FILESIZESUM           = Kiválasztott fájl mérete: ${str1}
+
+TEXT_UPDATE_VERSION_CHECK_FAILED        = Nem sikerült a verzió ellenőrzése.
+TEXT_UPDATE_VERSION_CHECKING            = Verzióellenőzés...
+TEXT_UPDATE_DOWNLOAD_FAILED             = A letöltés nem sikerült.
+TEXT_UPDATE_LATEST_VERSION              = A program naprakész.
+TEXT_UPDATE_DO_DOWNLOAD                 = Frissítés szükséges.
+TEXT_UPDATE_DOWNLOAD_COMPLETED          = Letöltés kész.
+
+TEXT_INSTALL_HONEYVIEW                  = Install Honeyview
+TEXT_INSTALL_HONEYVIEW_1                = Honeyview isn't installed on your computer.
+TEXT_INSTALL_HONEYVIEW_2                = Please try Honeyview developed by Bandisoft.<br> It supports viewing the images in compressed ZIP, RAR, or 7z files without extraction.
+
+
+
+[MENU]
+MENUSTR_FILE                            = &Fájl
+MENUSTR_EDIT                            = Sz&erkesztés
+MENUSTR_SETTING                         = &Beállítások
+MENUSTR_FIND                            = &Keresés
+MENUSTR_VIEW                            = &View
+MENUSTR_HELP                            = &Segítség
+
+MENUSTR_OPEN                            = Archívum &megnyitása \tCtrl+O
+MENUSTR_RECENT                          = Recent Files
+MENUSTR_CLOSE_FILE                      = Archívum &bezárása \tF4
+MENUSTR_CREATE_ARCHIVE                  = Új &archívum \tCtrl+N
+MENUSTR_SAVE_AS_ARCHIVE                 = Save as
+MENUSTR_DELETE_ARCHIVE                  = Archívum törlése \tCtrl+Del
+MENUSTR_PERM_DELETE_ARCHIVE             = Delete Archive Permanently \tShift+Ctrl+Del
+MENUSTR_OPEN_ARCHIVE_FOLDER             = Open Archive Location
+MENUSTR_TEST_ARCHIVE                    = Archívum &tesztelése \tCtrl+T
+MENUSTR_EXTRACT_FILE                    = Fájl &kibontása \tCtrl+E
+MENUSTR_EXIT                            = &Kilépés \tCtrl+W
+
+MENUSTR_RENAME_FILE                     = Fájl á&tnevezése \tF2
+MENUSTR_ADD_FILE                        = Fájl &hozzáadása  \tIns
+MENUSTR_DELETE_FILE                     = Fájl &törlése \tDel
+MENUSTR_EDIT_COMMENT                    = Megjegyzés az archívumhoz
+MENUSTR_SETTING_SUB                     = Program &Beállítások \tF5
+MENUSTR_FIND_ITEM                       = Fájlok &keresése \tCtrl+F
+MENUSTR_COPY_FILES2CLIPBOARD            = Copy files to clipboard\tCtrl+C
+MENUSTR_PASTE_FILESFROMCLIPBOARD        = Paste files from clipboard\tCtrl+V
+
+
+MENUSTR_VIEW_STARTSCREEN                = Start Screen \tF6
+MENUSTR_VIEW_TREECONTROL                = TreeView Control \tF7
+MENUSTR_VIEW_COMMENT                    = Archive Comment\tF8
+MENUSTR_VIEW_PREVIEW                    = Image Preview
+MENUSTR_VIEW_TOOLBAR                    = Toolbar
+MENUSTR_VIEW_TOOLBAR_NORMAL             = Large
+MENUSTR_VIEW_TOOLBAR_MINI               = Small
+MENUSTR_VIEW_TOOLBAR_OLD                = Old
+MENUSTR_VIEW_TOOLBAR_HIDE               = Hide
+MENUSTR_VIEW_LISTVIEW                   = File List
+MENUSTR_VIEW_LISTVIEW_ICON              = Icons
+MENUSTR_VIEW_LISTVIEW_LIST              = List
+MENUSTR_VIEW_LISTVIEW_REPORT            = Details
+MENUSTR_VIEW_COLUMN                     = Column
+MENUSTR_VIEW_ALWAYS_ON_TOP              = Always on top
+MENUSTR_VIEW_COLOR_SETTING              = Color Settings...
+
+
+MENUSTR_ABOUT                           = Bandizip &névjegye \tF1
+MENUSTR_HELPPAGE                        = &Segítség megnyitása
+MENUSTR_OPEN_FOLDER                     = Bandizip &mappa megnyitása
+MENUSTR_FORUM                           = Bandizip &fórum megnyitása
+MENUSTR_HOMEPAGE                        = &Honlap megnyitása
+
+POPUPMENU_VIEWITEM_COMPSIZE             = Archívum méret
+POPUPMENU_VIEWITEM_ORIGSIZE             = Eredeti méret
+POPUPMENU_VIEWITEM_KIND                 = Fájltípus
+POPUPMENU_VIEWITEM_DATE_MOD             = Módosítás dátuma
+
+POPUPMENU_VIEWITEM_COMPMETHOD           = Tömörítési módszer
+POPUPMENU_VIEWITEM_ENCRMETHOD           = Titkosítási módszer
+POPUPMENU_VIEWITEM_CRC                  = CRC
+POPUPMENU_VIEWITEM_ATTRIB               = Fájl attribútumok
+POPUPMENU_VIEWITEM_COMMENT              = Fájl megjegyzés
+
+POPUPMENU_LISTCONTROL_EXTRACT_ALL       = Összes kibontása \tCtrl+E
+POPUPMENU_LISTCONTROL_EXTRACT_SELECTED  = Kiválasztott fájl(ok) kibontása
+POPUPMENU_LISTCONTROL_EXTRACT_HERE      = Kibontás ide
+
+POPUPMENU_LISTCONTROL_EXECUTE           = Megnyitás\tEnter
+POPUPMENU_LISTCONTROL_EXECUTE_SYS       = Open with associated program
+POPUPMENU_LISTCONTROL_EDIT_SELECTED     = Edit\tF3
+
+POPUPMENU_LISTCONTROL_NEW_FOLDER        = Új mappa
+POPUPMENU_LISTCONTROL_ADD_FILE          = Fájl hozzáadása \tIns
+POPUPMENU_LISTCONTROL_DELETE_FILE       = Fájl törlése \tDel
+POPUPMENU_LISTCONTROL_RENAME_FILE       = Fájl átnevezése
+POPUPMENU_LISTCONTROL_SELECT_ALL        = Összes kiválasztása  \tCtrl+A
+POPUPMENU_LISTCONTROL_MOVE2PARENT       = Átlépés a szülőmappába \tBackspace
+
+POPUPMENU_TREECONTROL_DELETE_ARCHIVE    = Archívum törlése
+POPUPMENU_TREECONTROL_OPENARCHIVEFOLDER = Archívum mappájának megnyitása
+
+POPUPMENU_EXTRACT_AUTODEST              = Automatikus kibontás\tCtrl+Shift+S
+POPUPMENU_EXTRACT_CURRENT               = Kibontás a jelenlegi mappába\tCtrl+Shift+C
+POPUPMENU_EXTRACT_ARCHIVENAME           = Kibontás a [fájl neve] mappába
+POPUPMENU_EXTRACT_DESKTOP               = Kibontás az Asztalra
+POPUPMENU_EXTRACT_DESKTOP_AUTODEST      = Automatikus kibontás az Asztalra
+
+POPUPMENU_RECENT_CLEAR                  = Előzmények törlése
+POPUPMENU_RECENT_NOITEM                 = Nincs legutóbbi fájl
+
+POPUPMENU_SHELLOPEN_OPENARCHIVE         = Megnyitás a Bandizip-pel
+POPUPMENU_SHELLOPEN_EXTRACTAUTO         = Automatikus kibontás
+
+POPUPMENU_CODEPAGE_DEFAULT              = Alapbeállítás
+POPUPMENU_CODEPAGE_SIMPCHINESE          = Egyszerűsített kínai
+POPUPMENU_CODEPAGE_TRADCHINESE          = Tradicionális kínai
+POPUPMENU_CODEPAGE_JAPANESE             = Japán
+POPUPMENU_CODEPAGE_KOREAN               = Koreai
+POPUPMENU_CODEPAGE_WINDOWS1252          = Nyugat-európai
+POPUPMENU_CODEPAGE_WINDOWS1250          = Közép-európai
+POPUPMENU_CODEPAGE_WINDOWS1251          = Cirill
+POPUPMENU_CODEPAGE_WINDOWS1254          = Török
+POPUPMENU_CODEPAGE_WINDOWS737           = Görög
+POPUPMENU_CODEPAGE_ARABIC               = Arab
+POPUPMENU_CODEPAGE_HEBREW               = Héber
+POPUPMENU_CODEPAGE_UTF8                 = Linux (UTF-8)
+POPUPMENU_CODEPAGE_AUTODETECT           = Automatikus észlelés
+
+
+
+
+[DIALOG]
+;------------------------------------------------------------------------------
+; GENERAL
+IDOK                                    = Rendben
+IDCANCEL                                = Mégse
+
+;------------------------------------------------------------------------------
+[IDD_ABOUT]
+IDD_ABOUT                               = Bandizip névjegye
+IDC_BTN_HOMEPAGE                        = Honlap
+IDC_BTN_UPDATE                          = Frissítés
+
+;------------------------------------------------------------------------------
+[IDD_OPEN_PROGRESS]
+IDD_OPEN_PROGRESS                       = Fájl megnyitása
+IDC_STATIC_OPENING                      = Megnyitás...
+
+;------------------------------------------------------------------------------
+[IDD_SELECT_FOLDER]
+IDD_SELECT_FOLDER                       = Kibontás ebbe a mappába
+IDC_STATIC_FOLDER                       = &Célmappa
+IDC_STATIC_FILES2EXTRACT                = Kibontás:
+IDC_RADIO_FILES2EXTRACT_0               = Ö&sszes fájl
+IDC_RADIO_FILES2EXTRACT_1               = &Kiválasztott fájlok
+IDC_CHK_CREATE_FOLDER_WITH_ARCHIVE_NAME = Kibontás a [fájl neve] mappába a kiválasztott célmappában.
+IDC_CHK_DEL_ARCHIVE_AFTER_EXTRACT       = Delete the archive after extracting
+IDC_CHK_REMEMBER_SETTINGS               = Remember settings
+IDC_BTN_NEWFOLDER                       = Új mappa
+
+;------------------------------------------------------------------------------
+[IDD_EXTRACT]
+IDD_EXTRACT                             = Kibontás
+IDC_BTN_STOP                            = Állj
+IDC_BTN_CLOSE                           = Bezárás
+IDC_BTN_PAUSE                           = Szünet
+
+;------------------------------------------------------------------------------
+[IDD_ARCHIVE]
+IDD_ARCHIVE                             = Új archívum
+IDC_STATIC_FILE_LIST                    = Fájlok hozzáadása az archívumhoz
+IDC_STATIC_ARCHIVE_SETTING              = Archívum beállítások
+IDC_STATIC_ARCHIVE_NAME                 = Fájlnév
+IDC_STATIC_SET_DEST_FOLDER              = Célmappa
+IDC_STATIC_ARCHIVE_TYPE                 = Archívumtípus
+IDC_STATIC_ARCHIVE_VOLUME_SIZE          = Darabolás kötetekre
+IDC_STATIC_COMPRESSION_METHOD           = Tömörítési szint
+IDC_STATIC_HELP_SPLIT                   = [Segítség]
+IDC_STATIC_HELP_7Z                      = [7Z formátum]
+IDC_BTN_SELECT_ARCHIVE_NAME             = &Tallózás...
+IDC_BTN_TEST_ARCHIVE                    = &Test archive
+IDC_BTN_DELETE_SRC                      = Fájlok törlése tömörítés után
+IDC_BTN_ARCHIVE_AS_EACH_NAME            = Minden egyes fájl/mappa külön fájlba való tömörítése.
+IDC_BTN_SET_DEST_FOLDER                 = Célmappa megváltoztatása
+IDC_BTN_TOGGLE_ADVANCED                 = További lehetőségek...
+IDC_BTN_SET_SFX                         = SFX beállítások...
+IDC_BTN_ADD                             = &hozzáadás...
+IDC_BTN_DEL                             = &Törlés
+IDC_BTN_START                           = &Indítás
+
+;------------------------------------------------------------------------------
+[IDD_ARCHIVE_ADVANCED]
+
+;------------------------------------------------------------------------------
+[IDD_PASSWORD_INPUT]
+IDC_STATIC_DESC_EXTRACT_INVALIDPASS     = Érvénytelen jelszó. Próbálja újra.
+IDC_BTN_SHOW_PASSWORD                   = Mutassa a jelszót
+IDC_CHECK_APPLY_ALL                     = Mindet &Alkalmaz
+
+;------------------------------------------------------------------------------
+[IDD_PASSMAN]
+
+;------------------------------------------------------------------------------
+[IDD_PASSMAN_ENTERMASTPASS]
+IDC_BTN_SHOW_PASSWORD                   = Mutassa a jelszót
+
+;------------------------------------------------------------------------------
+[IDD_PASSMAN_EDIT]
+
+;------------------------------------------------------------------------------
+[IDD_FILE_SELECT]
+IDD_FILE_SELECT                         = Kiválasztás
+IDC_BTN_OPEN                            = Megnyitás
+
+;------------------------------------------------------------------------------
+[IDD_ARCHIVING]
+IDD_ARCHIVING                           = Tömörítés
+TEXT_ARCHIVE_TESTING                    = Testing
+IDC_BTN_STOP                            = Állj
+IDC_BTN_CLOSE                           = Bezárás
+IDC_BTN_PAUSE                           = Szünet
+
+;------------------------------------------------------------------------------
+[IDD_ASK_DUPEFILE]
+IDD_ASK_DUPEFILE                        = Ismétlődő Fájlok
+IDC_STATIC_DUPE_MESSAGE                 = Létezik ugyanilyen fájl
+IDC_STATIC_DUPEFILE_OLD                 = Eredeti fájl
+IDC_STATIC_DUPEFILE_NEW                 = Jelenlegi fájl
+IDC_STATIC_DUPE_ASK                     = Válasszon az alábbiak közül:
+IDC_RADIO_DUPE_METHOD0                  = &Kihagyja
+IDC_RADIO_DUPE_METHOD1                  = &Felülírja
+IDC_RADIO_DUPE_METHOD2                  = Át&nevezi
+IDC_CHECK_DUPE_APPLY_ALL                = &Alkalmazza az összes fájlra
+
+;------------------------------------------------------------------------------
+[IDD_ASK_DROPFILE]
+IDD_ASK_DROPFILE                        = Archívum lehetőségek
+IDC_STATIC_ASK_HANDLING                 = Válasszon az alábbi lehetőségek közül:
+IDC_RADIO_HANDLE_METHOD0                = Archívum &megnyitása
+IDC_RADIO_HANDLE_METHOD1                = Új &archívum
+IDC_RADIO_HANDLE_METHOD2                = Fájlok &hozzáadása a jelenlegi archívumhoz
+IDC_CHK_PASS                            = Használjon jelszót
+IDC_STATIC_PASSWORD_AGAIN               = Reenter Password
+IDC_CHK_SHOW_PASS                       = Show Password
+
+;------------------------------------------------------------------------------
+[IDD_SETTING]
+IDD_SETTING                             = Beállítások
+IDC_BTN_INIT                            = Alaphelyzet
+
+;------------------------------------------------------------------------------
+[IDD_SETTING_GENERAL]
+IDC_STATIC_GENERAL                      = General Settings
+IDC_CHK_EXIT_WITH_ESC                   = Használjon ESC-et az ablak bezárásához.
+IDC_CHK_TEST_ARCHIVE_AFTER_MODIFY       = Mindig ellenőrizze a fájlokat, ha fájl lett hozzáadva/törölve/átnevezve
+IDC_CHK_SNAP                            = Használjon illeszkedő ablakot
+IDC_CHK_SHOW_DOTDOT_AT_LIST             = Mutassa a [..] (szülő) mappát az archívumban
+IDC_CHK_SHOW_GRID_AT_LIST               = Show gridlines in details view
+IDC_CHK_FULL_ROW_SELECT_AT_LIST         = Teljes soros kiválasztás az archívumban.
+
+;------------------------------------------------------------------------------
+[IDD_SETTING_ASSOC]
+IDC_STATIC_ASSOC_LIST                   = Fájl Hozzárendelések
+IDC_BTN_SELECT_MANDATORY                = Alapvetőek
+IDC_BTN_SELECT_ALL                      = Összes
+IDC_BTN_CLEAR_ALL                       = Semelyik
+IDC_BTN_APPLY_NOW                       = Alkalmaz
+IDC_STATIC_ICON_PACK                    = Válasszon ikoncsomagot:
+IDC_STATIC_ICON_PACK_HOMEPAGE           = [Ikoncsomagok letöltése]
+
+;------------------------------------------------------------------------------
+[IDD_SETTING_ASSOC_NEW]
+IDC_STATIC_ASSOC_LIST                   = Extension Association
+IDC_STATIC_ASSOC_DESC1                  = For Windows 8 or later versions, you can associate the files as follows:
+IDC_STATIC_ASSOC_DESC2                  = 1. Click the following "Association Settings" button.
+IDC_STATIC_ASSOC_DESC3                  = 2. Check "Select All" in Program Association Settings window.
+IDC_STATIC_ASSOC_DESC4                  = 3. Click "Save" button.
+IDC_STATIC_ASSOC_DESC1_10               = For Windows 10 or later versions, you can associate the files as follows:
+IDC_STATIC_ASSOC_DESC2_10               = 1. Click the following "Association Settings" button.
+IDC_STATIC_ASSOC_DESC3_10               = 2. Select "Bandizip" in Set Default Programs window.
+IDC_STATIC_ASSOC_DESC4_10               = 3. Click "Set this program as default".
+IDC_BTN_LAUNCH_ASSOC_REG_UI             = Association Settings
+IDC_BTN_SHOW_CLASSIC_ASSOC_UI           = Classic method
+
+;------------------------------------------------------------------------------
+[IDD_SETTING_SHELL]
+IDC_STATIC_SHELL_OPEN                   = Művelet duplakattintáskor
+IDC_RADIO_SHELL_OPEN_0                  = Megnyitás Bandizippel
+IDC_RADIO_SHELL_OPEN_1                  = Automatikus kibontás
+IDC_RADIO_SHELL_OPEN_2                  = Helyi menü mutatása
+IDC_RADIO_SHELL_OPEN_3                  = Automatikus kibontás a kiválasztott mappába
+IDC_BTN_SET_EXTRACT_FOLDER              = Tallózás...
+IDC_RADIO_SHELL_OPEN_4                  = Extract to File Name Folder
+IDC_CHK_DEL_ARCHIVE_AFTER_EXTRACT       = Delete the archive after extracting by double-clicking
+
+IDC_STATIC_SHELL_EXTRACT                = Kibontás menü
+IDC_CHK_SHELL_EXTRACT_HERE              = Kibontás helyben
+IDC_CHK_SHELL_EXTRACT_AUTO              = Automatikus kibontás
+IDC_CHK_SHELL_EXTRACT_SUB               = Kibontás ide:
+IDC_CHK_SHELL_EXTRACT_HERE_DEL          = Extract Here and Delete
+IDC_CHK_SHELL_EXTRACT_AUTO_DEL          = Extract Here (Smart) and Delete
+IDC_CHK_SHELL_EXTRACT_SUB_DEL           = Extract to "Archive-Name" folder and Delete
+IDC_CHK_SHELL_EXTRACT_DLG               = Kibontási útvonal választása
+IDC_CHK_SHELL_EXTRACT_ADMIN             = Extract as administrator
+IDC_CHK_SHELL_TEST_ARCHIVE              = Archívum tesztelése
+IDC_CHK_SHELL_OPEN_ARCHIVE              = Megnyitás Bandizippel
+IDC_CHK_SHELL_PREVIEW                   = Archívum előnézete
+IDC_STATIC_SHELL_PREVIEW_SIZE           = Max. ennyi elem mutatása:
+IDC_CHK_SHELL_PREVIEW_TREE              = Preview archive with tree structure
+
+IDC_STATIC_SHELL_ARCHIVING              = Tömörítés Menü
+IDC_CHK_SHELL_ARCHIVING_AS_FILENAME     = Tömörítés "Fájlnév.zip"-be
+IDC_CHK_SHELL_ARCHIVING_AND_EMAIL       = Tömörítés "Fájlnév.zip"-be és küldés email-ben
+IDC_CHK_SHELL_ARCHIVING_ZIPX            = Tömörítés "Fájlnév.zipx"-be
+IDC_CHK_SHELL_ARCHIVING_EXE             = Tömörítés "Fájlnév.exe"-be
+IDC_CHK_SHELL_ARCHIVING_TAR             = Tömörítés "Fájlnév.tar"-ba
+IDC_CHK_SHELL_ARCHIVING_TGZ             = Tömörítés "Fájlnév.tgz"-be
+IDC_CHK_SHELL_ARCHIVING_LZH             = Tömörítés "Fájlnév.lzh"-ba
+IDC_CHK_SHELL_ARCHIVING_ISO             = Tömörítés "Fájlnév.iso"-ba
+IDC_CHK_SHELL_ARCHIVING_7Z              = Tömörítés "Fájlnév.7z"-be
+IDC_CHK_SHELL_ARCHIVING_GZ              = "Compress to "FileName.gz""
+IDC_CHK_SHELL_ARCHIVING_XZ              = "Compress to "FileName.xz""
+IDC_CHK_SHELL_ARCHIVING_EACH            = Tömörítés fájlonként/mappánként külön archívumba
+IDC_CHK_SHELL_ARCHIVING_EACH_7Z         = Tömörítés fájlonként/mappánként külön 7z archívumba
+IDC_CHK_SHELL_ARCHIVING_POPUP           = Hozzáadás archívumhoz (Bandizip)
+IDC_CHK_SHELL_ARCHIVING_ADMIN           = Compress as administrator
+IDC_CHK_SHELL_ARCHIVING_RULE            = Compress to custom file name
+IDC_STATIC_FILENAME_RULE_HELP           = Rule: ${NAME}=Filename, %Y=Year, %m=Month, %d=Day, %H=Hour, %M=Minute, %S=Second
+
+IDC_STATIC_SHELL_BKGND                  = Háttérmenü
+IDC_CHK_SHELL_BKGND_NEW_FOLDER          = Új mappa
+IDC_CHK_SHELL_BKGND_LAUNCH_CMD          = Parancssor megnyitása(cmd.exe)
+
+IDC_STATIC_SHELL_ETC                    = Egyéb
+IDC_CHK_SHELL_DO_NOT_USE                = Helyi menü letiltása
+IDC_CHK_SHELL_AS_SUB_MENU               = Lépcsőzetes helyi menü
+IDC_CHK_SHELL_HIDE_ICON                 = Bandizip ikon elrejtése
+IDC_CHK_SHELL_CHECK_ARCHIVE_DEEP        = Archívumok megkülönböztetése tartalom szerint
+IDC_CHK_SHELL_CAN_COMPRESS_ARCHIVE      = Archívum menü mutatása archivált fájloknál is
+IDC_CHK_SHELL_USE_SELECTED_FILENAME     = Az egérmutató alatti fájl/mappa név használata
+
+;------------------------------------------------------------------------------
+[IDD_SETTING_EXTRACT]
+IDC_STATIC_EXTRACT                      = Kibontási beállítások
+IDC_CHK_ENTERFOLDERWHENROOTFOLDERISONE  = Ha csak egy gyökérmappa van az archívumban, mutassa a fájlokat a mappában
+IDC_CHK_OPEN_FOLDER_EXTRACT_COMPLETE    = Mappa megnyitás kibontás után
+IDC_CHK_DO_NOT_CLOSE_EXTRACT_DLG        = Ne zárja be a folyamatjelző ablakot a kibontás után
+IDC_CHK_FAST_DRAG_DROP                  = Használjon Gyors "Fogd és Vidd" módot ha a kibontandó fájl nagy
+IDC_CHK_TREAT_TGZ_AS_SOLID_ARCHIVE      = TGZ, TBZ fájl kibontása egyenként
+IDC_CHK_TREAT_TGZ_AS_SOLID_WHEN_BIG     = Még nagyméretű TGZ, TBZ esetén is
+IDC_CHK_AUTODEST_ONEFILE2SUBFOLDER      = Ha az "automatikus kibontás"-t használja, hozzon létre egy mappát, ha egynél több elem van a legfelső szinten
+IDC_CHK_AUTOCONVERTNFD2NFC_WHENMACOS    = Macintosh kódolás automatikus észlelése
+IDC_CHK_UNIXZIP_AS_UTF8                 = Használjon UTF-8 kódolást ha UNIX alatt készült zip fájlt nyit meg
+IDC_STATIC_CODEPAGE                     = Kódolás alaphelyzetben
+IDC_STATIC_TYPE_OF_EXTRACT_ALL          = Minden kibontása ezeknél:
+
+;------------------------------------------------------------------------------
+[IDD_SETTING_ARCHIVE]
+IDC_STATIC_ARCHIVE                      = Tömörítési beállítások
+IDC_CHK_DO_NOT_STORE_ROOT_FOLDER        = Ne hozzon létre gyökérmappát, ha csak egy mappát tömörít be
+IDC_CHK_USE_UTF8_COMPRESS               = Használjon Unicode fájlneveket a ZIP fájloknál (UTF-8)
+IDC_CHK_USE_UTF8_COMPRESS_TAR           = Használjon Unicode fájlneveket in TAR,TGZ fájloknál (UTF-8)
+IDC_CHK_FORCE_ZIP64                     = Mindig használja a ZIP64 formátumot, akkor is, ha a fájlméret kevesebb mint 2GB (Nem ajánlott)
+IDC_CHK_EXCLUDE_THUMBSDB                = ""thumbs.db" fájl kizárása a tömörítésből"
+IDC_CHK_SAVE_NTFS_TIME_TO_ZIP           = Save NTFS time information when creating Zip files
+IDC_CHK_DO_NOT_COMPRESS_UNCOMPRESSIBLE  = Használja a "Nagy sebességű archiválás" módszert
+IDC_CHK_DO_NOT_CLOSE_COMPRESS_DLG       = Ne zárja be a folyamatjelző ablakot tömörítés után
+IDC_STATIC_COMPRESSION_METHOD           = Tömörítési szint:
+IDC_RADIO_FOLDER4NEWARCHIVE_USELAST     = Használja a legutóbbi mappát Új archívum létrehozásához
+IDC_RADIO_FOLDER4NEWARCHIVE_SET         = Gyökérmappa az archívumoknak
+IDC_BTN_SET_NEW_ARCHIVE_FOLDER          = Tallózás...
+IDC_CHK_EXCLUDE_FILTER                  = Fájltípusok kizárása a tömörítésből
+
+;------------------------------------------------------------------------------
+[IDD_SETTING_VIEWER]
+IDC_STATIC_VIEWER                       = Nézőke beállítások
+IDC_CHK_SHOW_PREVIEW                    = Kép előnézete
+
+IDC_STATIC_SETTING_VIEWITEM             = Oszlopok
+IDC_CHK_VIEWITEM_COMPSIZE               = Archívum méret
+IDC_CHK_VIEWITEM_ORIGSIZE               = Eredeti méret
+IDC_CHK_VIEWITEM_KIND                   = Fájltípus
+IDC_CHK_VIEWITEM_DATE_MOD               = Módosítás dátuma
+IDC_CHK_VIEWITEM_COMPMETHOD             = Tömörítési módszer
+IDC_CHK_VIEWITEM_ENCRMETHOD             = Titkosítási módszer
+IDC_CHK_VIEWITEM_CRC                    = CRC
+IDC_CHK_VIEWITEM_ATTRIB                 = Fájl attribútumok
+IDC_CHK_VIEWITEM_COMMENT                = Fájl megjegyzés
+
+IDC_STATIC_IMAGE_VIEWER                 = Képnézegető
+IDC_RADIO_IMAGE_VIEWER_0                = Belső képnézegető használata
+IDC_RADIO_IMAGE_VIEWER_1                = Use associated program
+IDC_RADIO_IMAGE_VIEWER_2                = Use Honeyview if installed
+
+IDC_STATIC_EDITOR                       = Editor
+IDC_BTN_SET_EDITOR_PATH                 = Tallózás...
+
+IDC_STATIC_COLOR                        = Color
+IDC_STATIC_COLOR_THEME                  = Theme color
+IDC_BTN_BKGND                           = Selected
+IDC_STATIC_COLOR_TEXT                   = Font color
+IDC_STATIC_COLOR_TEXT_AUTO              = Auto
+IDC_STATIC_COLOR_TEXT_WHITE             = White
+IDC_STATIC_COLOR_TEXT_BLACK             = Black
+
+;------------------------------------------------------------------------------
+[IDD_SETTING_ETC]
+IDC_BTN_EXPORT_SETTINGS                 = Export Bandizip Settings
+IDC_STATIC_ETC                          = Vegyes beállítások
+IDC_CHK_SET_TEMP_FOLDER                 = Állítsa be az ideiglenes mappa helyét
+IDC_BTN_SET_TEMP_FOLDER                 = Tallózás...
+IDC_CHK_SET_USER_ARCHIVE_EXT            = Recognize the following file types as archive files
+IDC_CHK_DELETE_TEMP_FILE_ASAP           = Delete temporary file when exit the child process
+IDC_CHK_DELETE_ARCHIVE_TO_TRASH         = Törléskor a fájlokat helyezze a Lomtárba
+IDC_CHK_SHOW_RECENT_ARCHIVE_LIST        = Mutassa a legutóbb megnyitott archívumokat
+IDC_CHK_USE_LONG_PATH_NAME              = 260 karakternél hosszabb elérési útvonalnevek kezelése
+IDC_CHK_OPEN_ARCHIVE_WITH_SHARE_DEL     = Engedélyezze a megnyitott archívumok törlését a Windows Intézőnek
+IDC_CHK_AUTO_EXPAND_TREE_CONTROL        = Mappaszerkezet automatikus kibontása
+IDC_CHK_USE_MODAL_DIALOG                = Use a modal dialog box when archiving/extracting
+IDC_CHK_USE_ELEGANT_UI                  = Use elegant UI design
+IDC_CHK_SHOW_STARTSCREN_WHEN_LAUNCH     = Show 'Start Screen' when Bandizip starts
+IDC_CHK_DISP_FULL_PATH_IN_THE_TITLEBAR  = Display the full path in the title bar
+IDC_CHK_DEL_OUTFILE_WHEN_USER_CANCEL    = Delete extracted files when extraction is cancelled
+
+;------------------------------------------------------------------------------
+[IDD_SETTING_LANG]
+IDC_STATIC_LANG                         = Nyelvi beállítások
+
+;------------------------------------------------------------------------------
+[IDD_SFX_SETTING]
+IDD_SFX_SETTING                         = SFX (Önkicsomagoló archívum) beállítások
+IDC_STATIC_TARGET_PATH                  = Kibontás erre a helyre:
+IDC_STATIC_TITLE                        = SFX neve:
+IDC_STATIC_RUN                          = Kibontás után a következő fájlt indítsa el:
+IDC_STATIC_MESSAGE                      = SFX üzenet:
+IDC_CHK_AUTO_CLOSE                      = SFX ablak bezárása kibontás után
+IDC_BTN_SAVE_SFX_SETTING                = Beállítások mentése
+
+;------------------------------------------------------------------------------
+[IDD_FIND]
+IDD_FIND                                = Fájlok keresése
+IDC_STATIC_FIND                         = Mit keressen :
+IDC_BTN_CLOSE                           = Bezárás
+IDC_BTN_DELETE                          = Törlés
+IDC_BTN_EXTRACT                         = Kibontás
+
+;------------------------------------------------------------------------------
+[IDD_EDIT_COMMENT]
+IDD_EDIT_COMMENT                        = Archívum megjegyzés
+IDC_STATIC_COMMENT                      = Megjegyzés hozzáadása/szerkesztése ehhez az archívumhoz
+IDC_CHK_USE_UTF8                        = Megjegyzés mentése Unicode (UTF-8) kódolással
+IDC_BTN_LOAD_FROM_FILE                  = Töltsön be megjegyzést egy fájlból (*.txt)...
+
+;------------------------------------------------------------------------------
+[IDD_ASK_EXECUTABLE]
+IDD_ASK_EXECUTABLE                      = WARNING
+IDC_STATIC_WARN_EXECUTABLE              = This file is an executable file. Running this program might harm your computer. Do you want to proceed?
+IDC_CHK_DO_NOT_ASK_AGAIN                = Do not ask me again
+
+;------------------------------------------------------------------------------
+[IDD_REGISTER]
+
+;------------------------------------------------------------------------------
+[IDD_LICENSE_GUIDE]
+
+;------------------------------------------------------------------------------
+[IDD_REPAIR_ARCHIVE]
+
+[SKIN]
+$TOOLBAR_OPEN                           = Megnyitás
+$TOOLBAR_CLOSE_FILE                     = Bezárás
+$TOOLBAR_EXTRACT_FILE                   = Kibontás
+$TOOLBAR_CREATE_ARCHIVE                 = Új
+$TOOLBAR_DELETE_FILE                    = Törlés
+$TOOLBAR_ADD_FILE                       = Hozzáadás
+$TOOLBAR_TEST_ARCHIVE                   = Tesztelés
+$TOOLBAR_CODEPAGE                       = Kódolás
+$TOOLBAR_VIEWITEM                       = Oszlopok
+
+$TOOLBAR_OPEN2                          = Open Archive
+$TOOLBAR_CREATE_ARCHIVE2                = New Archive
+
+$TEXT_DESKTOP                           = Asztal
+$TEXT_DOCUMENT                          = Dokumentumok
+$TEXT_PICTURE                           = Képek
+$TEXT_COMPUTER                          = Számítógép
+
+$TEXT_SETTINGTAB_GENERAL                = Általános
+$TEXT_SETTINGTAB_ASSOC                  = Hozzárendelések
+$TEXT_SETTINGTAB_SHELL                  = Helyi menü
+$TEXT_SETTINGTAB_EXTRACT                = Kibontás
+$TEXT_SETTINGTAB_ARCHIVE                = Tömörítés
+$TEXT_SETTINGTAB_VIEWER                 = Nézőke
+$TEXT_SETTINGTAB_ETC                    = Egyebek
+$TEXT_SETTINGTAB_LANG                   = Nyelv
+
+$TOOLTIP_EXTRACTDLG_OPEN_DST            = Fájl helyének megnyitása
+$TOOLTIP_EXTRACTDLG_OPEN_SRC            = Archívum helyének megnyitása
+$TOOLTIP_EXTRACTDLG_OPEN_DST_OPTION     = Fájl helyének megnyitása kibontás után
+$TOOLTIP_COMPRESSDLG_OPEN_DST           = Archívum helyének megnyitása
+$TOOLTIP_OPEN_LAST_EXTRACTED_FOLDER     = Célmappa megnyitása
+$TOOLTIP_DO_NOT_CLOSE_EXTRACT_DLG       = Ne zárja be ezt az ablakot kibontás után
+$TOOLTIP_DO_NOT_CLOSE_COMPRESS_DLG      = Ne zárja be ezt az ablakot tömörítés után
+$TOOLTIP_ADVANCED_MENU                  = Miscellaneous Settings
+
+$TEXT_INSTALL_START                     = OK, I'll try it
+$TEXT_INSTALL_CLOSE                     = No, thanks
+$TEXT_INSTALL_HONEYVIEW_LINK            = See more...
+
+$TEXT_HELP_PAGE                         = Help Page
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; TEXT FOR PASSWORD RECOVERY
+;
+[RECOVERY_TEXT]
+
+[IDD_RECOVERY_SETTING]
+
+[RECOVERY_SKIN]
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; TEXT FOR EXPLORER SHELL CONTEXT MENU
+;
+[SHELL]
+TEXT_NEW_FOLDER                         = Új Mappa
+
+TEXT_MENU_CREATE_NEW_FOLDER             = &Új mappa
+TEXT_MENU_SUB_MENU                      = &Bandizip
+TEXT_MENU_OPEN_ARCHIVE                  = Megnyitás a Bandizip-pel...
+TEXT_MENU_TEST_ARCHIVE                  = Archívum tesztelése
+TEXT_MENU_LAUNCH_CMD                    = &Parancssor indítása
+TEXT_MENU_LAUNCH_CMD_ADMIN              = Parancssor indítása (rendszergazdaként)
+
+TEXT_MENU_ARCHIVE_EACHNAME              = Tömörítés fájlonként/mappánként &külön archívumba
+TEXT_MENU_ARCHIVE_EACHNAME_7Z           = "Tömörítés "fájl/mappa name.7z""
+TEXT_MENU_ARCHIVE_ZIP                   = "&Tömörítés ebbe: "${str1}""
+TEXT_MENU_ARCHIVE_ZIP_AND_EMAIL         = Tömörítés ebbe: "${str1}" és küldés &emailben...
+TEXT_MENU_ARCHIVE_ZIPX                  = "Tömörítés ebbe: "${str1}""
+TEXT_MENU_ARCHIVE_EXE                   = "Tömörítés ebbe: "${str1}""
+TEXT_MENU_ARCHIVE_TAR                   = "Tömörítés ebbe: "${str1}""
+TEXT_MENU_ARCHIVE_TGZ                   = "Tömörítés ebbe: "${str1}""
+TEXT_MENU_ARCHIVE_LZH                   = "Tömörítés ebbe: "${str1}""
+TEXT_MENU_ARCHIVE_ISO                   = "Tömörítés ebbe: "${str1}""
+TEXT_MENU_ARCHIVE_7ZFMT                 = "Tömörítés ebbe: "${str1}""
+TEXT_MENU_ARCHIVE_GZ                    = "Compress to "${str1}""
+TEXT_MENU_ARCHIVE_XZ                    = "Compress to "${str1}""
+TEXT_MENU_ARCHIVE_EACHNAME_GZ           = "Compress to each "FileName.gz""
+TEXT_MENU_ARCHIVE_EACHNAME_XZ           = "Compress to each "FileName.xz""
+TEXT_MENU_ARCHIVE_RULE                  = Compress to "${str1}" (&U)
+TEXT_MENU_ARCHIVE_POPUP                 = Hozzáadás az archívumhoz (&Bandizip)...
+TEXT_MENU_ARCHIVE_POPUP_AS_ADMIN        = Tömörítés Rendszergazdaként
+
+TEXT_MENU_EXTRACT_HERE                  = Kibontás &helyben
+TEXT_MENU_EXTRACT_AUTO                  = Automatikus &kibontás
+TEXT_MENU_EXTRACT_AUTO_EACH             = Összes &automatikus kibontása
+TEXT_MENU_EXTRACT_SUB                   = Összes archívum kibontása külön &mappába
+TEXT_MENU_EXTRACT_ARCHIVENAME           = kibontása &ide: ${str1}\
+TEXT_MENU_EXTRACT_DLG                   = Kicsomagolási útvonal választása...
+TEXT_MENU_EXTRACT_DLG_AS_ADMIN          = Kicsomagolás Rendszergazdaként
+TEXT_MENU_EXTRACT_HERE_DEL              = Extract Here and Delete
+TEXT_MENU_EXTRACT_AUTO_DEL              = Extract Here (Smart) and Delete
+TEXT_MENU_EXTRACT_AUTO_EACH_DEL         = Extract Smart (Each) and Delete
+TEXT_MENU_EXTRACT_SUB_DEL               = Extract to separate folders and Delete
+TEXT_MENU_EXTRACT_ARCHIVENAME_DEL       = Extract &to ${str1}\ and Delete
+
+TEXT_MENU_PREVIEW                       = Archívum előnézete
+TEXT_MENU_PREVIEW_BROKEN                = Ez a fájl vagy ismeretlen formátum,[br]vagy sérült.
+TEXT_MENU_PREVIEW_TIMEOUT               = A kérés túllépte az időt.
+TEXT_MENU_PREVIEW_EMPTY                 = Üres archívum
+TEXT_MENU_PREVIEW_ENCRYPTED             = Filename is encrypted
+TEXT_MENU_PREVIEW_DLLLOADFAILED         = Nem tudom használni az Archívum előnézete funkciót. [br][br]Indítsa újra Windows Intézőt (Windows Explorer: explorer.exe), vagy [br]Indítsa újra a számítógépét.
+TEXT_MENU_PREVIEW_CANTREADFILELIST      = Nem tudom beolvasni a fájllistát
+
+TEXT_MENU_OPENING                       = Megnyitás...
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; text for updater
+;
+[UPDATER]
+TEXT_UPDATER_TITLE                      = Bandizip frissítése
+TEXT_UPDATER_TEXT1                      = Bandizip frissítések készenállnak
+TEXT_UPDATER_TEXT_DL                    = Would you like to download it now?
+TEXT_UPDATER_BTN_UPDATE                 = Frissítés
+TEXT_UPDATER_BTN_OK                     = Rendben
+TEXT_UPDATER_BTN_CANCEL                 = Mégse
+TEXT_UPDATER_DOWNLOAD_ERROR             = A letöltés nem sikerült.
+TEXT_UPDATER_SETTING_UPDATE             = Settings
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; text for sfx
+;
+[SFX]
+STATIC_TARGET_PATH                      = Célmappa:
+BTN_SELECT_FOLDER                       = Tallózás...
+BTN_EXTRACT                             = Indítás
+BTN_CLOSE                               = Bezárás
+BTN_CANCEL                              = Mégse
+BTN_OPEN_FOLDER                         = Megnyitás
+CHK_OVERWRITE                           = Felülírás
+ERR_ERROR_OCCURRED                      = Hiba történt.
+ERR_INVALID_PASSWORD                    = Invalid Password
+ASK_OVERWRITE                           = Ugyanilyen fájl már létezik. Felül akarja írni?
+MSG_COMPLETED                           = Kibontás sikerült!
+IDD_PASSWORD                            = Enter Password
+IDC_STATIC_PASSWORD_MSG                 = This file is encrypted.
+IDC_BTN_SHOW_PASSWORD                   = Mutassa a jelszót
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; text for arkview
+;
+[ARKVIEW]
+TEXT_ERR_CANTEXTRACTFILE                = Nem tudom kibontani a fájlokat.
+TEXT_ERR_CRC                            = CRC hiba.
+TEXT_ERR_INVALID_PASSWD                 = Érvénytelen jelszó.
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; text for installer
+;
+[INSTALLER]
+
+$BTN_HELP_LINK                          = [Segítség]
+
+
+
+
+MSG_STILLRUN_EXIT_PROGRAM               = A Bandizip még fut. Először zárja be a programot.
+MSG_XP_IS_NOT_SUPPORTED                 = This software will work properly only in Windows Vista and later. [br][br]Do you want to download the version for Windows XP?
+MSG_NEED_ADMIN_PRIVILEGE                = This program can only be installed by a user with administrator privileges.[br][br]Non-administrative users may not install the program properly.[br][br]Do you want to stop installation?
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; text for online setup
+;
+[ONLINESETUP]
+
+
+
+
+
+
+

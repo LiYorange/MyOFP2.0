@@ -1,0 +1,23 @@
+<RCC>
+  <qresource prefix="开始一个项目">
+    <file>开始.png</file>
+    <file>解压包.png</file>
+    <file>合并.png</file>
+    <file>导入.png</file>
+    <file>运行.png</file>
+  </qresource>
+  <qresource prefix="设置">
+    <file>设置.png</file>
+    <file>添加项目.png</file>
+    <file>修改项目标签.png</file>
+    <file>修改控制逻辑.png</file>
+  </qresource>
+  <qresource prefix="帮助">
+    <file>帮助.png</file>
+    <file>关于.png</file>
+  </qresource>
+  <qresource prefix="背景">
+    <file>主界面背景.png</file>
+    <file>主界面背景折叠.jpg</file>
+  </qresource>
+</RCC>
