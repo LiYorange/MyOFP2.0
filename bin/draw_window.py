@@ -8,6 +8,7 @@
 
 import logging
 from PySide2.QtWidgets import QWidget, QApplication
+from PySide2.QtCore import QObject
 from PySide2.QtUiTools import QUiLoader
 from functools import partial
 import matplotlib.pylab as plt
@@ -23,6 +24,7 @@ class DrawWindow(QWidget):
         self.window.x_listWidget.itemClicked.connect(partial(self.itemClicked))
         self.window.y_listWidget.itemClicked.connect(partial(self.itemClicked))
         self.window.plot_pushButton.clicked.connect(self.plot)
+        self.window.data_tickets_listWidget.installEventFilter(self)
 
     def plot(self):
         """拿到数据，绘图"""
@@ -32,6 +34,12 @@ class DrawWindow(QWidget):
     def itemClicked(self, QListWidgetItem):
         """ itemClicked(self, QListWidgetItem) [signal] """
         print(QListWidgetItem.text())
+
+    def dropEvent(self, event):
+        print(1)
+
+    def eventFilter(self, Object, event) -> bool:
+        print(event)
 
 
 if __name__ == '__main__':

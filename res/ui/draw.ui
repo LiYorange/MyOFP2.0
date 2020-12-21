@@ -67,10 +67,10 @@
          <item>
           <widget class="QListWidget" name="x_listWidget">
            <property name="dragEnabled">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <property name="dragDropOverwriteMode">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <property name="dragDropMode">
             <enum>QAbstractItemView::DragDrop</enum>
