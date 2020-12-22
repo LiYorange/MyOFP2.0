@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>434</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTreeWidget" name="treeWidget">
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::CurrentChanged|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectItems</enum>
+      </property>
+      <property name="allColumnsShowFocus">
+       <bool>true</bool>
+      </property>
+      <attribute name="headerCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="headerShowSortIndicator" stdset="0">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>模型</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>文件1</string>
+       </property>
+      </column>
+      <item>
+       <property name="text">
+        <string>齿轮箱</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>齿轮箱主轴承温度</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱轮毂侧轴承温度</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱发电机侧轴承温</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱油温</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱冷却器入口油温</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱冷却器出口油温</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱水泵出口温度</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱水泵入口温度</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱A1口温度</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱A2口温度</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱A3口温度</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱A4口温度</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱A1口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱A2口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱A3口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱A4口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱主泵1_1出口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱主泵1_2出口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱主泵2_1出口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱主泵2_2出口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱主泵滤芯压差1_1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱主泵滤芯压差1_2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱主泵滤芯压差2_1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱主泵滤芯压差2_2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱冷却泵出口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱过滤泵出口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱油位</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱水泵1温差</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱水泵2温差</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱水泵1出口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱水泵1入口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱水泵2出口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱水泵2入口压力</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱水泵1压力差</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>齿轮箱水泵2压力差</string>
+        </property>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>发电机</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>变桨系统</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>变频器</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>液压系统</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>传感器</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QProgressBar" name="progressBar">
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
