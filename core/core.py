@@ -161,6 +161,7 @@ def merge(merge_files=None, compare_value=None):
             df = handle_csv(datelist[i], en_tickets)
             df.to_csv(newName, mode='a', header=False, index=False, sep=',', encoding='gbk')
             os.remove(f'{datelist[i]}')
+        print(1)
 
 def load_en_tickets(compare_value):
     try:
