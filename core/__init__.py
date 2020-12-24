@@ -5,4 +5,4 @@
 # Date:         2020/12/16
 # Description:  
 # -------------------------------------------------------------------------------
-from .my_log import MyLog
+from .core import my_log

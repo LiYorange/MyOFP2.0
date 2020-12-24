@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>733</width>
-    <height>362</height>
+    <height>386</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -78,8 +78,8 @@ font: 25 10pt &quot;Microsoft YaHei&quot;;</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>237</width>
-         <height>257</height>
+         <width>203</width>
+         <height>205</height>
         </rect>
        </property>
        <attribute name="icon">
@@ -104,7 +104,7 @@ font: 25 10pt &quot;Microsoft YaHei&quot;;</string>
         <item>
          <widget class="QPushButton" name="merge_button">
           <property name="text">
-           <string>合并文件后导入</string>
+           <string>合并文件</string>
           </property>
           <property name="icon">
            <iconset resource="../icon/launch.qrc">
@@ -141,8 +141,8 @@ font: 25 10pt &quot;Microsoft YaHei&quot;;</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>237</width>
-         <height>257</height>
+         <width>185</width>
+         <height>158</height>
         </rect>
        </property>
        <attribute name="icon">
@@ -193,8 +193,8 @@ font: 25 10pt &quot;Microsoft YaHei&quot;;</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>237</width>
-         <height>257</height>
+         <width>145</width>
+         <height>111</height>
         </rect>
        </property>
        <attribute name="icon">

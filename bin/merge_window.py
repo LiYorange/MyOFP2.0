@@ -7,11 +7,12 @@
 # -------------------------------------------------------------------------------
 from PySide2.QtWidgets import QApplication, QFileDialog, QMessageBox
 from PySide2.QtUiTools import QUiLoader
-from PySide2.QtCore import QThread
+from PySide2.QtCore import QThread, Signal
 import os
 from core import core
 
 class Merge_Window(QThread):
+    signal_log = Signal(str)
 
     def __init__(self):
         """
@@ -30,6 +31,7 @@ class Merge_Window(QThread):
         # 3 绑定事件
         # 选择合并文件
         self.window.select_files_pushButton.clicked.connect(self.select_merge_files)
+        self.signal_log.connect(self.write_log)
 
     # 选择合并文件
     def select_merge_files(self):
@@ -80,15 +82,23 @@ class Merge_Window(QThread):
                 # 将file_names 赋值给csv_files
                 self.merge_files = file_names
 
-                self.window.plainTextEdit.clear()
-                # self.signal_write_log.emit("正在合并数据，这将耗费大量的时间，请稍等！")
+                self.window.log_plainTextEdit.clear()
                 self.window.file_lineEdit.setText(str(file_names))
                 self.window.merge_pushButton.setEnabled(True)
-                self.window.merge_pushButton.clicked.connect(self.merge_file)
+                self.window.merge_pushButton.clicked.connect(self.run)
 
     def merge_file(self):
+        self.signal_log.emit("正在合并...")
         merge_result = core.merge(self.merge_files, self.compare_value)
+        self.signal_log.emit("完成合并...")
         return merge_result
+
+
+    def write_log(self, text):
+        self.window.log_plainTextEdit.appendHtml(text)
+
+    def run(self):
+        self.merge_file()
 
 
 if __name__ == '__main__':

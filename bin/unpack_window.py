@@ -7,11 +7,13 @@
 # -------------------------------------------------------------------------------
 from PySide2.QtWidgets import QApplication, QFileDialog, QMessageBox
 from PySide2.QtUiTools import QUiLoader
-from PySide2.QtCore import QThread
+from PySide2.QtCore import QThread, Signal
 import os
 from core import core
 
+
 class Unpack_Window(QThread):
+    signal_log = Signal(str)
 
     def __init__(self):
         """
@@ -30,6 +32,7 @@ class Unpack_Window(QThread):
         # 3 绑定事件
         # 选择解压文件
         self.window.file_path_pushButton.clicked.connect(self.select_unpack_file)
+        self.signal_log.connect(self.write_log)
 
     # 选择解压文件
     def select_unpack_file(self):
@@ -48,15 +51,26 @@ class Unpack_Window(QThread):
         if not file_names:
             QMessageBox.warning(self.window, "警告", "请选择文件！")
         else:
-            self.window.plainTextEdit.clear()
             self.unpack_files = file_names
             self.window.file_path_lineEdit.setText(str(file_names))
             self.window.unpack_pushButton.setEnabled(True)
-            self.window.unpack_pushButton.clicked.connect(self.unpack_file)
+            self.window.unpack_pushButton.clicked.connect(self.run)
 
     def unpack_file(self):
+        self.signal_log.emit("正在解压...")
         unpack_result = core.unpack(self.unpack_files)
-        return unpack_result
+        if unpack_result:
+            """解压成功"""
+            self.signal_log.emit("解压成功！")
+        else:
+            self.signal_log.emit("解压失败！")
+
+    def write_log(self,text):
+
+        self.window.log_plainTextEdit.appendHtml(text)
+
+    def run(self):
+        self.unpack_file()
 
 
 if __name__ == '__main__':

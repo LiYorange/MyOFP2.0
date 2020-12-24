@@ -15,8 +15,8 @@ class LaunchWindow(QWidget):
         super(LaunchWindow, self).__init__()
         # 初始化界面
         self.window = QUiLoader().load('../res/ui/launch.ui')
-        self.window.unpack = unpack_window.Unpack_Window()
-        self.window.merge = merge_window.Merge_Window()
+        self.unpack = unpack_window.Unpack_Window()
+        self.merge = merge_window.Merge_Window()
 
         # 绑定事件
         self.window.unpack_button.clicked.connect(self.load_unpack)
@@ -27,11 +27,11 @@ class LaunchWindow(QWidget):
 
     # 载入解压界面
     def load_unpack(self):
-        self.window.unpack.window.show()
+        self.unpack.window.show()
 
     # 载入合并界面
     def load_merge(self):
-        self.window.merge.window.show()
+        self.merge.window.show()
 
 
 if __name__ == '__main__':
