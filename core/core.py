@@ -13,35 +13,60 @@ import os
 import shutil
 import my_log
 import sys
+
 sys.path.append("..")
+sys.path.append("../db")
 from core import my_log
+
 log = my_log.Log(__name__).getlog()
 
 
-
-def get_en_tickets(file, project_name):
+def get_en_tickets(file, project_name, keys=None):
     try:
         f = open(file, 'r', encoding='utf8')
         tickets_data = dict(json.load(f))
-        return list(tickets_data[project_name].values())
+        d = tickets_data.get(project_name)
+        if keys:
+            value = [d.get(key) for key in keys]
+            return value
+        else:
+            return list(d.values())
+
     except KeyError as e:
-        log.info(e)
-
+        log.error(e)
     except FileNotFoundError as e:
-        log.info(e)
-        
+        log.error(e)
 
 
-def read_csv(file, use_cols):
-    """读取csv"""
-    # 读取整个文件的第一行(标签行)，用于与查找到的英文标签对比
-    df_head = pd.DataFrame()
+def read_csv(file):
+    """
+    读取csv文件
+    :param file: csv文件
+    :return: 返回给get_df
+    """
     try:
-        df_head = pd.read_csv(file, encoding='gbk', engine='python', nrows=0)
-        return get_df(df_head, use_cols, file)
+
+        """读取不同类型数据的标签"""
+        float_tickets = []
+        int_tickets = []
+        bool_tickets = []
+        object_tickets = []
+        files = ["../db/float_tickets.my", "../db/int_tickets.my", "../db/bool_tickets.my", "../db/object_tickets.my"]
+        li = [float_tickets, int_tickets, bool_tickets, object_tickets]
+        for (_file, li) in zip(files, li):
+            f = open(_file, mode='r', encoding="utf8")
+            for line in f.readlines():
+                li.append(line.strip())
+            f.close()
+
+        float_tickets = get_en_tickets("../db/tickets.my", "60004", float_tickets)
+        int_tickets = get_en_tickets("../db/tickets.my", "60004", int_tickets)
+        bool_tickets = get_en_tickets("../db/tickets.my", "60004", bool_tickets)
+        object_tickets = get_en_tickets("../db/tickets.my", "60004", object_tickets)
+        return get_df(file, [float_tickets, int_tickets, bool_tickets, object_tickets])
+        # return get_df(file, None)
     except Exception as e:
-        log.info(e)
-        
+        log.error(e)
 
 
 def read_excel(file, use_cols):
@@ -52,33 +77,24 @@ def read_excel(file, use_cols):
     return get_df(df_head, use_cols, file)
 
 
-def get_df(df_head, use_cols, file):
+def get_df(file, li):
     """
-    2. 创建一个miss_data_list 用于存放丢失数据的位置，保证插入数据时在指定位置
-    3.创建一个exist_data_list 用于真正读取csv文件
-    4.在读取好的csv文件中按照丢失数据的位置插入 numpy的NAN数据
-    :return: 返回一个df
+
+    :param file:
+    :param li:
+    :return:
     """
     try:
-        def judge_miss(li):
-            return list(df_head.columns.isin([li]))
 
-        miss_data_list = []
-        exist_data_list = []
-        result = list(map(judge_miss, use_cols))
-        for i in range(len(result)):
-            if not any(result[i]):
-                # 如果不全为false,则缺失数据，记录此时英文标签的位置
-                miss_data_list.append(i)
-            else:
-                exist_data_list.append(use_cols[i])
-        data = pd.read_csv(file, usecols=exist_data_list, chunksize=10000, encoding='gbk',
-                           engine='python')
-        df = pd.concat(data, ignore_index=True)
-        return df
+        data_float = pd.read_csv(file, usecols=li[0], chunksize=10000, encoding='gbk', engine='python')
+        data_int = pd.read_csv(file, usecols=li[1], chunksize=10000, encoding='gbk', engine='python')
+        data_bool = pd.read_csv(file, usecols=li[2], chunksize=10000, encoding='gbk', engine='python')
+        data_object = pd.read_csv(file, usecols=li[3], chunksize=10000, encoding='gbk', engine='python')
+
+        df = pd.concat(data_object, ignore_index=True)
+        print(df.info())
     except Exception as e:
         log.info(e)
-        
 
 
 def unpack(files) -> bool:
@@ -104,7 +120,7 @@ def unpack(files) -> bool:
             os.mkdir(data)
     except Exception as e:
         log.info(e)
-        
+
     try:
         result = []
         for file in files:
@@ -117,7 +133,6 @@ def unpack(files) -> bool:
         return result
     except Exception as e:
         log.info(e)
-        
 
 
 def merge(merge_files=None, compare_value=None):
@@ -174,7 +189,6 @@ def merge(merge_files=None, compare_value=None):
                 os.remove(f'{datelist[i]}')
     except Exception as e:
         log.info(e)
-        
 
 
 def load_en_tickets(compare_value):
@@ -193,7 +207,6 @@ def load_en_tickets(compare_value):
         return en_tickets
     except Exception as e:
         log.info(e)
-        
 
 
 def handle_csv(file, usecols):
@@ -210,3 +223,11 @@ def handle_csv(file, usecols):
     # 将data 整合为df
     df = pd.concat(data, ignore_index=True)
     return df
+
+
+if __name__ == '__main__':
+    # print(get_en_tickets("../db/tickets.my", "60004"))
+    read_csv("../db/60004036_20200930（外罗）.csv")
+    # en = get_en_tickets("../db/tickets.my", "60004")
+    # get_df("../db/60004036_20200930（外罗）.csv", en)
+    # print(df.info())
