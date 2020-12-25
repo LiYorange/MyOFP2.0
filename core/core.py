@@ -78,12 +78,6 @@ def read_excel(file, use_cols):
 
 
 def get_df(file, li):
-    """
-
-    :param file:
-    :param li:
-    :return:
-    """
     try:
 
         data_float = pd.read_csv(file, usecols=li[0], chunksize=10000, encoding='gbk', engine='python')
