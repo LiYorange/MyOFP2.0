@@ -11,62 +11,88 @@ import pandas as pd
 import numpy as np
 import os
 import shutil
-import my_log
 import sys
+import my_log
+import gc
 
 sys.path.append("..")
 sys.path.append("../db")
-from core import my_log
 
 log = my_log.Log(__name__).getlog()
 
 
 def get_en_tickets(file, project_name, keys=None):
+    time1 = time.time()
+    """
+    :param file: 标签文件
+    :param project_name: 项目名称
+    :param keys: 需要获取的中文标签,如果为空则全部获取
+    :return: 返回一个元组，第一项为该中文标签对应的数据类型，第二项为英文标签
+    """
     try:
         f = open(file, 'r', encoding='utf8')
         tickets_data = dict(json.load(f))
         d = tickets_data.get(project_name)
         if keys:
+            """get 中如果没有键则返回空"""
             value = [d.get(key) for key in keys]
+            log.info("函数运行时长：{}s".format(float(time.time() - time1)))
             return value
         else:
+            log.info("函数运行时长：{}s".format(int(time.time() - time1)))
             return list(d.values())
-
     except KeyError as e:
         log.error(e)
     except FileNotFoundError as e:
         log.error(e)
 
 
-def read_csv(file):
+def read_csv(file, tickets=None):
+    time1 = time.time()
     """
     读取csv文件
+        1.传入中文标签，获得对应的数据类型和英文标签
+        2. 对返回的数据进行分类存储
+        3. 传递分类的英文标签给get_df，读取为df
     :param file: csv文件
+    :param tickets: 读取的标签
     :return: 返回给get_df
     """
+    float_li = []
+    int_li = []
+    bool_li = []
+    object_li = []
+    miss_tickets = []
     try:
+        project_name = str(os.path.basename(file)).split(".")[-2].split("_")[0][:5]
+        if tickets is None:
+            en_tickets = get_en_tickets("../db/tickets.my", project_name, None)
+        else:
+            en_tickets = get_en_tickets("../db/tickets.my", project_name, tickets)
+        for li in en_tickets:
+            if li is not None:
+                if li[0] == "f":
+                    # float_li.append((li[1], en_tickets.index(li)))
+                    float_li.append(li[1])
+                elif li[0] == "i":
+                    # int_li.append((li[1], en_tickets.index(li)))
+                    int_li.append(li[1])
+                elif li[0] == "b":
+                    # bool_li.append((li[1], en_tickets.index(li)))
+                    bool_li.append(li[1])
+                elif li[0] == "o":
+                    # object_li.append((li[1], en_tickets.index(li)))
+                    object_li.append(li[1])
+            else:
+                miss_tickets.append((tickets[en_tickets.index(li)], en_tickets.index(li)))
+        exist_tickets = [object_li[:], float_li[:], int_li[:], bool_li[:]]
+        log.info("函数运行时长：{}s".format(int(time.time()-time1)))
+        return get_df(file, [exist_tickets, miss_tickets])
 
-        """读取不同类型数据的标签"""
-        float_tickets = []
-        int_tickets = []
-        bool_tickets = []
-        object_tickets = []
-        files = ["../db/float_tickets.my", "../db/int_tickets.my", "../db/bool_tickets.my", "../db/object_tickets.my"]
-        li = [float_tickets, int_tickets, bool_tickets, object_tickets]
-        for (_file, li) in zip(files, li):
-            f = open(_file, mode='r', encoding="utf8")
-            for line in f.readlines():
-                li.append(line.strip())
-            f.close()
-
-        float_tickets = get_en_tickets("../db/tickets.my", "60004", float_tickets)
-        int_tickets = get_en_tickets("../db/tickets.my", "60004", int_tickets)
-        bool_tickets = get_en_tickets("../db/tickets.my", "60004", bool_tickets)
-        object_tickets = get_en_tickets("../db/tickets.my", "60004", object_tickets)
-        return get_df(file, [float_tickets, int_tickets, bool_tickets, object_tickets])
-        # return get_df(file, None)
-    except Exception as e:
-        log.error(e)
+    except IndexError as e:
+        log.error("切割字符串超出索引：{}".format(e))
+    except FileNotFoundError as e:
+        log.error("文件未找到：{}".format(e))
 
 
 def read_excel(file, use_cols):
@@ -78,17 +104,41 @@ def read_excel(file, use_cols):
 
 
 def get_df(file, li):
+    """
+    :param file:
+    :param li: li[0]:存在的en,li[1]:丢失的en
+    :return:
+    """
+    time1 = time.time()
+    df_object = pd.DataFrame()
+    df_float = pd.DataFrame()
+    df_int = pd.DataFrame()
+    df_bool = pd.DataFrame()
+    df = pd.DataFrame
     try:
+        if li[0] is not None:
+            """0:o1:f 2:i 3:b """
+            if li[0][0] is not None:
+                data_object = pd.read_csv(file, usecols=li[0][0], chunksize=10000, encoding='gbk', engine='python')
+                df_object = pd.concat(data_object, ignore_index=True)
 
-        data_float = pd.read_csv(file, usecols=li[0], chunksize=10000, encoding='gbk', engine='python')
-        data_int = pd.read_csv(file, usecols=li[1], chunksize=10000, encoding='gbk', engine='python')
-        data_bool = pd.read_csv(file, usecols=li[2], chunksize=10000, encoding='gbk', engine='python')
-        data_object = pd.read_csv(file, usecols=li[3], chunksize=10000, encoding='gbk', engine='python')
-
-        df = pd.concat(data_object, ignore_index=True)
+            if li[0][1] is not None:
+                data_float = pd.read_csv(file, usecols=li[0][1], chunksize=10000, encoding='gbk', engine='python')
+                df_float = pd.concat(data_float, ignore_index=True).astype("float32")
+            if li[0][2] is not None:
+                data_int = pd.read_csv(file, usecols=li[0][2], chunksize=10000, encoding='gbk', engine='python')
+                df_int = pd.concat(data_int, ignore_index=True).astype("int32")
+            if li[0][3] is not None:
+                data_bool = pd.read_csv(file, usecols=li[0][3], chunksize=10000, encoding='gbk', engine='python')
+                df_bool = pd.concat(data_bool, ignore_index=True)
+        df = pd.concat([df_object, df_float, df_int, df_bool], axis=1)
+        if li[1] is not None:
+            for tup in li[1]:
+                df.insert(tup[1], tup[0], np.nan)
+        log.info("读取df花费时长：{}s".format(int(time.time() - time1)))
         print(df.info())
     except Exception as e:
-        log.info(e)
+        log.error(e)
 
 
 def unpack(files) -> bool:
@@ -220,8 +270,10 @@ def handle_csv(file, usecols):
 
 
 if __name__ == '__main__':
+    pass
     # print(get_en_tickets("../db/tickets.my", "60004"))
-    read_csv("../db/60004036_20200930（外罗）.csv")
+    # read_csv("../db/60005036_20200930南鹏岛.csv", ["时间", '齿轮箱离线过滤泵处油温', "机组运行模式"])
+    read_csv(r"E:\桌面\Py\temporary\60004036_20200930（外罗）.csv")
     # en = get_en_tickets("../db/tickets.my", "60004")
     # get_df("../db/60004036_20200930（外罗）.csv", en)
     # print(df.info())
