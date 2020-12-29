@@ -24,7 +24,7 @@ class DrawWindow(QWidget):
         self.window.x_listWidget.itemClicked.connect(partial(self.itemClicked))
         self.window.y_listWidget.itemClicked.connect(partial(self.itemClicked))
         self.window.plot_pushButton.clicked.connect(self.plot)
-        self.window.data_tickets_listWidget.installEventFilter(self)
+        # self.window.data_tickets_listWidget.installEventFilter(self)
 
     def plot(self):
         """拿到数据，绘图"""

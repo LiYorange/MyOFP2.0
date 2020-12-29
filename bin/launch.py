@@ -5,9 +5,11 @@
 # Date:         2020/12/16
 # Description:  
 # -------------------------------------------------------------------------------
-from PySide2.QtWidgets import QWidget, QApplication
 from PySide2.QtUiTools import QUiLoader
-import unpack_window, merge_window
+from PySide2.QtWidgets import QWidget, QApplication
+
+import merge_window
+import unpack_window
 
 
 class LaunchWindow(QWidget):

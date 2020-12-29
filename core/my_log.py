@@ -8,9 +8,18 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 
+import colorlog
 import logging
 import time
 import os
+
+log_colors_config = {
+    'DEBUG': 'cyan',
+    'INFO': 'green',
+    'WARNING': 'yellow',
+    'ERROR': 'red',
+    'CRITICAL': 'red',
+}
 
 
 class Log(object):
@@ -25,6 +34,7 @@ class Log(object):
         """
 
         # 创建一个logger
+
         self.logger = logging.getLogger(logger)
         self.logger.setLevel(logging.DEBUG)
         # 创建一个handler，用于写入日志文件
@@ -44,8 +54,9 @@ class Log(object):
         # 定义handler的输出格式
         fh_formatter = logging.Formatter(
             '[%(asctime)s] %(filename)s->%(funcName)s line:%(lineno)d [%(levelname)s] -- %(message)s')
-        ch_formatter = logging.Formatter(
-            '%(filename)s->%(funcName)s line:%(lineno)d == msg:%(message)s')
+        ch_formatter = colorlog.ColoredFormatter(
+            '%(log_color)s[%(filename)s:%(lineno)d] [%(levelname)s]- %(message)s',
+            log_colors=log_colors_config)  # 日志输出格式
         fh.setFormatter(fh_formatter)
         ch.setFormatter(ch_formatter)
 

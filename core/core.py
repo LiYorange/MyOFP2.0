@@ -14,6 +14,7 @@ import shutil
 import sys
 import my_log
 import gc
+import matplotlib.pyplot as plt
 
 sys.path.append("..")
 sys.path.append("../db")
@@ -86,7 +87,7 @@ def read_csv(file, tickets=None):
             else:
                 miss_tickets.append((tickets[en_tickets.index(li)], en_tickets.index(li)))
         exist_tickets = [object_li[:], float_li[:], int_li[:], bool_li[:]]
-        log.info("函数运行时长：{}s".format(int(time.time()-time1)))
+        log.info("函数运行时长：{}s".format(int(time.time() - time1)))
         return get_df(file, [exist_tickets, miss_tickets])
 
     except IndexError as e:
@@ -123,11 +124,15 @@ def get_df(file, li):
                 df_object = pd.concat(data_object, ignore_index=True)
 
             if li[0][1] is not None:
-                data_float = pd.read_csv(file, usecols=li[0][1], chunksize=10000, encoding='gbk', engine='python')
-                df_float = pd.concat(data_float, ignore_index=True).astype("float32")
+                data_float = pd.read_csv(file, usecols=li[0][1], chunksize=10000, encoding='gbk', engine='python',
+                                         dtype="float16")
+                df_float = pd.concat(data_float, ignore_index=True).astype(dtype="float32", copy=False)
+                # df_float = pd.concat(data_float, ignore_index=True)
             if li[0][2] is not None:
-                data_int = pd.read_csv(file, usecols=li[0][2], chunksize=10000, encoding='gbk', engine='python')
-                df_int = pd.concat(data_int, ignore_index=True).astype("int32")
+                data_int = pd.read_csv(file, usecols=li[0][2], chunksize=10000, encoding='gbk', engine='python',
+                                       dtype="int32")
+                df_int = pd.concat(data_int, ignore_index=True).astype(dtype="int32", copy=False)
+                # df_int = pd.concat(data_int, ignore_index=True)
             if li[0][3] is not None:
                 data_bool = pd.read_csv(file, usecols=li[0][3], chunksize=10000, encoding='gbk', engine='python')
                 df_bool = pd.concat(data_bool, ignore_index=True)
@@ -136,7 +141,8 @@ def get_df(file, li):
             for tup in li[1]:
                 df.insert(tup[1], tup[0], np.nan)
         log.info("读取df花费时长：{}s".format(int(time.time() - time1)))
-        print(df.info())
+        return df
+
     except Exception as e:
         log.error(e)
 
@@ -272,8 +278,9 @@ def handle_csv(file, usecols):
 if __name__ == '__main__':
     pass
     # print(get_en_tickets("../db/tickets.my", "60004"))
-    # read_csv("../db/60005036_20200930南鹏岛.csv", ["时间", '齿轮箱离线过滤泵处油温', "机组运行模式"])
-    read_csv(r"E:\桌面\Py\temporary\60004036_20200930（外罗）.csv")
+    read_csv("../db/60005036_20200930南鹏岛.csv", ["时间", "机组运行模式"])
+
+    # read_csv(r"E:\桌面\Py\temporary\60004036_20200930（外罗）.csv")
     # en = get_en_tickets("../db/tickets.my", "60004")
     # get_df("../db/60004036_20200930（外罗）.csv", en)
     # print(df.info())
