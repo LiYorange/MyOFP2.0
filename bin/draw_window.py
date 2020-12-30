@@ -12,7 +12,7 @@ from PySide2.QtCore import QObject
 from PySide2.QtUiTools import QUiLoader
 from functools import partial
 import matplotlib.pylab as plt
-
+import pyqtgraph as pg
 
 class DrawWindow(QWidget):
     """绘图界面"""

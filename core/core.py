@@ -15,7 +15,7 @@ import sys
 import my_log
 import gc
 import matplotlib.pyplot as plt
-
+import gloable_var
 sys.path.append("..")
 sys.path.append("../db")
 

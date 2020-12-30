@@ -33,9 +33,9 @@
 # ############################################ 字典测试
 
 d = {"a": 1}
-x = d.get("a")
+x = d.get("b")
 
-print(d)
+print(x)
 
 # ############################################ 通讯
 # from PySide2.QtCore import QThread, QObject, Signal

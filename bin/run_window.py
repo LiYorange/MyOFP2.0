@@ -6,33 +6,38 @@
 # Description:  
 # -------------------------------------------------------------------------------
 
-from PySide2.QtWidgets import QWidget, QApplication, QMenu, QAction, QTreeWidgetItem, QTreeWidget
+from PySide2.QtWidgets import QWidget, QApplication, QMenu, QAction, QTableWidgetItem, QTableWidget, QHeaderView
 from PySide2.QtCore import Qt
-from PySide2.QtGui import QCursor
+from PySide2.QtGui import QCursor, QColor
 from PySide2.QtUiTools import QUiLoader
+import draw_window
+from post_man import PostMan
 
 
 class RunWindow(QWidget):
-    def __init__(self):
+    def __init__(self, files: list):
         super(RunWindow, self).__init__()
         self.window = QUiLoader().load('../res/ui/run.ui')
+        self.files = files
         """需要设置列的数量，文件名"""
-        self.window.treeWidget.setColumnCount(4)
-        self.window.treeWidget.setHeaderLabels(['模型', '文件1', '文件2', '文件3'])
-        self.window.treeWidget.setColumnWidth(0, 200)
+        self.init_table(header_labels=self.files)
+
+    def init_table(self, header_labels: list):
+        self.window.tableWidget.setColumnCount(len(header_labels))
+        self.window.tableWidget.setHorizontalHeaderLabels(header_labels)
+        # 设置自适应列宽
+        self.window.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # self.window.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+
+        # QTableWidget
         # 右击菜单
-        self.window.treeWidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 打开右键菜单的策略
-        self.window.treeWidget.customContextMenuRequested.connect(self.treeWidgetItem_right_click)  # 绑定事件
+        self.window.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 打开右键菜单的策略
+        self.window.tableWidget.customContextMenuRequested.connect(self.tableWidget_right_click)  # 绑定事件
         # 单机事件
-        self.window.treeWidget.itemClicked['QTreeWidgetItem*', 'int'].connect(self.selectItem)
-        # 修改事件
-        self.window.treeWidget.itemSelectionChanged.connect(self.selectitem)
-        print(self.window.treeWidget.topLevelItem(0).columnCount())
 
-
-    def treeWidgetItem_right_click(self, pos):
-        item = self.window.treeWidget.currentItem()
-        item1 = self.window.treeWidget.itemAt(pos)
+    def tableWidget_right_click(self, pos):
+        item = self.window.tableWidget.currentItem()
+        item1 = self.window.tableWidget.itemAt(pos)
         if item is not None and item1 is not None:
             popMenu = QMenu()
             popMenu.addAction(QAction(u'绘制曲线', self))
@@ -42,24 +47,24 @@ class RunWindow(QWidget):
             popMenu.exec_(QCursor.pos())
 
     def right_menu(self, event):
-        print(event)
-        self.window.treeWidget.setColumnCount(self.window.treeWidget.columnCount() + 1)
 
-    def selectItem(self, item, column):
-        # print(item.checkState(1), item.text(0))
-        print(item.text(0))
+        if event.text() == "绘制曲线":
+            plot_window = draw_window.DrawWindow()
+            plot_window.window.show()
+        # self.window.tableWidget.setColumnCount(self.window.treeWidget.columnCount() + 1)
 
-    def selectitem(self):
-        for ii in self.window.treeWidget.selectedItems():
-            ii.setText(2, "你好")
-            ii.setForeground(2, Qt.green)  # 可将字体颜色变为绿色,更详细的设置请看QBrush
+    def add_cell(self, row, col, text):
+        """添加指定行指定列的单元格文本以及颜色"""
+        newItem = QTableWidgetItem(text)
+        self.window.tableWidget.setItem(row, col, newItem)
+        del newItem
 
-    def change_cell(self):
+    def change_cell_color(self):
         """改变指定行指定列的单元格文本以及颜色"""
 
 
 if __name__ == '__main__':
     app = QApplication([])
-    draw_window = RunWindow()
-    draw_window.window.show()
+    run_window = RunWindow(["南鹏岛111111111111", "外罗1111111111", "沙扒1111111", "金湾"])
+    run_window.window.show()
     app.exec_()
