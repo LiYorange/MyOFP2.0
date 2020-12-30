@@ -77,8 +77,8 @@ class Merge_Window(QThread):
                 return
             else:
                 self.window.merge_pushButton.setEnabled(True)
-                # 取第0项
-                self.compare_value = flag[0]
+                # # 取第0项
+                # self.compare_value = flag[0]
                 # 将file_names 赋值给csv_files
                 self.merge_files = file_names
 
@@ -89,7 +89,7 @@ class Merge_Window(QThread):
 
     def merge_file(self):
         self.signal_log.emit("正在合并...")
-        merge_result = core.merge(self.merge_files, self.compare_value)
+        merge_result = core.merge(self.merge_files)
         self.signal_log.emit("完成合并...")
         return merge_result
 

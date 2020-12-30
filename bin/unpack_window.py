@@ -59,13 +59,13 @@ class Unpack_Window(QThread):
     def unpack_file(self):
         self.signal_log.emit("正在解压...")
         unpack_result = core.unpack(self.unpack_files)
-        if unpack_result:
+        if not unpack_result:
             """解压成功"""
             self.signal_log.emit("解压成功！")
         else:
             self.signal_log.emit("解压失败！")
 
-    def write_log(self,text):
+    def write_log(self, text):
 
         self.window.log_plainTextEdit.appendHtml(text)
 

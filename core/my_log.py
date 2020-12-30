@@ -73,3 +73,11 @@ class Log(object):
 
     def getlog(self):
         return self.logger
+
+
+if __name__ == '__main__':
+    log = Log()
+    log.logger.info("1")
+    log.logger.debug("2")
+    log.logger.warning("3")
+    log.logger.error("4")
