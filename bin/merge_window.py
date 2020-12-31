@@ -9,8 +9,21 @@ from PySide2.QtWidgets import QApplication, QFileDialog, QMessageBox
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import QThread, Signal
 import os
+import sys
 from core import cores
+from core import my_log
+import traceback
 
+log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 
 class Merge_Window(QThread):
     signal_log = Signal(str)

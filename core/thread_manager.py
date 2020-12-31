@@ -11,9 +11,18 @@ import sys
 import time
 import os
 import my_log
+import traceback
 
-qm1 = QMutex()
 log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 
 
 class ThreadManage(QThread):

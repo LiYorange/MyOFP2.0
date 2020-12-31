@@ -7,12 +7,24 @@
 # -------------------------------------------------------------------------------
 
 import os
+import sys
 import shutil
 import my_log
 from PySide2.QtCore import QThread, Signal
 
-all_log = my_log.MyLog('all.log', level='debug')
-err_log = my_log.MyLog('error.log', level='error')
+import my_log
+import traceback
+
+log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 
 
 class UnPack(QThread):

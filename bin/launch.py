@@ -8,6 +8,7 @@
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import QWidget, QApplication, QFileDialog
 import os
+import sys
 import merge_window
 import unpack_window
 import run_window
@@ -17,6 +18,19 @@ from core.thread_manager import ThreadManage
 from core.model_manager import ModelManager
 from core.gearbox import GearBox
 from core.generator import Generator
+import traceback
+from core import my_log
+
+log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 
 
 class LaunchWindow(QWidget):
@@ -78,7 +92,7 @@ class LaunchWindow(QWidget):
                                           self.postman)
 
         self.model_manager.start()
-        self.run_window = run_window.RunWindow(self.files)
+        self.run_window = run_window.RunWindow(self.files, postman=self.postman)
         self.run_window.window.show()
 
 

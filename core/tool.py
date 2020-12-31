@@ -6,11 +6,22 @@
 # Description:  抽象提取代码整合为工具
 # -------------------------------------------------------------------------------
 import os
+import sys
 # 回收内存
 import gc
-from my_log import Log
+import my_log
+import traceback
 
-log = Log(__name__).getlog()
+log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 
 
 def duration_calculation_to_csv(tickets, df, duration, fault_file=None):

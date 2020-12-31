@@ -8,13 +8,23 @@
 from PySide2.QtCore import QThread, Signal
 import my_log
 import time
-import os
+import os, sys
 import pandas as pd
 import cores
 import tool
 import gloable_var as gl
+import traceback
 
 log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 
 
 class GearBox(QThread):
@@ -104,6 +114,7 @@ class GearBox(QThread):
     # 1 齿轮箱主轴承温度高
     def gearbox_main_bearing_temperature(self):
         log.info("齿轮箱正在处理")
+        x = 1 / 0
         try:
             # 获取 1 时间 2 机组模式 3 齿轮箱主轴承温度英文标签
             tickets = [self.tickets[0], self.tickets[1], self.tickets[2]]
@@ -142,12 +153,10 @@ class GearBox(QThread):
                     # self.handle_signal_and_log([0, 0], [0, [0, "齿轮箱主轴承温度高报警次数{}".format(len(result[1]))]])
                     for i in result[1]:
                         print(i)
-                        #self.signal_gb_write_log.emit([1, [0, i]])
-                    #self.signal_gb_write_log.emit([1, [-1, "*" * 40]])
-        self.postman.send_to_MM.emit(
-            {"from": "gearbox", "to": "model_manager",
-             "message": {"function": 1,
-                         "result": True}})
+                        # self.signal_gb_write_log.emit([1, [0, i]])
+                    # self.signal_gb_write_log.emit([1, [-1, "*" * 40]])
+        self.postman.send_to_MM.emit({"from": "gearbox", "to": "model_manager",
+                                      "message": {"function": 1, "result": 1}})
 
     def over(self):
         log.info("齿轮箱处理完成")

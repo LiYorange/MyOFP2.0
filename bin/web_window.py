@@ -4,6 +4,19 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 from PySide2.QtWebEngineWidgets import QWebEngineView
 import os
+from core import my_log
+import traceback
+
+log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 
 
 class MainWindow(QMainWindow):
@@ -13,7 +26,7 @@ class MainWindow(QMainWindow):
         # self.showMaximized()
         self.setWindowTitle("模型原理及排查方案")
         self.setFont(QFont("宋体", 18))
-        self.url = "../res/html/"+url+".html"
+        self.url = "../res/html/" + url + ".html"
         self.url = "/".join(self.url.split("\\"))
 
         self.view = QWebEngineView()

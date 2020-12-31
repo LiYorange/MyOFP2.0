@@ -12,6 +12,7 @@ import colorlog
 import logging
 import time
 import os
+import sys
 
 log_colors_config = {
     'DEBUG': 'cyan',
@@ -81,3 +82,4 @@ if __name__ == '__main__':
     log.logger.debug("2")
     log.logger.warning("3")
     log.logger.error("4")
+    log.logger.critical("44")

@@ -12,8 +12,29 @@ from PySide2.QtCore import QObject
 from PySide2.QtUiTools import QUiLoader
 from functools import partial
 import matplotlib.pylab as plt
-import pyqtgraph as pg
+import sys
+import my_log
+import traceback
 
+log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 class DrawWindow(QWidget):
     """绘图界面"""
 

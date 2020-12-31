@@ -5,21 +5,33 @@
 # Date:         2020/12/29
 # Description:  
 # -------------------------------------------------------------------------------
-from typing import Dict
+
+import os
+import sys
+import re
 
 from PySide2.QtCore import QThread, Signal
 from PySide2.QtWidgets import QApplication
-import os
-import re
-from thread_manager import ThreadManage
-from post_man import PostMan
+
+import cores
+import gloable_var as gl
+import my_log
 from gearbox import GearBox
 from generator import Generator
-import my_log
-import gloable_var as gl
-import cores
+from post_man import PostMan
+from thread_manager import ThreadManage
+import traceback
 
 log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 
 
 class ModelManager(QThread):
