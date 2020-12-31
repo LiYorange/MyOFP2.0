@@ -5,4 +5,5 @@
 # Date:         2020/12/16
 # Description:  
 # -------------------------------------------------------------------------------
-from .core import my_log
+from core import my_log
+from core import cores

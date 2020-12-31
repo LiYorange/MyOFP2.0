@@ -53,7 +53,7 @@ class Log(object):
 
         # 定义handler的输出格式
         fh_formatter = logging.Formatter(
-            '[%(asctime)s] %(filename)s->%(funcName)s line:%(lineno)d [%(levelname)s] -- %(message)s')
+            '%(asctime)s %(filename)s->%(funcName)s line:%(lineno)d [%(levelname)s] -- %(message)s')
         ch_formatter = colorlog.ColoredFormatter(
             '%(log_color)s[%(filename)s:%(lineno)d] [%(levelname)s]- %(message)s',
             log_colors=log_colors_config)  # 日志输出格式

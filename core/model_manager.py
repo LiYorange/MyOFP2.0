@@ -17,6 +17,7 @@ from gearbox import GearBox
 from generator import Generator
 import my_log
 import gloable_var as gl
+import cores
 
 log = my_log.Log(__name__).getlog()
 
@@ -61,19 +62,6 @@ class ModelManager(QThread):
 
         self.analyse_receive_message(message)
 
-        # come_from = message.get("from")
-        # if come_from != "thread_manager" and come_from is not None:
-        #     self.send_message(message)
-        # else:
-        #     log.info("[{},state:{}]".format(
-        #         message.get("message").get("thread_name"),
-        #         message.get("message").get("state")))
-        #
-        #     if message.get("message").get("state") == "quitted":
-        #         self.statistic_thread_number(message)
-        #     else:
-        #         pass
-
     def analyse_receive_message(self, message: dict):
 
         """
@@ -116,7 +104,6 @@ class ModelManager(QThread):
         if task:
             queue = len(self.files)
             if queue >= 1:
-
                 self.analyse_files()
 
     def analyse_files(self):
@@ -124,13 +111,14 @@ class ModelManager(QThread):
         self.file = self.files.pop()
         gl.now_file = self.file
         file_size = float(os.path.getsize(self.file)) / float(1024 * 1024)
-        if file_size < 2:
+        if file_size < 20:
             # self.deal_small_file(self.file)
             self.small_file_signal.emit((self.model_list, self.file))
         else:
             self.big_file_signal.emit(([self.model_list[0]], self.file))
 
     def deal_small_file(self, tup: tuple):
+        self.get_data(tup[1], tickets=None)
         """小文件一次开启所有线程"""
         log.warning("处理小文件:{}".format(tup[1]))
         self.send_message(
@@ -173,6 +161,10 @@ class ModelManager(QThread):
                 time.sleep(1)
                 self.assign_task_signal.emit(True)
 
+    @staticmethod
+    def get_data(file, tickets=None):
+        gl.df = cores.read_csv(file, tickets)
+
 
 if __name__ == '__main__':
     app = QApplication([])
@@ -184,7 +176,7 @@ if __name__ == '__main__':
     gearbox = GearBox(postman)
     generator = Generator(postman)
     # 创建模块管理者，并雇佣postman
-    manage = ModelManager(["../db/60004036_20200930（外罗）.csv","../db/60004036_20200930（外罗）.xlsm"], [gearbox, generator],
+    manage = ModelManager(["../db/60004036_20200930（外罗）.csv"], [gearbox, generator],
                           postman)
 
     manage.start()

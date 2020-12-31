@@ -8,3 +8,4 @@
 started_thread_number = None
 started_thread_name = None
 now_file = None
+df = None

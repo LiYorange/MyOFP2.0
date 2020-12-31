@@ -9,7 +9,7 @@ from PySide2.QtWidgets import QApplication, QFileDialog, QMessageBox
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import QThread, Signal
 import os
-from core import core
+from core import cores
 
 
 class Unpack_Window(QThread):
@@ -58,7 +58,7 @@ class Unpack_Window(QThread):
 
     def unpack_file(self):
         self.signal_log.emit("正在解压...")
-        unpack_result = core.unpack(self.unpack_files)
+        unpack_result = cores.unpack(self.unpack_files)
         if not unpack_result:
             """解压成功"""
             self.signal_log.emit("解压成功！")
