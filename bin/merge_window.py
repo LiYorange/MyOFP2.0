@@ -9,7 +9,21 @@ from PySide2.QtWidgets import QApplication, QFileDialog, QMessageBox
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import QThread, Signal
 import os
-from core import core
+import sys
+from core import cores
+from core import my_log
+import traceback
+
+log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 
 class Merge_Window(QThread):
     signal_log = Signal(str)
@@ -89,10 +103,9 @@ class Merge_Window(QThread):
 
     def merge_file(self):
         self.signal_log.emit("正在合并...")
-        merge_result = core.merge(self.merge_files)
+        merge_result = cores.merge(self.merge_files)
         self.signal_log.emit("完成合并...")
         return merge_result
-
 
     def write_log(self, text):
         self.window.log_plainTextEdit.appendHtml(text)

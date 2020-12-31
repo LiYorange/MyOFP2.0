@@ -9,8 +9,21 @@ from PySide2.QtWidgets import QApplication, QFileDialog, QMessageBox
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import QThread, Signal
 import os
-from core import core
+import sys
+from core import cores
+from core import my_log
+import traceback
 
+log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
 
 class Unpack_Window(QThread):
     signal_log = Signal(str)
@@ -58,7 +71,7 @@ class Unpack_Window(QThread):
 
     def unpack_file(self):
         self.signal_log.emit("正在解压...")
-        unpack_result = core.unpack(self.unpack_files)
+        unpack_result = cores.unpack(self.unpack_files)
         if not unpack_result:
             """解压成功"""
             self.signal_log.emit("解压成功！")

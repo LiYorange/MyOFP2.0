@@ -32,10 +32,10 @@
 
 # ############################################ 字典测试
 
-d = {"a": 1}
-x = d.get("a")
-
-print(d)
+# d = {"a": 1}
+# x = d.get("a")
+#
+# print(d)
 
 # ############################################ 通讯
 # from PySide2.QtCore import QThread, QObject, Signal
@@ -106,3 +106,40 @@ print(d)
 #     tm.start()
 #     mm.start()
 #     app.exec_()
+
+
+# import sys
+# import logging
+#
+# logger = logging.getLogger(__name__)
+# handler = logging.StreamHandler(stream=sys.stdout)
+# logger.addHandler(handler)
+#
+#
+# def handle_exception(exc_type, exc_value, exc_traceback):
+#     if issubclass(exc_type, KeyboardInterrupt):
+#         sys.__excepthook__(exc_type, exc_value, exc_traceback)
+#         return
+#
+#     logger.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
+#
+#
+# sys.excepthook = handle_exception
+#
+# if __name__ == "__main__":
+#     print(1/0)
+import sys
+
+import logging
+
+import traceback
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    logging.error("Unhandled exception: %s", text)
+
+
+sys.excepthook = log_except_hook
+print(1/0)

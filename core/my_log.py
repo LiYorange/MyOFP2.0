@@ -12,6 +12,7 @@ import colorlog
 import logging
 import time
 import os
+import sys
 
 log_colors_config = {
     'DEBUG': 'cyan',
@@ -53,7 +54,7 @@ class Log(object):
 
         # 定义handler的输出格式
         fh_formatter = logging.Formatter(
-            '[%(asctime)s] %(filename)s->%(funcName)s line:%(lineno)d [%(levelname)s] -- %(message)s')
+            '%(asctime)s %(filename)s->%(funcName)s line:%(lineno)d [%(levelname)s] -- %(message)s')
         ch_formatter = colorlog.ColoredFormatter(
             '%(log_color)s[%(filename)s:%(lineno)d] [%(levelname)s]- %(message)s',
             log_colors=log_colors_config)  # 日志输出格式
@@ -81,3 +82,4 @@ if __name__ == '__main__':
     log.logger.debug("2")
     log.logger.warning("3")
     log.logger.error("4")
+    log.logger.critical("44")
