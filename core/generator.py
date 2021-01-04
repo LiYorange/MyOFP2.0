@@ -28,10 +28,10 @@ class Generator(QThread):
     def fun1(self):
         time.sleep(1)
         log.info("发电机正在处理")
-        self.postman.send_to_MM.emit(
-            {"from": "gearbox", "to": "model_manager",
-             "message": {"function": 1,
-                         "result": True}})
+        # self.postman.send_to_MM.emit(
+        #     {"from": "gearbox", "to": "model_manager",
+        #      "message": {"function": 5,
+        #                  "result": 1}})
 
     def func2(self):
         log.info("发电机处理完成")

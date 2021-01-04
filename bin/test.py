@@ -142,4 +142,5 @@ def log_except_hook(*exc_info):
 
 
 sys.excepthook = log_except_hook
-print(1/0)
+
+

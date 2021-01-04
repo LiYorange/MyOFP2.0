@@ -67,8 +67,6 @@ class ThreadManage(QThread):
             return message
 
     def send_message(self, message):
-        # message["from"] = "thread_manager"
-        # message["to"] = "model_manager"
         self.postman.send_to_MM.emit(message)
 
     def judge_start(self, message: dict):
@@ -92,8 +90,8 @@ class ThreadManage(QThread):
         self.send_message(result)
         del thread_name
 
-    def run(self):
-        pass
+    # def run(self):
+    #     pass
 
     message = {"from": "model_manager", "to": "thread_manager",
                "message": {"thread_name": "thread_name",
