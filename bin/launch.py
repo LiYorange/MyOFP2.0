@@ -90,14 +90,14 @@ class LaunchWindow(QWidget):
         # 创建模块管理者，并雇佣postman
         self.model_manager = ModelManager(self.files, [self.gearbox, self.generator],
                                           self.postman)
-
         self.model_manager.start()
         self.run_window = run_window.RunWindow(self.files, postman=self.postman)
-        self.run_window.window.show()
+        self.run_window.start()
+        # self.run_window.window.show()
 
 
 if __name__ == '__main__':
     app = QApplication([])
-    draw_window = LaunchWindow()
-    draw_window.window.show()
+    launch_window = LaunchWindow()
+    launch_window.window.show()
     app.exec_()

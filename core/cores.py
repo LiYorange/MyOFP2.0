@@ -16,6 +16,7 @@ import my_log
 import gc
 import matplotlib.pyplot as plt
 import gloable_var
+
 sys.path.append("..")
 sys.path.append("../db")
 
@@ -31,6 +32,7 @@ def get_en_tickets(file, project_name, keys=None):
     :return: 返回一个元组，第一项为该中文标签对应的数据类型，第二项为英文标签
     """
     try:
+
         f = open(file, 'r', encoding='utf8')
         tickets_data = dict(json.load(f))
         d = tickets_data.get(project_name)
@@ -70,7 +72,8 @@ def read_csv(file, tickets=None):
             en_tickets = get_en_tickets("../db/tickets.my", project_name, None)
         else:
             en_tickets = get_en_tickets("../db/tickets.my", project_name, tickets)
-        for li in en_tickets:
+
+        for index, li in zip(range(len(en_tickets)), en_tickets):
             if li is not None:
                 if li[0] == "f":
                     # float_li.append((li[1], en_tickets.index(li)))
@@ -85,7 +88,8 @@ def read_csv(file, tickets=None):
                     # object_li.append((li[1], en_tickets.index(li)))
                     object_li.append(li[1])
             else:
-                miss_tickets.append((tickets[en_tickets.index(li)], en_tickets.index(li)))
+                miss_tickets.append((tickets[index], index))
+        # log.error(miss_tickets)
         exist_tickets = [object_li[:], float_li[:], int_li[:], bool_li[:]]
         log.info("函数运行时长：{}s".format(int(time.time() - time1)))
         return get_df(file, [exist_tickets, miss_tickets])

@@ -47,7 +47,9 @@ class ModelManager(QThread):
         :param pm: 雇佣的postman
         """
         super(ModelManager, self).__init__()
-        self.files = files
+        self.files_length = len(files)
+        self.files = files[:]
+        self.files.reverse()
         self.model_list = model_list
         self.postman = pm
         self.postman.send_to_MM.connect(self.receive_message)
@@ -58,7 +60,7 @@ class ModelManager(QThread):
         self.small_file_signal.connect(self.deal_small_file)
         self.big_file_signal.connect(self.deal_big_file)
         # 线程状态  -1 未知状态，0 退出 1 活动
-        self.thread_state = {"gearbox.GearBox": -1, "generator.Generator": -1}
+        self.thread_state = {"GearBox": -1, "Generator": -1}
 
     def send_message(self, message: dict):
         """"""
@@ -66,7 +68,11 @@ class ModelManager(QThread):
         # 发送消息
         to = message.get("to")
         if to == "model_manager":
-            self.postman.send_to_RW.emit(message)
+            try:
+                message["message"]["file"] = self.files_length - len(self.files)-1
+                self.postman.send_to_RW.emit(message)
+            except KeyError as e:
+                log.warning(e)
         elif to == "thread_manager":
             self.postman.send_to_TM.emit(message)
 
@@ -100,7 +106,6 @@ class ModelManager(QThread):
                         if gl.started_thread_number is not None:
                             number = gl.started_thread_number + 1
                             if number < 2:
-                                # print("number:", number)
                                 self.big_file_signal.emit(([self.model_list[number]], self.file))
                     self.statistic_thread_number(message)
             else:
@@ -109,7 +114,6 @@ class ModelManager(QThread):
             log.error(e)
 
     def run(self):
-        # self.analyse_files()
         self.assign_task_signal.emit(True)
 
     def assign_task(self, task: bool):
@@ -123,14 +127,14 @@ class ModelManager(QThread):
         self.file = self.files.pop()
         gl.now_file = self.file
         file_size = float(os.path.getsize(self.file)) / float(1024 * 1024)
-        if file_size < 20:
+        if file_size < 300:
             # self.deal_small_file(self.file)
             self.small_file_signal.emit((self.model_list, self.file))
         else:
             self.big_file_signal.emit(([self.model_list[0]], self.file))
 
     def deal_small_file(self, tup: tuple):
-        self.get_data(tup[1], tickets=None)
+        # self.get_data(tup[1], tickets=None)
         """小文件一次开启所有线程"""
         log.warning("处理小文件:{}".format(tup[1]))
         self.send_message(
@@ -155,6 +159,7 @@ class ModelManager(QThread):
         """分析目前线程的状态，如果所有的线程都结束了那就请求分配任务处理下一个文件"""
         try:
             thread = re.findall(r"'(.+?)'", str(message.get("message").get("thread_name").__class__))
+            thread[0] = thread[0].split(".")[-1]
             self.thread_state[thread[0]] = 0
         except Exception as e:
             log.error(e)
@@ -188,7 +193,8 @@ if __name__ == '__main__':
     gearbox = GearBox(postman)
     generator = Generator(postman)
     # 创建模块管理者，并雇佣postman
-    manage = ModelManager(["../db/60004036_20200930（外罗）.csv"], [gearbox, generator],
+    manage = ModelManager(["../db/60005064_20200930（南鹏岛）.csv", "../db/60005064_20200930（南鹏岛） (2).csv"],
+                          [gearbox, generator],
                           postman)
 
     manage.start()

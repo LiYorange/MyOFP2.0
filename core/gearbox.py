@@ -8,7 +8,8 @@
 from PySide2.QtCore import QThread, Signal
 import my_log
 import time
-import os, sys
+import os
+import sys
 import pandas as pd
 import cores
 import tool
@@ -99,12 +100,13 @@ class GearBox(QThread):
                 self.tickets[self.tickets.index(li)] = li[1]
             else:
                 self.tickets[self.tickets.index(li)] = False
-        if gl.df is not None:
-            self.df = gl.df
-            gl.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
-        else:
-            self.df = cores.read_csv(gl.now_file, tickets_list)
-            gl.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        self.df = cores.read_csv(gl.now_file, tickets_list)
+        self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+
+    def send_message(self, message: dict):
+        message["from"] = "gearbox"
+        message["to"] = "model_manager"
+        self.postman.send_to_MM.emit(message)
 
     def run(self):
         log.info("齿轮箱开始处理：{}".format(gl.now_file))
@@ -114,21 +116,20 @@ class GearBox(QThread):
     # 1 齿轮箱主轴承温度高
     def gearbox_main_bearing_temperature(self):
         log.info("齿轮箱正在处理")
-        x = 1 / 0
         try:
             # 获取 1 时间 2 机组模式 3 齿轮箱主轴承温度英文标签
             tickets = [self.tickets[0], self.tickets[1], self.tickets[2]]
-            print(tickets)
             df = self.df[['time', tickets[0], tickets[1], tickets[2]]]
         except Exception as e:
-            log.error(e)
-            log.error("齿轮箱齿轮箱跳过函数1")
+            log.warning(e)
+            log.warning("齿轮箱齿轮箱跳过函数1")
+            self.send_message({"message": {"function": 0, "result": -1}})
             return
         df = df.drop(df[(df[tickets[1]] > 14) | (df[tickets[1]] < 12)].index)
         if df.empty:
             log.info("正常")
             # self.handle_signal_and_log([1, 0], [1, [1, "齿轮箱主轴承温度正常"]])
-
+            self.send_message({"message": {"function": 0, "result": 1}})
         else:
             # 删除温度小于67.5
             df = df.drop(df[(df[tickets[2]] < 17.5)].index)
@@ -144,19 +145,10 @@ class GearBox(QThread):
                                                           str(gl.now_file).split(r'/')[-1].split('.')[0] +
                                                           '/齿轮箱主轴承温度高.csv')
                 if result[0]:
-                    log.info("正常")
-                    # self.handle_signal_and_log([1, 0], [1, [1, "齿轮箱主轴承温度正常"]])
+                    self.send_message({"message": {"function": 0, "result": 1}})
 
                 else:
-                    log.info("异常")
-                    # self.handle_signal_and_log([0, 0], [1, [0, "齿轮箱主轴承温度高"]])
-                    # self.handle_signal_and_log([0, 0], [0, [0, "齿轮箱主轴承温度高报警次数{}".format(len(result[1]))]])
-                    for i in result[1]:
-                        print(i)
-                        # self.signal_gb_write_log.emit([1, [0, i]])
-                    # self.signal_gb_write_log.emit([1, [-1, "*" * 40]])
-        self.postman.send_to_MM.emit({"from": "gearbox", "to": "model_manager",
-                                      "message": {"function": 1, "result": 1}})
+                    self.send_message({"message": {"function": 0, "result": 0, "details": result[1]}})
 
     def over(self):
         log.info("齿轮箱处理完成")
@@ -165,3 +157,8 @@ class GearBox(QThread):
              "message": {"thread_name": self,
                          "do_what": "quit"}}
         )
+
+
+if __name__ == '__main__':
+    g = GearBox(pm=None)
+    g.send_message({"message": {"function": 0, "result": 1}})
