@@ -1,0 +1,95 @@
+{
+  "main": {
+    "id": "72581b902f4b968e",
+    "type": "split",
+    "children": [
+      {
+        "id": "6467144f595a7673",
+        "type": "leaf",
+        "active": true,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "3. 齿轮箱发电机侧轴承温度.md",
+            "mode": "source"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "1525a3f0defaf4c0",
+    "type": "split",
+    "children": [
+      {
+        "id": "f6293bedbb2c5fc4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "22c666cef752460a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "8032cd9ad384a1c5",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "79382a11f5ecd238",
+    "type": "split",
+    "children": [
+      {
+        "id": "c2ca834ce9aea96a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "df5f7c9f31f3452d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "3. 齿轮箱发电机侧轴承温度.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "lastOpenFiles": [
+    "3. 齿轮箱发电机侧轴承温度.md",
+    "2. 此轮小轮毂侧轴承温度.md",
+    "1. 齿轮箱主轴承温度.md",
+    "机组运行模式.md",
+    "Untitled.md"
+  ]
+}
