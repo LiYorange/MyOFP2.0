@@ -13,9 +13,11 @@ from PySide2.QtUiTools import QUiLoader
 import os
 import sys
 import draw_window
+import web_window
 from post_man import PostMan
 from core import my_log
 import traceback
+import json
 
 log = my_log.Log(__name__).getlog()
 
@@ -30,13 +32,15 @@ sys.excepthook = log_except_hook
 
 
 class RunWindow(QThread):
-    def __init__(self, files: list, postman: PostMan):
+    def __init__(self, files: list, PM: PostMan):
         super(RunWindow, self).__init__()
         self.window = QUiLoader().load('../res/ui/run.ui')
 
-        self.post_man = postman
-        self.post_man.send_to_RW.connect(self.add_cell)
+        self.post_man = PM
+        self.post_man.send_to_RW.connect(self.receive_message)
         self.files = files
+        self.right_file, self.right_function = None, None
+        self.web = None
         """需要设置列的数量，文件名"""
         self.init_table(header_labels=self.files)
         self.window.window().show()
@@ -45,7 +49,7 @@ class RunWindow(QThread):
         self.window.tableWidget.setColumnCount(len(header_labels))
         self.window.tableWidget.setHorizontalHeaderLabels(header_labels)
         # 设置自适应列宽
-        self.window.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # self.window.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         # self.window.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
 
         # QTableWidget
@@ -58,6 +62,10 @@ class RunWindow(QThread):
         item = self.window.tableWidget.currentItem()
         item1 = self.window.tableWidget.itemAt(pos)
         if item is not None and item1 is not None:
+            col = self.window.tableWidget.currentItem().column()
+            row = self.window.tableWidget.currentItem().row()
+            self.right_file = self.window.tableWidget.horizontalHeaderItem(col).text()
+            self.right_function = self.window.tableWidget.verticalHeaderItem(row).text()
             popMenu = QMenu()
             popMenu.addAction(QAction(u'绘制曲线', self))
             popMenu.addAction(QAction(u'模型原理', self))
@@ -66,19 +74,18 @@ class RunWindow(QThread):
             popMenu.exec_(QCursor.pos())
 
     def right_menu(self, event):
-
         if event.text() == "绘制曲线":
-            plot_window = draw_window.DrawWindow()
+            tickets = self.get_plot_tickets(self.right_function)
+            plot_window = draw_window.DrawWindow(self.right_file, tickets)
             plot_window.window.show()
-        # self.window.tableWidget.setColumnCount(self.window.treeWidget.columnCount() + 1)
+            del tickets
+        elif event.text() == "模型原理" or event.text() == "排查方案":
+            print(type(self.right_function), self.right_function)
+            self.web = web_window.WebWindow(self.right_function)
+            self.web.show()
 
-    def add_cell(self, message: dict):
-        # newItem = QTableWidgetItem("正常")
+    def add_cell(self, row, col, result):
         try:
-            msg = message["message"]
-            row = msg["function"]
-            col = msg["file"]
-            result = msg["result"]
             newItem = QTableWidgetItem()
             if result == -1:
                 newItem = QTableWidgetItem("缺失")
@@ -97,11 +104,26 @@ class RunWindow(QThread):
         except Exception as e:
             log.error(e)
 
-    def change_cell_color(self):
-        """改变指定行指定列的单元格文本以及颜色"""
+    @staticmethod
+    def get_plot_tickets(function_name):
+        f = open("../db/function_tickets.json", 'r', encoding='gbk')
+        tickets_data = dict(json.load(f))
+        d = tickets_data.get(function_name)
+        return d
+
+    def receive_message(self, message: dict):
+        """收到消息"""
+        msg = message["message"]
+        row = msg["function"]
+        col = msg["file"]
+        result = msg["result"]
+        self.add_cell(row, col, result)
 
     def run(self):
         pass
+
+    def close(self, event):
+        print(event)
 
 
 if __name__ == '__main__':
@@ -119,10 +141,10 @@ if __name__ == '__main__':
     gearbox = GearBox(postman)
     generator = Generator(postman)
     # 创建模块管理者，并雇佣postman
-    manage = ModelManager(["../db/60005064_20200930（南鹏岛）.csv", "../db/60005064_20200930（南鹏岛） (2).csv"],
+    manage = ModelManager(["../db/60005064_20200930（南鹏岛）.csv"],
                           [gearbox, generator],
                           postman)
-    run_window = RunWindow(["南鹏岛111111111111", "外罗1111111111"], postman)
+    run_window = RunWindow(["南鹏岛111111111111"], postman)
     manage.start()
 
     app.exec_()

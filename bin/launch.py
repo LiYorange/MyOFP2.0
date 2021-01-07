@@ -5,10 +5,12 @@
 # Date:         2020/12/16
 # Description:  
 # -------------------------------------------------------------------------------
+import PySide2
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import QWidget, QApplication, QFileDialog
 import os
 import sys
+import gc
 import merge_window
 import unpack_window
 import run_window
@@ -81,6 +83,7 @@ class LaunchWindow(QWidget):
 
     def load_run_window(self):
         """先启动TM，再启动MM在启动window"""
+        self.DEL(self.postman, self.thread_manager, self.gearbox, self.generator, self.model_manager)
         self.postman = PostMan()
         # 创建线程管理者，并雇佣postman
         self.thread_manager = ThreadManage(self.postman)
@@ -91,9 +94,17 @@ class LaunchWindow(QWidget):
         self.model_manager = ModelManager(self.files, [self.gearbox, self.generator],
                                           self.postman)
         self.model_manager.start()
-        self.run_window = run_window.RunWindow(self.files, postman=self.postman)
+        self.run_window = run_window.RunWindow(self.files, PM=self.postman)
         self.run_window.start()
-        # self.run_window.window.show()
+
+    def DEL(self, *args):
+        for i in args:
+            try:
+                del i
+            except Exception as e:
+                log.info(e)
+            finally:
+                gc.collect()
 
 
 if __name__ == '__main__':

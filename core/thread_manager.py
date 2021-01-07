@@ -90,13 +90,6 @@ class ThreadManage(QThread):
         self.send_message(result)
         del thread_name
 
-    # def run(self):
-    #     pass
+    def run(self):
+        pass
 
-    message = {"from": "model_manager", "to": "thread_manager",
-               "message": {"thread_name": "thread_name",
-                           "do_what": "start",
-                           "thread_number": 1,
-                           "file": 1
-                           }
-               }

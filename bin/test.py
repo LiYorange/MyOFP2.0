@@ -128,19 +128,129 @@
 #
 # if __name__ == "__main__":
 #     print(1/0)
-import sys
 
-import logging
+# ---------------------------------------------命令行程序
+# import sys
+#
+# import logging
+#
+# import traceback
+# import pandas as pd
+# import matplotlib.pyplot as plt
+#
+# import matplotlib as mpl  # import matplotlib as mpl
+#
+# # 设置汉字格式
+# # sans-serif就是无衬线字体，是一种通用字体族。
+# # 常见的无衬线字体有 Trebuchet MS, Tahoma, Verdana, Arial, Helvetica,SimHei 中文的幼圆、隶书等等
+# mpl.rcParams['font.sans-serif'] = ['FangSong']  # 指定默认字体
+# mpl.rcParams['axes.unicode_minus'] = False  # 解决保存图像是负号'-'显示为方块的问题
+#
+#
+# def log_except_hook(*exc_info):
+#     text = "".join(traceback.format_exception(*exc_info))
+#
+#     logging.error("Unhandled exception: %s", text)
+#
+#
+# sys.excepthook = log_except_hook
+#
+# # df = pd.read_csv("../db/日志.csv", sep=',', encoding="gbk")
+# # df.plot(kind='barh')
+# # plt.show()
+# coding:utf-8
+# import sys
+# import fire
+# import matplotlib.pyplot as plt
+# sys.argv = ['calculator.py', '1', '2', '3', '--Sum']
+#
+# builtin_sum = sum
+#
+#
+# # 1. 业务逻辑
+# # sum=False，暗示它是一个选项参数 --sum，不提供的时候为 False
+# # *nums 暗示它是一个能提供任意数量的位置参数
+# def calculator(Sum=False, *nums):
+#     """Calculator Program."""
+#     print(Sum, nums)  # 输出：True (1, 2, 3)
+#     if Sum:
+#         plt.plot([1,2,3,4,5])
+#         plt.show()
+#         result = builtin_sum(nums)
+#     else:
+#         result = max(nums)
+#
+#     print(result)  # 基于上文的 ['1', '2', '3', '--sum'] 参数，处理函数为 sum 函数，其结果为 6
+#
+#
+# fire.Fire(calculator)
 
-import traceback
+# import pandas as pd
+# import numpy as np
+# import matplotlib.pyplot as plt
+#
+# plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+# df = pd.DataFrame({"x": np.random.randint(low=1, high=10, size=100)})
+# x = df.describe(percentiles=[.1, .2, .3, .4, .5, .6, .7, .8, .9])
+# x = x.drop(labels=["count", "mean", "std", "min", "max"])
+# labels = x.index.tolist()
+# sizes = x["x"].tolist()
+# plt.subplot(121)
+# plt.bar(labels, sizes, width=0.5)
+# plt.subplot(122)
+# explode = [0.2, 0.1, 0.1, 0.1, 0, 0, 0, 0, 0]
+# plt.pie(sizes, labels=labels, explode=explode, autopct='%1.1f', shadow=False, startangle=150)
+# plt.show()
+from mpl_toolkits.axisartist.parasite_axes import HostAxes, ParasiteAxes
+import matplotlib.pyplot as plt
 
+fig = plt.figure(1)
 
-def log_except_hook(*exc_info):
-    text = "".join(traceback.format_exception(*exc_info))
+host = HostAxes(fig, [0.15, 0.1, 0.65, 0.8])
+par1 = ParasiteAxes(host, sharex=host)
+par2 = ParasiteAxes(host, sharex=host)
+host.parasites.append(par1)
+host.parasites.append(par2)
 
-    logging.error("Unhandled exception: %s", text)
+host.set_ylabel('Denstity')
+host.set_xlabel('Distance')
 
+host.axis['right'].set_visible(False)
+par1.axis['right'].set_visible(True)
+par1.set_ylabel('Temperature')
 
-sys.excepthook = log_except_hook
+par1.axis['right'].major_ticklabels.set_visible(True)
+par1.axis['right'].label.set_visible(True)
 
+par2.set_ylabel('Velocity')
+offset = (60, 0)
+new_axisline = par2._grid_helper.new_fixed_axis  # "_grid_helper"与"get_grid_helper()"等价，可以代替
 
+#new_axisline = par2.get_grid_helper().new_fixed_axis  # 用"get_grid_helper()"代替，结果一样，区别目前不清楚
+par2.axis['right2'] = new_axisline(loc='right', axes=par2, offset=offset)
+
+fig.add_axes(host)
+
+host.set_xlim(0,2)
+host.set_ylim(0,2)
+
+host.set_xlabel('Distance')
+host.set_ylabel('Density')
+host.set_ylabel('Temperature')
+
+p1, = host.plot([0, 1, 2], [0, 1, 2], label="Density")
+p2, = par1.plot([0, 1, 2], [0, 3, 2], label="Temperature")
+p3, = par2.plot([0, 1, 2], [50, 30, 15], label="Velocity")
+
+par1.set_ylim(0,4)
+par2.set_ylim(1,60)
+
+host.legend()
+#轴名称，刻度值的颜色
+host.axis['left'].label.set_color(p1.get_color())
+par1.axis['right'].label.set_color(p2.get_color())
+par2.axis['right2'].label.set_color(p3.get_color())
+par2.axis['right2'].major_ticklabels.set_color(p3.get_color()) #刻度值颜色
+par2.axis['right2'].set_axisline_style('-|>',size=1.5) #轴的形状色
+par2.axis['right2'].line.set_color(p3.get_color()) #轴的颜色
+plt.show()

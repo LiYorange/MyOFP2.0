@@ -16,11 +16,18 @@ import my_log
 import gc
 import matplotlib.pyplot as plt
 import gloable_var
+import traceback
 
 sys.path.append("..")
 sys.path.append("../db")
 
 log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
 
 
 def get_en_tickets(file, project_name, keys=None):
@@ -76,20 +83,15 @@ def read_csv(file, tickets=None):
         for index, li in zip(range(len(en_tickets)), en_tickets):
             if li is not None:
                 if li[0] == "f":
-                    # float_li.append((li[1], en_tickets.index(li)))
                     float_li.append(li[1])
                 elif li[0] == "i":
-                    # int_li.append((li[1], en_tickets.index(li)))
                     int_li.append(li[1])
                 elif li[0] == "b":
-                    # bool_li.append((li[1], en_tickets.index(li)))
                     bool_li.append(li[1])
                 elif li[0] == "o":
-                    # object_li.append((li[1], en_tickets.index(li)))
                     object_li.append(li[1])
             else:
                 miss_tickets.append((tickets[index], index))
-        # log.error(miss_tickets)
         exist_tickets = [object_li[:], float_li[:], int_li[:], bool_li[:]]
         log.info("函数运行时长：{}s".format(int(time.time() - time1)))
         return get_df(file, [exist_tickets, miss_tickets])
