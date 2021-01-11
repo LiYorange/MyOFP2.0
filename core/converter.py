@@ -84,10 +84,10 @@ class Converter(QThread):
     # 57 变频器主机IGBT温度异常
     def converter_igbt1_temperature(self):
         """
-        变频器主机IGBT温度 ≠ 0 且 ( >60℃ 或 <-10℃ )
+        变频器主机IGBT温度 ≠ 0 且  >60℃ 或 <-10℃
         """
         try:
-            # 获取 1 时间 3 变频器主机igbt温度
+            # 获取  0时间  2变频器主机igbt温度
             tickets = [self.tickets[0], self.tickets[2]]
             df = self.df[['time', tickets[0], tickets[1]]]
         except Exception as e:
@@ -111,7 +111,7 @@ class Converter(QThread):
                                                           df,
                                                           1,
                                                           str(gl.now_file).split(r'/')[-1].split('.')[0] +
-                                                          '/变频器主机IGBT温度.csv')
+                                                          '/变频器主机IGBT温度异常.csv')
                 if result[0]:
                     log.info("正常")
                     self.send_message({"message": {"function": 56, "result": 1}})
@@ -121,10 +121,10 @@ class Converter(QThread):
     # 58 变频器从机IGBT温度异常
     def converter_igbt2_temperature(self):
         """
-        变频器从机IGBT温度 ≠ 0 且 ( >60℃ 或 <-10℃ )
+        变频器从机IGBT温度 ≠ 0 且  >60℃ 或 <-10℃
         """
         try:
-            # 获取 1 时间 4 变频器从机igbt温度
+            # 获取  0时间  3变频器从机igbt温度
             tickets = [self.tickets[0], self.tickets[3]]
             df = self.df[['time', tickets[0], tickets[1]]]
         except Exception as e:
@@ -139,7 +139,6 @@ class Converter(QThread):
             self.send_message({"message": {"function": 57, "result": 1}})
 
         else:
-            # 删除温度小于等于60且大于等于-10
             df = df[(df[tickets[1]] < -10) | (df[tickets[1]] > 60)]
             if df.empty:
                 log.info("正常")
@@ -150,7 +149,7 @@ class Converter(QThread):
                                                           df,
                                                           1,
                                                           str(gl.now_file).split(r'/')[-1].split('.')[0] +
-                                                          '/变频器从机IGBT温度.csv')
+                                                          '/变频器从机IGBT温度异常.csv')
                 if result[0]:
                     log.info("正常")
                     self.send_message({"message": {"function": 57, "result": 1}})
@@ -165,7 +164,7 @@ class Converter(QThread):
         满足以上其一
         """
         try:
-            # 获取 1"时间", 2"机组运行模式",5"变流器发电机转速",6"叶轮转速2"英文标签
+            # 获取  0时间   1机组运行模式  4变流器发电机转速  5叶轮转速2
             tickets = [self.tickets[0], self.tickets[1], self.tickets[4], self.tickets[5]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -184,7 +183,6 @@ class Converter(QThread):
             self.send_message({"message": {"function": 58, "result": 1}})
         else:
             # ------------------判断连续性
-            # 高速模式连续时长判断
             flag = False
             if not df_h.empty:
                 result = tool.duration_calculation_to_csv(tickets,
@@ -222,7 +220,7 @@ class Converter(QThread):
         满足其一
         """
         try:
-            # 获取 1“时间”， 7“变频器主机冷却液温度”， 8“变频器主机风扇运行1”, 9”变频器主机水泵运行“英文标签
+            # 获取  0时间  6变频器主机冷却液温度  7变频器主机风扇运行1  8变频器主机水泵运行
             tickets = [self.tickets[0], self.tickets[6], self.tickets[7], self.tickets[8]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -278,7 +276,7 @@ class Converter(QThread):
         满足其一
         """
         try:
-            # 获取 1“时间”， 10“变频器从机冷却液温度”，11“变频器从机风扇运行1”, 12”变频器从机水泵运行“英文标签
+            # 获取 0时间  9变频器从机冷却液温度  10变频器从机风扇运行1  11变频器从机水泵运行
             tickets = [self.tickets[0], self.tickets[9], self.tickets[10], self.tickets[11]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -334,7 +332,7 @@ class Converter(QThread):
         满足其一
         """
         try:
-            # 获取 1“时间”， 9”变频器主机水泵运行“  13“变频器主机冷却液压力”，英文标签
+            # 获取 0时间  8变频器主机水泵运行  12变频器主机冷却液压力
             tickets = [self.tickets[0], self.tickets[8], self.tickets[12]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2]]]
         except Exception as e:
@@ -347,7 +345,6 @@ class Converter(QThread):
         df_h = df[(df[tickets[1]] == 1) & ((df[tickets[2]] > 5.5) | (df[tickets[2]] < 3.5))].copy()
         # 情况2 2=0时，1>3bar或<1.2bar，持续10min
         df_l = df[(df[tickets[1]] == 0) & ((df[tickets[2]] > 3) | (df[tickets[2]] < 1.2))].copy()
-        # 判断是否未空
         if df_h.empty and df_l.empty:
             log.info("正常")
             self.send_message({"message": {"function": 61, "result": 1}})
@@ -390,7 +387,7 @@ class Converter(QThread):
         满足其一
         """
         try:
-            # 获取 1“时间”， 12”变频器从机水泵运行“  14变频器从机冷却液压力”, 英文标签
+            # 获取 0时间  11变频器从机水泵运行  13变频器从机冷却液压力
             tickets = [self.tickets[0], self.tickets[11], self.tickets[13]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2]]]
         except Exception as e:
@@ -403,7 +400,6 @@ class Converter(QThread):
         df_h = df[(df[tickets[1]] == 1) & ((df[tickets[2]] > 5.5) | (df[tickets[2]] < 3.5))].copy()
         # 情况2 1=0时，2>3bar或<1.2bar，持续10min
         df_l = df[(df[tickets[1]] == 0) & ((df[tickets[2]] > 3) | (df[tickets[2]] < 1.2))].copy()
-        # 判断是否未空
         if df_h.empty and df_l.empty:
             log.info("正常")
             self.send_message({"message": {"function": 62, "result": 1}})

@@ -22,16 +22,9 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="log_pushButton">
          <property name="text">
           <string>日志</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string>快速汇总</string>
          </property>
         </widget>
        </item>
@@ -45,7 +38,7 @@
        <item>
         <widget class="QProgressBar" name="progressBar">
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
         </widget>
        </item>
@@ -385,6 +378,11 @@
       <row>
        <property name="text">
         <string>发电机外冷温差</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>桨叶顺桨</string>
        </property>
       </row>
       <row>

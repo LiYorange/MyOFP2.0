@@ -48,7 +48,7 @@ class Sensor(QThread):
     def get_df(self):
         tickets_list = ["时间",
                         "机组运行模式",
-                        "箱式变压器温度",
+                        "塔基变压器温度",
                         "塔筒第一层平台温度",
                         "塔基柜温度",
                         "机舱高压柜温度",
@@ -99,7 +99,7 @@ class Sensor(QThread):
         塔基变压器温度≠0时，塔基变压器温度>80℃或者<10℃，持续1min
         """
         try:
-            # 获取 1 时间 3 塔基变压器温度 英文标签
+            # 获取  0时间  2塔基变压器温度
             tickets = [self.tickets[0], self.tickets[2]]
             df = self.df[['time', tickets[0], tickets[1]]]
         except Exception as e:
@@ -113,8 +113,7 @@ class Sensor(QThread):
             log.info("正常")
             self.send_message({"message": {"function": 74, "result": 1}})
         else:
-            # 删除 1>= 10 & 1<= 80
-            df = df.drop(df[((df[tickets[1]] <= 80) & (df[tickets[1]] >= 10))].index)
+            df = df[(df[tickets[1]] > 80) | (df[tickets[1]] < 10)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 74, "result": 1}})
@@ -137,7 +136,7 @@ class Sensor(QThread):
         11≤ 机组运行模式 ≤14，塔基控制柜温度 > 45°，且塔基第一层温度 < 40°，且异常持续时间超过 5min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 4	塔筒第一层平台温度 5 塔基柜温度 英文标签
+            # 获取 0时间  1机组运行模式  3塔筒第一层平台温度  4塔基柜温度
             tickets = [self.tickets[0], self.tickets[1], self.tickets[3], self.tickets[4]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -146,14 +145,12 @@ class Sensor(QThread):
             self.send_message({"message": {"function": 75, "result": -1}})
             return
 
-        # 删除 1>14 | 1<11
         df = df.drop(df[((df[tickets[1]] > 14) | (df[tickets[1]] < 11))].index)
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 75, "result": 1}})
         else:
-            # 删除 2<=45 | 3>=40
-            df = df[(df[tickets[2]] > 45) & (df[tickets[3]] < 40)]
+            df = df[(df[tickets[3]] > 45) & (df[tickets[2]] < 40)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 75, "result": 1}})
@@ -176,7 +173,7 @@ class Sensor(QThread):
         11≤ 机组运行模式 ≤14，塔基控制柜温度 < 5℃，持续3min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 5 塔基柜温度 英文标签
+            # 获取 0时间  1机组运行模式  4塔基柜温度
             tickets = [self.tickets[0], self.tickets[1], self.tickets[4]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2]]]
         except Exception as e:
@@ -213,7 +210,7 @@ class Sensor(QThread):
         11≤机组运行模式≤14，机舱动力柜温度>45°，且机舱温度<40°，且异常持续时间超过5min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 6 机舱高压柜温度 7 机舱温度 英文标签
+            # 获取 0时间  1机组运行模式 5机舱高压柜温度  6机舱温度
             tickets = [self.tickets[0], self.tickets[1], self.tickets[5], self.tickets[6]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -222,13 +219,11 @@ class Sensor(QThread):
             self.send_message({"message": {"function": 77, "result": -1}})
             return
 
-        # 删除 1>14 | 1<11
         df = df.drop(df[((df[tickets[1]] > 14) | (df[tickets[1]] < 11))].index)
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 77, "result": 1}})
         else:
-            # 删除 2<=45 | 3>=40
             df = df[(df[tickets[2]] > 45) & (df[tickets[3]] < 40)]
             if df.empty:
                 log.info("正常")
@@ -252,7 +247,7 @@ class Sensor(QThread):
         11≤ 机组运行模式 ≤14，塔基控制柜温度 < 5℃，持续3min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 6 机舱高压柜温度 英文标签
+            # 获取 0时间  1机组运行模式 5机舱高压柜温度 英文标签
             tickets = [self.tickets[0], self.tickets[1], self.tickets[5]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2]]]
         except Exception as e:
@@ -266,7 +261,6 @@ class Sensor(QThread):
             log.info("正常")
             self.send_message({"message": {"function": 78, "result": 1}})
         else:
-            # 删除 2>=5
             df = df.drop(df[(df[tickets[2]] >= 5)].index)
             if df.empty:
                 log.info("正常")
@@ -290,7 +284,7 @@ class Sensor(QThread):
         11≤ 机组运行模式 ≤14，机舱信号柜温度 >45°，且机舱温度 <40°，且异常持续时间超过5min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 8 机舱低压柜温度 7 机舱温度 英文标签
+            # 获取 0时间  1机组运行模式  7机舱低压柜温度  6机舱温度
             tickets = [self.tickets[0], self.tickets[1], self.tickets[7], self.tickets[6]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -327,7 +321,7 @@ class Sensor(QThread):
         11≤ 机组运行模式 ≤14，机舱信号柜温度 < 5℃，持续3min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 8 机舱低压柜温度 英文标签
+            # 获取 0时间  1机组运行模式  7机舱低压柜温度
             tickets = [self.tickets[0], self.tickets[1], self.tickets[7]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2]]]
         except Exception as e:
@@ -341,7 +335,6 @@ class Sensor(QThread):
             log.info("正常")
             self.send_message({"message": {"function": 80, "result": 1}})
         else:
-            # 删除 2>=5
             df = df.drop(df[(df[tickets[2]] >= 5)].index)
             if df.empty:
                 log.info("正常")
@@ -365,7 +358,7 @@ class Sensor(QThread):
         变频器1温度 至 变频器17温度中 的最大值≠0 且 >60℃，持续10min
         """
         try:
-            # 获取 1 时间  9-25 变频器1-17温度 英文标签
+            # 获取 1 时间   8-24变频器1-17温度
             tickets = [self.tickets[0], self.tickets[8], self.tickets[9], self.tickets[10], self.tickets[11],
                        self.tickets[12], self.tickets[13], self.tickets[14], self.tickets[15], self.tickets[16],
                        self.tickets[17], self.tickets[18], self.tickets[19], self.tickets[20], self.tickets[21],
@@ -380,9 +373,9 @@ class Sensor(QThread):
             self.send_message({"message": {"function": 81, "result": -1}})
             return
 
-        df['maxvalue'] = df.loc[:, [tickets[1], tickets[2], tickets[3], tickets[4], tickets[5], tickets[6],
-                                    tickets[7], tickets[8], tickets[9], tickets[10], tickets[11], tickets[12],
-                                    tickets[13], tickets[14], tickets[15], tickets[16], tickets[17]]].max(axis=1, skipna=True)
+        df['maxvalue'] = df.loc[:, [tickets[1], tickets[2], tickets[3], tickets[4], tickets[5], tickets[6], tickets[7],
+                                    tickets[8], tickets[9], tickets[10], tickets[11], tickets[12], tickets[13],
+                                    tickets[14], tickets[15], tickets[16], tickets[17]]].max(axis=1, skipna=True)
         df = df[(df['maxvalue'] > 60) & (df['maxvalue'] != 0)]
         if df.empty:
             log.info("正常")

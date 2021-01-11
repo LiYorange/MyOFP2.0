@@ -25,6 +25,7 @@ def log_except_hook(*exc_info):
 
 sys.excepthook = log_except_hook
 
+
 class Merge_Window(QThread):
     signal_log = Signal(str)
 
@@ -99,7 +100,7 @@ class Merge_Window(QThread):
                 self.window.log_plainTextEdit.clear()
                 self.window.file_lineEdit.setText(str(file_names))
                 self.window.merge_pushButton.setEnabled(True)
-                self.window.merge_pushButton.clicked.connect(self.run)
+                self.window.merge_pushButton.clicked.connect(self.start)
 
     def merge_file(self):
         self.signal_log.emit("正在合并...")

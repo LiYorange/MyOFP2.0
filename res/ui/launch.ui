@@ -78,8 +78,8 @@ font: 25 10pt &quot;Microsoft YaHei&quot;;</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>203</width>
-         <height>205</height>
+         <width>235</width>
+         <height>247</height>
         </rect>
        </property>
        <attribute name="icon">
@@ -141,8 +141,8 @@ font: 25 10pt &quot;Microsoft YaHei&quot;;</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>185</width>
-         <height>158</height>
+         <width>235</width>
+         <height>247</height>
         </rect>
        </property>
        <attribute name="icon">
@@ -175,17 +175,6 @@ font: 25 10pt &quot;Microsoft YaHei&quot;;</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="revise_logic_button">
-          <property name="text">
-           <string>修改控制逻辑</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../icon/launch.qrc">
-            <normaloff>:/设置/修改控制逻辑.png</normaloff>:/设置/修改控制逻辑.png</iconset>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="page_3">
@@ -193,8 +182,8 @@ font: 25 10pt &quot;Microsoft YaHei&quot;;</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>145</width>
-         <height>111</height>
+         <width>98</width>
+         <height>78</height>
         </rect>
        </property>
        <attribute name="icon">

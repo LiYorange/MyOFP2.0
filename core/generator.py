@@ -99,7 +99,7 @@ class Generator(QThread):
         """
         log.info("发动机正在处理")
         try:
-            # 获取  时间 1 机组模式 2-7 发电机绕组温度1-6 英文标签
+            # 获取  0时间  1机组模式  2-7发电机绕组温度1-6
             tickets = [self.tickets[0], self.tickets[1], self.tickets[2], self.tickets[3], self.tickets[4],
                        self.tickets[5], self.tickets[6], self.tickets[7]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3],
@@ -140,22 +140,22 @@ class Generator(QThread):
             df['绕组4-绕组5'] = (df[tickets[5]] - df[tickets[6]]).abs()
             df['绕组4-绕组6'] = (df[tickets[5]] - df[tickets[7]]).abs()
             df['绕组5-绕组6'] = (df[tickets[6]] - df[tickets[7]]).abs()
-            df = df.drop(df[(df["绕组1-绕组2"] <= 10) &
-                            (df["绕组1-绕组3"] <= 10) &
-                            (df["绕组1-绕组4"] <= 10) &
-                            (df["绕组1-绕组5"] <= 10) &
-                            (df["绕组1-绕组6"] <= 10) &
-                            (df["绕组2-绕组3"] <= 10) &
-                            (df["绕组2-绕组4"] <= 10) &
-                            (df["绕组2-绕组5"] <= 10) &
-                            (df["绕组2-绕组6"] <= 10) &
-                            (df["绕组3-绕组4"] <= 10) &
-                            (df["绕组3-绕组5"] <= 10) &
-                            (df["绕组3-绕组6"] <= 10) &
-                            (df["绕组4-绕组5"] <= 10) &
-                            (df["绕组4-绕组6"] <= 10) &
-                            (df["绕组5-绕组6"] <= 10)
-                            ].index)
+            df = df[(df["绕组1-绕组2"] > 10) |
+                    (df["绕组1-绕组3"] > 10) |
+                    (df["绕组1-绕组4"] > 10) |
+                    (df["绕组1-绕组5"] > 10) |
+                    (df["绕组1-绕组6"] > 10) |
+                    (df["绕组2-绕组3"] > 10) |
+                    (df["绕组2-绕组4"] > 10) |
+                    (df["绕组2-绕组5"] > 10) |
+                    (df["绕组2-绕组6"] > 10) |
+                    (df["绕组3-绕组4"] > 10) |
+                    (df["绕组3-绕组5"] > 10) |
+                    (df["绕组3-绕组6"] > 10) |
+                    (df["绕组4-绕组5"] > 10) |
+                    (df["绕组4-绕组6"] > 10) |
+                    (df["绕组5-绕组6"] > 10)
+                    ]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 35, "result": 1}})
@@ -178,7 +178,7 @@ class Generator(QThread):
         机组运行模式 = 14，发电机绕组温度(1-6) > 105℃，持续10min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 3-8 发电机绕组温度(1-6) 英文标签
+            # 获取  1时间  2机组运行模式  2-7发电机绕组温度(1-6)
             tickets = [self.tickets[0], self.tickets[1], self.tickets[2], self.tickets[3], self.tickets[4],
                        self.tickets[5], self.tickets[6], self.tickets[7]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3], tickets[4], tickets[5],
@@ -194,7 +194,6 @@ class Generator(QThread):
             log.info("正常")
             self.send_message({"message": {"function": 36, "result": 1}})
         else:
-            # 删除 2-7 全部 <= 105
             df = df[(df[tickets[2]] > 105) | (df[tickets[3]] > 105) | (df[tickets[4]] > 105) | (
                     df[tickets[5]] > 105) | (df[tickets[6]] > 105) | (df[tickets[7]] > 105)]
             if df.empty:
@@ -219,7 +218,7 @@ class Generator(QThread):
         12 ≤ 机组运行模式 ≤ 14，发电机齿轮箱侧轴承温度 > 83℃，持续10min
         """
         try:
-            # 获取 1 时间 2 机组模式 9	发电机齿轮箱侧轴承温度 英文标签
+            # 获取  0时间  1机组模式  8发电机齿轮箱侧轴承温度
             tickets = [self.tickets[0], self.tickets[1], self.tickets[8]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2]]]
         except Exception as e:
@@ -257,7 +256,7 @@ class Generator(QThread):
         12 ≤ 机组运行模式 ≤ 14，发电机机舱侧轴承温度 > 83℃，持续10min
         """
         try:
-            # 获取 1 时间 2 机组模式 10 发电机机舱侧轴承温度 英文标签
+            # 获取  0时间  1机组模式  9发电机机舱侧轴承温度
             tickets = [self.tickets[0], self.tickets[1], self.tickets[9]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2]]]
         except Exception as e:
@@ -295,7 +294,7 @@ class Generator(QThread):
         变流器功率 ＞ 4500KW，发电机机舱侧轴承温度 - 发电机齿轮箱侧轴承温度 ＜ 5℃，持续10min
         """
         try:
-            # 获取 1 时间 11 变流器功率  10 发电机机舱侧轴承温度  9 发电机齿轮箱侧轴承温度 英文标签
+            # 获取  0时间  10变流器功率   9发电机机舱侧轴承温度   8发电机齿轮箱侧轴承温度
             tickets = [self.tickets[0], self.tickets[10], self.tickets[9], self.tickets[8]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -333,7 +332,7 @@ class Generator(QThread):
         机组运行模式 = 14,发电机内冷入口温度1 和 发电机内冷入口温度2的 温差绝对值 > 5℃, 持续时间1min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 12	发电机空空冷内循环入口温度1  13 发电机空空冷内循环入口温度2 英文标签
+            # 获取  0时间  1机组运行模式  11发电机空空冷内循环入口温度1   12发电机空空冷内循环入口温度2
             tickets = [self.tickets[0], self.tickets[1], self.tickets[11], self.tickets[12]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -371,7 +370,7 @@ class Generator(QThread):
         机组运行模式 = 14,发电机内冷出口温度1 和 发电机内冷出口温度2的 温差绝对值 > 5℃,持续时间1min"
         """
         try:
-            # 获取 1 时间 2 机组运行模式  14 发电机空空冷内循环出口温度1  15 发电机空空冷内循环出口温度2 英文标签
+            # 获取  0时间  1机组运行模式   13发电机空空冷内循环出口温度1   14发电机空空冷内循环出口温度2
             tickets = [self.tickets[0], self.tickets[1], self.tickets[13], self.tickets[14]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -409,7 +408,7 @@ class Generator(QThread):
         机组运行模式 = 14,发电机外冷入口温度1 和 发电机外冷入口温度2的 温差绝对值 > 5℃, 持续时间1min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 16	发电机空空冷外循环入口温度1  17 发电机空空冷外循环入口温度2 英文标签
+            # 获取  0时间  1机组运行模式  15发电机空空冷外循环入口温度1   16发电机空空冷外循环入口温度2
             tickets = [self.tickets[0], self.tickets[1], self.tickets[15], self.tickets[16]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -447,7 +446,7 @@ class Generator(QThread):
         机组运行模式 = 14,发电机外冷出口温度1 和 发电机外冷出口温度2的 温差绝对值 > 5℃,持续时间1min"
         """
         try:
-            # 获取 1 时间 2 机组运行模式  18 发电机空空冷外循环出口温度1  19 发电机空空冷外循环出口温度2 英文标签
+            # 获取  0时间  1机组运行模式   17发电机空空冷外循环出口温度1   18发电机空空冷外循环出口温度2
             tickets = [self.tickets[0], self.tickets[1], self.tickets[17], self.tickets[18]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -485,7 +484,7 @@ class Generator(QThread):
         机组运行模式 = 14,发电机内冷入口温度1 和 发电机内冷入口温度2 任意一个 > 70℃，持续时间 1min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 12	发电机空空冷内循环入口温度1  13 发电机空空冷内循环入口温度2 英文标签
+            # 获取   0时间  1机组运行模式   11发电机空空冷内循环入口温度1  12发电机空空冷内循环入口温度2
             tickets = [self.tickets[0], self.tickets[1], self.tickets[11], self.tickets[12]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -522,7 +521,7 @@ class Generator(QThread):
         机组运行模式 = 14, 发电机内冷出口温度1 和 发电机内冷出口温度2 任意一个 > 60℃,持续时间1min
         """
         try:
-            # 获取 1 时间 2 机组运行模式  14 发电机空空冷内循环出口温度1  15 发电机空空冷内循环出口温度2 英文标签
+            # 获取  0时间  1机组运行模式   13发电机空空冷内循环出口温度1   14发电机空空冷内循环出口温度2
             tickets = [self.tickets[0], self.tickets[1], self.tickets[13], self.tickets[14]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -536,7 +535,6 @@ class Generator(QThread):
             log.info("正常")
             self.send_message({"message": {"function": 45, "result": 1}})
         else:
-            # 删除 2 <= 60 & 3 <= 60
             df = df[(df[tickets[2]] > 60) | (df[tickets[3]] > 60)]
             if df.empty:
                 log.info("正常")
@@ -561,8 +559,8 @@ class Generator(QThread):
         发电机内冷入口温度1 - 发电机内冷出口温度1 ≤ 10 或 发电机内冷入口温度2 - 发电机内冷出口温度2 ≤ 10 ，持续时间10min
         """
         try:
-            # 获取 1 时间 2 机组运行模式 3-8 发电机绕组温度(1-6)
-            # 12 发电机空空冷内循环入口温度1 13 发电机空空冷内循环入口温度2 14	发电机空空冷内循环出口温度1 15 发电机空空冷内循环出口温度2英文标签
+            # 获取  0时间  1机组运行模式  2-7发电机绕组温度(1-6)
+            # 11发电机空空冷内循环入口温度1  12发电机空空冷内循环入口温度2  13发电机空空冷内循环出口温度1  14发电机空空冷内循环出口温度2英文标签
             tickets = [self.tickets[0], self.tickets[1], self.tickets[2], self.tickets[3], self.tickets[4],
                        self.tickets[5], self.tickets[6], self.tickets[7], self.tickets[11], self.tickets[12],
                        self.tickets[13], self.tickets[14]]
@@ -578,42 +576,43 @@ class Generator(QThread):
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 46, "result": 1}})
-
-        df = df[(df[tickets[2]] > 90) | (df[tickets[3]] > 90) | (df[tickets[4]] > 90) | (
-                df[tickets[5]] > 90) | (df[tickets[6]] > 90) | (df[tickets[7]] > 90)]
-        if df.empty:
-            log.info("正常")
-            self.send_message({"message": {"function": 46, "result": 1}})
         else:
-            df = df[(df[tickets[8]] - df[tickets[10]] <= 10) | (df[tickets[9]] - df[tickets[11]] <= 10)]
+            df = df[(df[tickets[2]] > 90) | (df[tickets[3]] > 90) | (df[tickets[4]] > 90) | (
+                    df[tickets[5]] > 90) | (df[tickets[6]] > 90) | (df[tickets[7]] > 90)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 46, "result": 1}})
             else:
-                # ------------------判断连续性
-                result = tool.duration_calculation_to_csv(tickets,
-                                                          df,
-                                                          600,
-                                                          str(gl.now_file).split(r'/')[-1].split('.')[0] +
-                                                          '/发电机内冷温差异常.csv')
-                if result[0]:
+                df = df[(df[tickets[8]] - df[tickets[10]] <= 10) | (df[tickets[9]] - df[tickets[11]] <= 10)]
+                if df.empty:
                     log.info("正常")
                     self.send_message({"message": {"function": 46, "result": 1}})
                 else:
-                    self.send_message({"message": {"function": 46, "result": 0, "details": result[1]}})
+                    # ------------------判断连续性
+                    result = tool.duration_calculation_to_csv(tickets,
+                                                              df,
+                                                              600,
+                                                              str(gl.now_file).split(r'/')[-1].split('.')[0] +
+                                                              '/发电机内冷温差异常.csv')
+                    if result[0]:
+                        log.info("正常")
+                        self.send_message({"message": {"function": 46, "result": 1}})
+                    else:
+                        self.send_message({"message": {"function": 46, "result": 0, "details": result[1]}})
 
     # 48 发电机外冷温差异常
     def generator_outRecycle_temperature_difference(self):
         """
         机组运行模式 = 14, 发电机内冷入口温度1 和 发电机内冷入口温度2都 > 60℃
-        发电机外冷入口温度1 - 发电机外冷出口温度1 ≤ 10 或 发电机外冷入口温度2 - 发电机外冷出口温度2 ≤ 10 ，持续时间10min
+        发电机外冷出口温度1 - 发电机外冷入口温度1 ≤ 5 或 发电机外冷出口温度2 - 发电机外冷入口温度2 ≤ 10 ，持续时间10min
         """
         try:
-            # 获取 1 时间 2 机组运行模式
-            # 16 发电机空空冷外循环入口温度1 17 发电机空空冷外循环入口温度2 18	发电机空空冷外循环出口温度1 19 发电机空空冷外循环出口温度2英文标签
-            tickets = [self.tickets[0], self.tickets[1], self.tickets[15], self.tickets[16],
-                       self.tickets[17], self.tickets[18]]
-            df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3], tickets[4], tickets[5]]]
+            # 获取  0时间  1机组运行模式  11发电机空空冷内循环入口温度1  12发电机空空冷内循环入口温度2
+            # 15发电机空空冷外循环入口温度1  16发电机空空冷外循环入口温度2  17发电机空空冷外循环出口温度1  18发电机空空冷外循环出口温度2英文标签
+            tickets = [self.tickets[0], self.tickets[1], self.tickets[11], self.tickets[12],
+                       self.tickets[15], self.tickets[16], self.tickets[17], self.tickets[18]]
+            df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3], tickets[4],
+                          tickets[5], tickets[6], tickets[7]]]
         except Exception as e:
             log.warning(e)
             log.warning("发电机跳过函数48")
@@ -624,28 +623,28 @@ class Generator(QThread):
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 47, "result": 1}})
-
-        df = df[(df[tickets[2]] > 60) | (df[tickets[3]] > 60)]
-        if df.empty:
-            log.info("正常")
-            self.send_message({"message": {"function": 47, "result": 1}})
         else:
-            df = df[(df[tickets[2]] - df[tickets[4]] <= 10) | (df[tickets[3]] - df[tickets[5]] <= 10)]
+            df = df[(df[tickets[2]] > 60) & (df[tickets[3]] > 60)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 47, "result": 1}})
             else:
-                # ------------------判断连续性
-                result = tool.duration_calculation_to_csv(tickets,
-                                                          df,
-                                                          600,
-                                                          str(gl.now_file).split(r'/')[-1].split('.')[0] +
-                                                          '/发电机外冷温差异常.csv')
-                if result[0]:
+                df = df[(df[tickets[6]] - df[tickets[4]] <= 5) | (df[tickets[7]] - df[tickets[5]] <= 10)]
+                if df.empty:
                     log.info("正常")
                     self.send_message({"message": {"function": 47, "result": 1}})
                 else:
-                    self.send_message({"message": {"function": 47, "result": 0, "details": result[1]}})
+                    # ------------------判断连续性
+                    result = tool.duration_calculation_to_csv(tickets,
+                                                              df,
+                                                              600,
+                                                              str(gl.now_file).split(r'/')[-1].split('.')[0] +
+                                                              '/发电机外冷温差异常.csv')
+                    if result[0]:
+                        log.info("正常")
+                        self.send_message({"message": {"function": 47, "result": 1}})
+                    else:
+                        self.send_message({"message": {"function": 47, "result": 0, "details": result[1]}})
 
     def over(self):
         log.info("发电机处理完成")

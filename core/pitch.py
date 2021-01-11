@@ -90,7 +90,7 @@ class Pitch(QThread):
             func()
 
     # 49 桨叶顺桨异常
-    def BladeFeatheringAbnormal(self):
+    def pitch_blade_feathering(self):
         pass
 
     # 50 叶轮转速超速
@@ -99,7 +99,7 @@ class Pitch(QThread):
         11≤ 机组运行模式 ≤14，叶轮转速1 和 叶轮转速2 都≥12.8rpm，持续 5s
         """
         try:
-            # 获取 1 时间 2 机组运行模式 12	叶轮速度1 13 叶轮速度2 英文标签
+            # 获取  0时间  1机组运行模式  11叶轮速度1  12叶轮速度2
             tickets = [self.tickets[0], self.tickets[1], self.tickets[11], self.tickets[12]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -133,10 +133,10 @@ class Pitch(QThread):
     # 51 桨叶电机温度异常
     def pitch_motor_temperature(self):
         """
-        11≤ 机组运行模式 ≤14，单个桨叶电机温度 ＞ 120℃， 或两两温差绝对值≥30℃，且持续时间超过1min
+        11≤ 机组运行模式 ≤14，单个桨叶电机温度 ＞ 120℃， 或两两温差绝对值≥30℃，持续1min
         """
         try:
-            # 获取 1 时间  2机组模式 15-17 变桨电机温度1-3 英文标签
+            # 获取  0时间   1机组模式   14-16变桨电机温度1-3
             tickets = [self.tickets[0], self.tickets[1], self.tickets[14], self.tickets[15], self.tickets[16]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3], tickets[4]]]
         except Exception as e:
@@ -154,9 +154,9 @@ class Pitch(QThread):
             df['桨叶电机1-桨叶电机3'] = (df[tickets[2]] - df[tickets[4]]).abs()
             df['桨叶电机2-桨叶电机3'] = (df[tickets[3]] - df[tickets[4]]).abs()
             # 情况1 单个桨叶电机温度 ＞ 120℃,1min
-            df_h = df[((df[tickets[2]] > 120) | (df[tickets[3]] > 120) | (df[tickets[4]] > 120))].copy()
+            df_h = df[(df[tickets[2]] > 120) | (df[tickets[3]] > 120) | (df[tickets[4]] > 120)].copy()
             # 情况2 两两温差绝对值≥30℃，且持续时间超过1min
-            df_l = df[((df['桨叶电机1-桨叶电机2'] >= 30) | (df['桨叶电机1-桨叶电机3'] >= 30) | (df['桨叶电机2-桨叶电机3'] >= 30))].copy()
+            df_l = df[(df['桨叶电机1-桨叶电机2'] >= 30) | (df['桨叶电机1-桨叶电机3'] >= 30) | (df['桨叶电机2-桨叶电机3'] >= 30)].copy()
 
             if df_h.empty and df_l.empty:
                 log.info("正常")
@@ -198,7 +198,7 @@ class Pitch(QThread):
         单个桨叶轴控箱温度(变桨驱动柜温度1-3) ＞ 55℃ 或 ＜ -5℃，且 ≠ -40℃，持续1min；
         """
         try:
-            # 获取 1 时间 2 机组运行模式 3-5 变桨驱动柜温度1-3 英文标签
+            # 获取  0时间  1机组运行模式  2-4变桨驱动柜温度1-3
             tickets = [self.tickets[0], self.tickets[1], self.tickets[2], self.tickets[3], self.tickets[4]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3], self.tickets[4]]]
         except Exception as e:
@@ -207,8 +207,7 @@ class Pitch(QThread):
             self.send_message({"message": {"function": 51, "result": -1}})
             return
 
-        # 删除 2=-40 | 3=-40 | 4=-40
-        df = df.drop(df[((df[tickets[2]] == -40) | (df[tickets[3]] == -40) | (df[tickets[4]] == -40))].index)
+        df = df[(df[tickets[2]] != -40) & (df[tickets[3]] != -40) | (df[tickets[4]] != -40)]
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 51, "result": 1}})
@@ -237,7 +236,7 @@ class Pitch(QThread):
         机组运行模式=14，两两桨叶轴控箱温差绝对值 ≥10℃，并且持续超过1min
         """
         try:
-            # 获取 1 时间  2机组模式 3-5 变桨驱动柜温度1-3 英文标签
+            # 获取  0时间   1机组模式  2-4变桨驱动柜温度1-3
             tickets = [self.tickets[0], self.tickets[1], self.tickets[2], self.tickets[3], self.tickets[4]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3], tickets[4]]]
         except Exception as e:
@@ -278,7 +277,7 @@ class Pitch(QThread):
         机组运行模式=14，驱动器1-3散热器温度 最大值与最小值差值超10℃，或最大值超过60℃，或最小值低于-5℃，但是不等于-40℃，并且持续超过1min
         """
         try:
-            # 获取 1 时间  2机组模式 18-20 驱动器1-3散热器温度 英文标签
+            # 获取  0时间   1机组模式  17-19变桨驱动柜散热器温度1-3
             tickets = [self.tickets[0], self.tickets[1], self.tickets[17], self.tickets[18], self.tickets[19]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3], tickets[4]]]
         except Exception as e:
@@ -318,7 +317,7 @@ class Pitch(QThread):
         单个桨叶电池箱温度(变桨后备电源柜温度1-3) ＞ 55℃ 或 ＜ -5℃，且 ≠ -40℃，持续1min；
         """
         try:
-            # 获取 1 时间 2 机组运行模式 21-23 变桨后备电源柜温度1-3 英文标签
+            # 获取  0时间  1机组运行模式   20-22变桨后备电源柜温度1-3
             tickets = [self.tickets[0], self.tickets[1], self.tickets[20], self.tickets[21], self.tickets[22]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3], tickets[4]]]
         except Exception as e:
@@ -357,7 +356,7 @@ class Pitch(QThread):
         机组运行模式=14，两两桨叶电池箱温差绝对值 ≥10℃，并且持续超过1min
         """
         try:
-            # 获取 1 时间  2机组模式 21-23 变桨后备电源柜温度1-3 英文标签
+            # 获取 0时间  1机组模式 20-22变桨后备电源柜温度1-3
             tickets = [self.tickets[0], self.tickets[1], self.tickets[20], self.tickets[21], self.tickets[22]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3], tickets[4]]]
         except Exception as e:

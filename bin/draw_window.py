@@ -60,14 +60,11 @@ class DrawWindow(QWidget):
             self.line = default_setting[0].get("line")
             self.scatter = default_setting[0].get("scatter")
             self.bar = default_setting[0].get("bar")
-            self.subplot = default_setting[0].get("subplot")
             self.grid = default_setting[0].get("grid")
             # # #
-            self.x_LL = default_setting[1].get("x_LL")
-            self.x_UL = default_setting[1].get("x_UL")
-            self.y_LL = default_setting[1].get("y_LL")
-            self.y_UL = default_setting[1].get("y_UL")
-            self.l_s = default_setting[1].get("l_s")
+            self.x_L = default_setting[1].get("x_L")
+            self.y_L = default_setting[1].get("y_L")
+            self.r_s = default_setting[1].get("r_s")
         except Exception as e:
             log.error(e)
         # 初始化listWidget
@@ -76,8 +73,7 @@ class DrawWindow(QWidget):
         self.init_checkBox()
         # 初始化doubleSpinBox
         self.init_doubleSpinBox()
-        # 初始化线形
-        self.init_comboBox()
+
         # 初始化button
         self.init_button()
         # x轴flag
@@ -107,55 +103,47 @@ class DrawWindow(QWidget):
         self.window.line_checkBox.setChecked(self.line)
         self.window.scatter_checkBox.setChecked(self.scatter)
         self.window.bar_checkBox.setChecked(self.bar)
-        self.window.subplot_checkBox.setChecked(self.subplot)
         self.window.grid_checkBox.setChecked(self.grid)
 
         self.window.line_checkBox.stateChanged.connect(lambda: self.btn_state(self.window.line_checkBox))
         self.window.scatter_checkBox.stateChanged.connect(lambda: self.btn_state(self.window.scatter_checkBox))
         self.window.bar_checkBox.stateChanged.connect(lambda: self.btn_state(self.window.bar_checkBox))
-        self.window.bar_checkBox.stateChanged.connect(lambda: self.btn_state(self.window.bar_checkBox))
-        self.window.subplot_checkBox.stateChanged.connect(lambda: self.btn_state(self.window.subplot_checkBox))
         self.window.grid_checkBox.stateChanged.connect(lambda: self.btn_state(self.window.grid_checkBox))
 
     def init_doubleSpinBox(self):
-        self.window.x_LL_doubleSpinBox.setValue(self.x_LL)
-        self.window.x_UL_doubleSpinBox.setValue(self.x_UL)
-        self.window.y_LL_doubleSpinBox.setValue(self.y_LL)
-        self.window.y_UL_doubleSpinBox.setValue(self.y_UL)
-        self.window.x_LL_doubleSpinBox.valueChanged.connect(self.dsb_value)
-        self.window.x_UL_doubleSpinBox.valueChanged.connect(self.dsb_value)
-        self.window.y_LL_doubleSpinBox.valueChanged.connect(self.dsb_value)
-        self.window.y_UL_doubleSpinBox.valueChanged.connect(self.dsb_value)
+        self.window.x_L_doubleSpinBox.setValue(self.x_L)
+        self.window.y_L_doubleSpinBox.setValue(self.y_L)
+        self.window.r_s_spinBox.setValue(self.r_s)
 
-    def init_comboBox(self):
-        self.window.line_shape_comboBox.setCurrentIndex(self.l_s)
-        from PyQt5.QtWidgets import QComboBox
-        # QComboBox.currentIndexChanged
-        self.window.line_shape_comboBox.currentIndexChanged.connect(self.change_l_s)
+        self.window.x_L_doubleSpinBox.valueChanged.connect(self.dsb_value)
+
+        self.window.y_L_doubleSpinBox.valueChanged.connect(self.dsb_value)
+
+        self.window.r_s_spinBox.valueChanged.connect(self.dsb_value)
+
 
     def init_button(self):
         self.window.reset_pushButton.clicked.connect(self.reset)
 
     def dsb_value(self):
 
-        self.x_LL = self.window.x_LL_doubleSpinBox.value()
-        self.x_UL = self.window.x_UL_doubleSpinBox.value()
-        self.y_LL = self.window.y_LL_doubleSpinBox.value()
-        self.y_UL = self.window.y_UL_doubleSpinBox.value()
+        self.x_L = self.window.x_L_doubleSpinBox.value()
+
+        self.y_L = self.window.y_L_doubleSpinBox.value()
+        self.r_s = self.window.r_s_spinBox.value()
         config_draw_setting.write_cfg(
             dic={
                 "DrawSetting": {
-                    "x_LL": self.x_LL,
-                    "x_UL": self.x_UL,
-                    "y_LL": self.y_LL,
-                    "y_UL": self.y_UL}
+                    "x_L": self.x_L,
+                    "y_L": self.y_L,
+                    "r_s": self.r_s,
+                }
             })
 
     def btn_state(self, btn):
         self.line = self.window.line_checkBox.isChecked()
         self.scatter = self.window.scatter_checkBox.isChecked()
         self.bar = self.window.bar_checkBox.isChecked()
-        self.subplot = self.window.subplot_checkBox.isChecked()
         self.grid = self.window.grid_checkBox.isChecked()
         config_draw_setting.write_cfg(
             dic={
@@ -163,19 +151,15 @@ class DrawWindow(QWidget):
                     "line": self.line,
                     "scatter": self.scatter,
                     "bar": self.bar,
-                    "subplot": self.subplot,
                     "grid": self.grid,
-                }}
-        )
+                }})
 
-    def change_l_s(self):
-        self.l_s = self.window.line_shape_comboBox.currentIndex()
-        config_draw_setting.write_cfg(
-            dic={
-                "DrawSetting": {
-                    "l_s": self.l_s
-                }}
-        )
+    @staticmethod
+    def change_SB_state(sbs: list, flag: bool):
+        if flag:
+            [sb.setEnabled(True) for sb in sbs]
+        else:
+            [sb.setEnabled(False) for sb in sbs]
 
     def reset(self):
         default_setting = config_draw_setting.read_cfg(True)
@@ -184,24 +168,16 @@ class DrawWindow(QWidget):
             self.line = default_setting[0].get("line")
             self.scatter = default_setting[0].get("scatter")
             self.bar = default_setting[0].get("bar")
-            self.subplot = default_setting[0].get("subplot")
             self.grid = default_setting[0].get("grid")
             self.window.line_checkBox.setChecked(default_setting[0].get("line"))
             self.window.scatter_checkBox.setChecked(default_setting[0].get("scatter"))
             self.window.bar_checkBox.setChecked(default_setting[0].get("bar"))
-            self.window.subplot_checkBox.setChecked(default_setting[0].get("subplot"))
             self.window.grid_checkBox.setChecked(default_setting[0].get("grid"))
 
-            self.x_LL = default_setting[1].get("x_LL")
-            self.x_UL = default_setting[1].get("x_UL")
-            self.y_LL = default_setting[1].get("y_LL")
-            self.y_UL = default_setting[1].get("y_UL")
-            self.l_s = default_setting[1].get("l_s")
-            self.window.x_LL_doubleSpinBox.setValue(default_setting[1].get("x_LL"))
-            self.window.x_UL_doubleSpinBox.setValue(default_setting[1].get("x_UL"))
-            self.window.y_LL_doubleSpinBox.setValue(default_setting[1].get("y_LL"))
-            self.window.y_UL_doubleSpinBox.setValue(default_setting[1].get("y_UL"))
-            self.window.line_shape_comboBox.setCurrentIndex(default_setting[1].get("l_s"))
+            self.x_L = default_setting[1].get("x_L")
+            self.y_L = default_setting[1].get("y_L")
+            self.window.x_L_doubleSpinBox.setValue(default_setting[1].get("x_L"))
+            self.window.y_L_doubleSpinBox.setValue(default_setting[1].get("y_L"))
         except Exception as e:
             log.error(e)
 
@@ -209,17 +185,18 @@ class DrawWindow(QWidget):
         if self.window.x_listWidget.count() == 1 and self.window.y_listWidget.count() >= 1:
             y_tickets = [self.window.y_listWidget.item(i).text() for i in range(self.window.y_listWidget.count())]
             x_ticket = self.window.x_listWidget.item(0).text()
-        win = draw.Draw(data={
-            "file_name": self.file,
-            "x_ticket": x_ticket,
-            "y_tickets": y_tickets
-        },
-            line=self.line, scatter=self.scatter, bar=self.bar, subplot=self.subplot, grad=self.grid,
-            x_LL=self.x_LL, x_UL=self.x_UL, y_LL=self.y_LL, y_UL=self.y_UL)
-        win.run()
-        del win
-        import gc
-        gc.collect()
+            win = draw.Draw(
+                            data={
+                                "file_name": self.file,
+                                "x_ticket": x_ticket,
+                                "y_tickets": y_tickets
+                            },
+                            line=self.line, scatter=self.scatter, bar=self.bar, grad=self.grid,
+                            x_L=self.x_L, y_L=self.y_L, r_s=self.r_s)
+            win.run()
+            del win
+            import gc
+            gc.collect()
 
     def itemClicked(self, QListWidgetItem):
         """ itemClicked(self, QListWidgetItem) [signal] """
@@ -236,7 +213,8 @@ class DrawWindow(QWidget):
     def update_status_bar(self):
         self.window.statusbar.showMessage(self.get_memory())
 
-    def get_memory(self):
+    @staticmethod
+    def get_memory():
         mem = psutil.virtual_memory()
         # round方法进行四舍五入，然后转换成字符串 字节/1024得到kb 再/1024得到M
         total = str(round(mem.total / 1024 / 1024))

@@ -201,56 +201,81 @@
 # explode = [0.2, 0.1, 0.1, 0.1, 0, 0, 0, 0, 0]
 # plt.pie(sizes, labels=labels, explode=explode, autopct='%1.1f', shadow=False, startangle=150)
 # plt.show()
-from mpl_toolkits.axisartist.parasite_axes import HostAxes, ParasiteAxes
+# from mpl_toolkits.axisartist.parasite_axes import HostAxes, ParasiteAxes
+# import matplotlib.pyplot as plt
+#
+# fig = plt.figure(1)
+#
+# host = HostAxes(fig, [0.15, 0.1, 0.65, 0.8])
+# par1 = ParasiteAxes(host, sharex=host)
+# par2 = ParasiteAxes(host, sharex=host)
+# host.parasites.append(par1)
+# host.parasites.append(par2)
+#
+# host.set_ylabel('Denstity')
+# host.set_xlabel('Distance')
+#
+# host.axis['right'].set_visible(False)
+# par1.axis['right'].set_visible(True)
+# par1.set_ylabel('Temperature')
+#
+# par1.axis['right'].major_ticklabels.set_visible(True)
+# par1.axis['right'].label.set_visible(True)
+#
+# par2.set_ylabel('Velocity')
+# offset = (60, 0)
+# new_axisline = par2._grid_helper.new_fixed_axis  # "_grid_helper"与"get_grid_helper()"等价，可以代替
+#
+# # new_axisline = par2.get_grid_helper().new_fixed_axis  # 用"get_grid_helper()"代替，结果一样，区别目前不清楚
+# par2.axis['right2'] = new_axisline(loc='right', axes=par2, offset=offset)
+#
+# fig.add_axes(host)
+#
+# host.set_xlim(0, 2)
+# host.set_ylim(0, 2)
+#
+# host.set_xlabel('Distance')
+# host.set_ylabel('Density')
+# host.set_ylabel('Temperature')
+#
+# p1, = host.plot([0, 1, 2], [0, 1, 2], label="Density")
+# p2, = par1.plot([0, 1, 2], [0, 3, 2], label="Temperature")
+# p3, = par2.plot([0, 1, 2], [50, 30, 15], label="Velocity")
+#
+# par1.set_ylim(0, 4)
+# par2.set_ylim(1, 60)
+#
+# host.legend()
+# # 轴名称，刻度值的颜色
+# host.axis['left'].label.set_color(p1.get_color())
+# par1.axis['right'].label.set_color(p2.get_color())
+# par2.axis['right2'].label.set_color(p3.get_color())
+# par2.axis['right2'].major_ticklabels.set_color(p3.get_color())  # 刻度值颜色
+# par2.axis['right2'].set_axisline_style('-|>', size=1.5)  # 轴的形状色
+# par2.axis['right2'].line.set_color(p3.get_color())  # 轴的颜色
+# plt.show()
+
+from core import cores
+import time
+import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
-fig = plt.figure(1)
 
-host = HostAxes(fig, [0.15, 0.1, 0.65, 0.8])
-par1 = ParasiteAxes(host, sharex=host)
-par2 = ParasiteAxes(host, sharex=host)
-host.parasites.append(par1)
-host.parasites.append(par2)
+def read_df(file, tickets):
+    df = cores.read_csv(file=file, tickets=tickets)
+    df["time"] = df["时间"].apply(
+        lambda x: time.mktime(time.strptime(x, '%Y-%m-%d %H:%M:%S')))
+    df["time"] = df["time"].map(lambda x: pd.Timestamp(x, unit="s"))
+    df.set_index("time", inplace=True)
+    df = df.resample("600s").mean()
+    plt.plot(df.index, df["grGearboxMainBearingTemperature"], label='123')
+    plt.margins(x=5, y=500)
+    plt.legend()
+    plt.show()
 
-host.set_ylabel('Denstity')
-host.set_xlabel('Distance')
 
-host.axis['right'].set_visible(False)
-par1.axis['right'].set_visible(True)
-par1.set_ylabel('Temperature')
-
-par1.axis['right'].major_ticklabels.set_visible(True)
-par1.axis['right'].label.set_visible(True)
-
-par2.set_ylabel('Velocity')
-offset = (60, 0)
-new_axisline = par2._grid_helper.new_fixed_axis  # "_grid_helper"与"get_grid_helper()"等价，可以代替
-
-#new_axisline = par2.get_grid_helper().new_fixed_axis  # 用"get_grid_helper()"代替，结果一样，区别目前不清楚
-par2.axis['right2'] = new_axisline(loc='right', axes=par2, offset=offset)
-
-fig.add_axes(host)
-
-host.set_xlim(0,2)
-host.set_ylim(0,2)
-
-host.set_xlabel('Distance')
-host.set_ylabel('Density')
-host.set_ylabel('Temperature')
-
-p1, = host.plot([0, 1, 2], [0, 1, 2], label="Density")
-p2, = par1.plot([0, 1, 2], [0, 3, 2], label="Temperature")
-p3, = par2.plot([0, 1, 2], [50, 30, 15], label="Velocity")
-
-par1.set_ylim(0,4)
-par2.set_ylim(1,60)
-
-host.legend()
-#轴名称，刻度值的颜色
-host.axis['left'].label.set_color(p1.get_color())
-par1.axis['right'].label.set_color(p2.get_color())
-par2.axis['right2'].label.set_color(p3.get_color())
-par2.axis['right2'].major_ticklabels.set_color(p3.get_color()) #刻度值颜色
-par2.axis['right2'].set_axisline_style('-|>',size=1.5) #轴的形状色
-par2.axis['right2'].line.set_color(p3.get_color()) #轴的颜色
-plt.show()
+# read_df("../db/60005064_20200930（南鹏岛）.csv",
+#         tickets=["时间", "giWindTurbineOperationMode", "grGearboxMainBearingTemperature"])
+read_df("../db/60005064_20200930（南鹏岛）.csv",
+        tickets=["时间", "齿轮箱主轴承温度"])

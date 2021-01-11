@@ -25,6 +25,7 @@ def log_except_hook(*exc_info):
 
 sys.excepthook = log_except_hook
 
+
 class Unpack_Window(QThread):
     signal_log = Signal(str)
 
@@ -67,12 +68,12 @@ class Unpack_Window(QThread):
             self.unpack_files = file_names
             self.window.file_path_lineEdit.setText(str(file_names))
             self.window.unpack_pushButton.setEnabled(True)
-            self.window.unpack_pushButton.clicked.connect(self.run)
+            self.window.unpack_pushButton.clicked.connect(self.start)
 
     def unpack_file(self):
         self.signal_log.emit("正在解压...")
         unpack_result = cores.unpack(self.unpack_files)
-        if not unpack_result:
+        if unpack_result:
             """解压成功"""
             self.signal_log.emit("解压成功！")
         else:

@@ -5,9 +5,8 @@
 # Date:         2020/12/29
 # Description:
 # -------------------------------------------------------------------------------
-from PySide2.QtCore import QThread, Signal
+from PySide2.QtCore import QThread
 import my_log
-import time
 import os
 import sys
 import pandas as pd
@@ -93,10 +92,10 @@ class Hydraulic(QThread):
     # 64 液压系统压力异常
     def hydraulic_sys(self):
         """
-        12≤ 机组运行模式 ≤14，液压系统压力 < 150ba r或 > 175bar, 持续20s
+        12≤ 机组运行模式 ≤14，液压系统压力 < 150bar 或 > 175bar, 持续20s
         """
         try:
-            # 获取 1 时间 2 机组运行模式 3 液压系统压力 英文标签
+            # 获取 0时间  1机组运行模式  2液压系统压力
             tickets = [self.tickets[0], self.tickets[1], self.tickets[2]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2]]]
         except Exception as e:
@@ -130,13 +129,11 @@ class Hydraulic(QThread):
     # 65 液压泵频繁启停异常
     def hydraulic_stop(self):
         """
-        1、机组运行模式=14
-        2、机组未偏航期间（偏航CW和偏航CCW都为0）
-        3、液压泵未启动
-        4、液压系统压力值的瞬时值与上一秒瞬时值差值的绝对值≥0.1bar，持续1min
+        机组运行模式=14,机组未偏航期间（偏航CW和偏航CCW都为0）,液压泵未启动时，
+        液压系统压力值的瞬时值与上一秒瞬时值差值的绝对值≥0.1bar，持续1min
         """
         try:
-            # 获取 时间 0 机组运行模式 1 液压系统压力 2 液压泵1开 3 液压泵2开 4 顺时针偏航 5 逆时针偏航 6 英文标签
+            # 获取 0时间  1机组运行模式  2液压系统压力  3液压泵1开  4液压泵2开  5顺时针偏航  6逆时针偏航
             tickets = [self.tickets[0], self.tickets[1], self.tickets[2], self.tickets[3],
                        self.tickets[4], self.tickets[5], self.tickets[6]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3],
@@ -159,7 +156,7 @@ class Hydraulic(QThread):
             else:
                 # 液压系统压力值的瞬时值与上一秒瞬时值差值的绝对值≥0.1bar, 持续1min
                 df['shift'] = df[tickets[2]].shift(1)
-                df = df[(df['shift'] < 0.1)]
+                df = df[(df['shift'] >= 0.1)]
                 if df.empty:
                     log.info("正常")
                     self.send_message({"message": {"function": 64, "result": 1}})
@@ -183,9 +180,8 @@ class Hydraulic(QThread):
         2.液压偏航制动入口压力1和液压偏航制动出口压力1差值大于2或小于 - 1，持续3秒。
         满足其一
         """
-        log.warning("*" * 40)
         try:
-            # 获取  时间 0 偏航半释放阀 11 偏航制动入口压力1 10  偏航制动出口压力1 8 英文标签
+            # 获取  0时间  11偏航半释放阀 9偏航制动入口压力1  7偏航制动出口压力1
             tickets = [self.tickets[0], self.tickets[11], self.tickets[9], self.tickets[7]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -195,17 +191,12 @@ class Hydraulic(QThread):
             return
 
         # 情况1 偏航半释放阀为1时，液压偏航制动入口压力1和液压偏航制动出口压力1最小值超出[25, 47]范围，
-        df_h = df.copy()
-        # # 删除 偏航半释放阀不为1
-        df_h.drop(df[(df[tickets[1]] != 1)].index)
-        # #  获得 每一秒 液压偏航制动入口压力1和液压偏航制动出口压力1最小值
-        # # 判断是否在[25, 47]范围
-        df_h['min'] = df_h.loc[:, [tickets[2], tickets[3]]].min(axis=1, skipna=True)
-        df_h = df_h[(df_h['min'] > 47) | (df_h['min'] < 25)]
+        df_h = df.drop(df[(df[tickets[1]] != 1)].index).copy()
+        # #  获得 每一秒 液压偏航制动入口压力1和液压偏航制动出口压力1最小值,判断是否在[25, 47]范围
+        df_h['minvalue'] = df_h.loc[:, [tickets[2], tickets[3]]].min(axis=1, skipna=True)
+        df_h = df_h[(df_h['minvalue'] > 47) | (df_h['minvalue'] < 25)]
         # 情况2 液压偏航制动入口压力1和液压偏航制动出口压力1差值大于2或小于 - 1，持续3秒
-        df_l = df.copy()
-        # # 删除压差>=-1 或者<=2 的值
-        df_l = df_l[(df[tickets[2]] - df_l[tickets[3]] < -1) | (df_l[tickets[2]] - df_l[tickets[3]] > 2)]
+        df_l = df[(df[tickets[2]] - df[tickets[3]] < -1) | (df[tickets[2]] - df[tickets[3]] > 2)].copy()
         if df_h.empty and df_l.empty:
             log.info("正常")
             self.send_message({"message": {"function": 65, "result": 1}})
@@ -247,7 +238,7 @@ class Hydraulic(QThread):
         满足其一
         """
         try:
-            # 获取  时间 0 偏航半释放阀 11 偏航制动入口压力1 10  偏航制动出口压力1 8 英文标签
+            # 获取  0时间  11偏航半释放阀 10偏航制动入口压力2  8偏航制动出口压力2
             tickets = [self.tickets[0], self.tickets[11], self.tickets[10], self.tickets[8]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -257,17 +248,12 @@ class Hydraulic(QThread):
             return
 
         # 情况1 偏航半释放阀为1时，液压偏航制动入口压力2和液压偏航制动出口压力2最小值超出[25, 47]范围，
-        df_h = df.copy()
-        # # 删除 偏航半释放阀不为1
-        df_h.drop(df[(df[tickets[1]] != 1)].index)
-        # #  获得 每一秒 液压偏航制动入口压力2和液压偏航制动出口压力2最小值
-        # # 判断是否在[25, 47]范围
+        df_h = df.drop(df[(df[tickets[1]] != 1)].index).copy()
+        # #  获得 每一秒 液压偏航制动入口压力2和液压偏航制动出口压力2最小值,判断是否在[25, 47]范围
         df_h['min'] = df_h.loc[:, [tickets[2], tickets[3]]].min(axis=1, skipna=True)
         df_h = df_h[(df_h['min'] > 47) | (df_h['min'] < 25)]
         # 情况2 液压偏航制动入口压力2和液压偏航制动出口压力2差值大于2或小于 - 1，持续3秒
-        df_l = df.copy()
-        # # 删除压差>=-1 或者<=2 的值
-        df_l = df_l[(df[tickets[2]] - df_l[tickets[3]] < -1) | (df_l[tickets[2]] - df_l[tickets[3]] > 2)]
+        df_l = df[(df[tickets[2]] - df[tickets[3]] < -1) | (df[tickets[2]] - df[tickets[3]] > 2)].copy()
         if df_h.empty and df_l.empty:
             log.info("正常")
             self.send_message({"message": {"function": 66, "result": 1}})
@@ -307,7 +293,7 @@ class Hydraulic(QThread):
         12≤机组运行模式≤14，液压泵主泵处油温和液压回油口油温≠0，两者最小值<20℃，最大值>60℃，持续1min
         """
         try:
-            # 获取  时间 0 机组运行模式 1 液压主泵处油温 12 液压回油口油温 14 英文标签
+            # 获取  0时间  1机组运行模式  12液压主泵处油温  14液压回油口油温
             tickets = [self.tickets[0], self.tickets[1], self.tickets[12], self.tickets[14]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -321,7 +307,7 @@ class Hydraulic(QThread):
             log.info("正常")
             self.send_message({"message": {"function": 67, "result": 1}})
         else:
-            df = df[((df[tickets[2]] != 0) & (df[tickets[3]] != 0))]
+            df = df[(df[tickets[2]] != 0) & (df[tickets[3]] != 0)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 67, "result": 1}})
@@ -352,7 +338,7 @@ class Hydraulic(QThread):
         液压泵1启动 或 液压泵2启动 = 1时，液压泵出口压力 <150bar 或 >175bar，持续10s
         """
         try:
-            # 获取 1 时间 4 液压泵1开 5 液压泵2开 14 液压泵出口压力 英文标签
+            # 获取 0时间  3液压泵1开  4液压泵2开  13液压泵出口压力
             tickets = [self.tickets[0], self.tickets[3], self.tickets[4], self.tickets[13]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -361,8 +347,7 @@ class Hydraulic(QThread):
             self.send_message({"message": {"function": 68, "result": -1}})
             return
 
-        # 删除 1 != 1 & 2 != 1
-        df = df.drop(df[((df[tickets[1]] != 1) & (df[tickets[2]] != 1))].index)
+        df = df[(df[tickets[1]] == 1) | (df[tickets[2]] == 1)]
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 68, "result": 1}})
@@ -390,7 +375,7 @@ class Hydraulic(QThread):
         液压系统压力 > 150时，液压叶轮锁定压力1 和 液压叶轮锁定压力2 >120bar 或 <80bar，持续1min
         """
         try:
-            # 获取 1 时间 3 液压系统压力 16	叶轮锁定压力1 17 叶轮锁定压力2 英文标签
+            # 获取 0时间  2液压系统压力  15叶轮锁定压力1  16叶轮锁定压力2
             tickets = [self.tickets[0], self.tickets[2], self.tickets[15], self.tickets[16]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -431,7 +416,7 @@ class Hydraulic(QThread):
         满足其一，报出叶轮锁定储能罐压力异常
         """
         try:
-            # 获取 1时间 3 液压系统压力 16 叶轮锁定压力1 17 叶轮锁定压力2 18 叶轮锁蓄能器压力1 19 叶轮锁蓄能器压力2 英文标签
+            # 获取 0时间  2液压系统压力  15叶轮锁定压力1  16叶轮锁定压力2  17叶轮锁蓄能器压力1  18叶轮锁蓄能器压力2
             tickets = [self.tickets[0], self.tickets[2], self.tickets[15], self.tickets[16], self.tickets[17],
                        self.tickets[18]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3], tickets[4], tickets[5]]]
@@ -506,8 +491,8 @@ class Hydraulic(QThread):
         液压偏航制动入口压力1、液压偏航制动出口压力1、液压偏航制动入口压力2、液压偏航制动出口压力2最小值< 150bar或最大值>175bar，持续20s
         """
         try:
-            # 获取 时间 0 机组运行模式 1 顺时针偏航 5 逆时针偏航 6  偏航制动出口压力1 7 偏航制动入口压力1 9
-            # 偏航制动出口压力2 8 偏航制动入口压力2 10 英文标签
+            # 获取 0时间  1机组运行模式  5顺时针偏航  6逆时针偏航  7偏航制动出口压力1  9偏航制动入口压力1
+            # 8偏航制动出口压力2  10偏航制动入口压力2
             tickets = [self.tickets[0], self.tickets[1], self.tickets[5], self.tickets[6],
                        self.tickets[7], self.tickets[9], self.tickets[8], self.tickets[10]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3],
@@ -518,8 +503,7 @@ class Hydraulic(QThread):
             self.send_message({"message": {"function": 71, "result": -1}})
             return
 
-        # 删除 机组模式 != 14 或任意一个方向偏航
-        df = df.drop(df[((df[tickets[1]] != 14) | ((df[tickets[2]] != 0) | (df[tickets[3]] != 0)))].index)
+        df = df[(df[tickets[1]] == 14) & ((df[tickets[2]] == 0) & (df[tickets[3]] == 0))]
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 71, "result": 1}})
@@ -537,7 +521,7 @@ class Hydraulic(QThread):
                                                           df,
                                                           20,
                                                           str(gl.now_file).split(r'/')[-1].split('.')[0] +
-                                                          '/偏航压力正常异常.csv')
+                                                          '/偏航压力异常.csv')
                 if result[0]:
                     log.info("正常")
                     self.send_message({"message": {"function": 71, "result": 1}})
@@ -550,7 +534,7 @@ class Hydraulic(QThread):
         机组运行模式 = 14，液压偏航制动入口压力1 > 150时，液压偏航制动入口压力1 - 液压偏航制动出口压力1 > 2bar，持续 10 s
         """
         try:
-            # 获取 1 时间 2 机组运行模式 10 偏航制动入口压力1 8 偏航制动出口压力1  英文标签
+            # 获取 0时间  1机组运行模式  9偏航制动入口压力1  7偏航制动出口压力1
             tickets = [self.tickets[0], self.tickets[1], self.tickets[9], self.tickets[7]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -559,13 +543,12 @@ class Hydraulic(QThread):
             self.send_message({"message": {"function": 72, "result": -1}})
             return
 
-        # 删除 1 != 14 & 2 <= 150
-        df = df.drop(df[(df[tickets[1]] != 14)].index)
+        df = df[(df[tickets[1]] == 14) & (df[tickets[2]] > 150)]
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 72, "result": 1}})
         else:
-            df = df[(df[tickets[2]] > 150) & (df[tickets[2]] - df[tickets[3]] > 2)]
+            df = df[(df[tickets[2]] - df[tickets[3]] > 2)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 72, "result": 1}})
@@ -588,7 +571,7 @@ class Hydraulic(QThread):
         机组运行模式 = 14，液压偏航制动入口压力1 > 150时，液压偏航制动入口压力1 - 液压偏航制动出口压力1 > 2bar，持续 10 s
         """
         try:
-            # 获取 1 时间 2 机组运行模式 11 偏航制动入口压力2 9 偏航制动出口压力2 英文标签
+            # 获取 0时间  1机组运行模式  10偏航制动入口压力2  8偏航制动出口压力2
             tickets = [self.tickets[0], self.tickets[1], self.tickets[10], self.tickets[8]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2], tickets[3]]]
         except Exception as e:
@@ -597,13 +580,12 @@ class Hydraulic(QThread):
             self.send_message({"message": {"function": 73, "result": -1}})
             return
 
-        # 删除 1 != 14 & 2 <= 150
-        df = df[(df[tickets[1]] != 14)]
+        df = df[(df[tickets[1]] == 14) & (df[tickets[2]] > 150)]
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 73, "result": 1}})
         else:
-            df = df[(df[tickets[2]] > 150) & (df[tickets[2]] - df[tickets[3]] > 2)]
+            df = df[(df[tickets[2]] - df[tickets[3]] > 2)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 73, "result": 1}})

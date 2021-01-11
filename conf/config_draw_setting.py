@@ -52,15 +52,12 @@ def read_cfg(flag=False):
             line=conf.getboolean('DrawType', 'line'),
             scatter=conf.getboolean('DrawType', 'scatter'),
             bar=conf.getboolean('DrawType', 'bar'),
-            subplot=conf.getboolean('DrawType', 'subplot'),
-            grid=conf.getboolean('DrawType', 'grid')
+            grid=conf.getboolean('DrawType', 'grid'),
         )
         draw_setting.update(
-            x_LL=conf.getfloat('DrawSetting', 'x_LL'),
-            x_UL=conf.getfloat('DrawSetting', 'x_UL'),
-            y_LL=conf.getfloat('DrawSetting', 'y_LL'),
-            y_UL=conf.getfloat('DrawSetting', 'y_UL'),
-            l_s=conf.getint('DrawSetting', 'l_s')
+            x_L=conf.getfloat('DrawSetting', 'x_L'),
+            y_L=conf.getfloat('DrawSetting', 'y_L'),
+            r_s=conf.getint('DrawSetting', 'r_s')
         )
         return draw_type, draw_setting
     except Exception as e:

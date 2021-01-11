@@ -5,9 +5,9 @@
 # Date:         2020/12/21
 # Description:  
 # -------------------------------------------------------------------------------
-
+import psutil
 from PySide2.QtWidgets import QWidget, QApplication, QMenu, QAction, QTableWidgetItem, QTableWidget, QHeaderView
-from PySide2.QtCore import Qt, QThread
+from PySide2.QtCore import Qt, QThread, QTimer
 from PySide2.QtGui import QCursor, QColor
 from PySide2.QtUiTools import QUiLoader
 import os
@@ -15,6 +15,7 @@ import sys
 import draw_window
 import web_window
 from post_man import PostMan
+import log_window
 from core import my_log
 import traceback
 import json
@@ -35,14 +36,23 @@ class RunWindow(QThread):
     def __init__(self, files: list, PM: PostMan):
         super(RunWindow, self).__init__()
         self.window = QUiLoader().load('../res/ui/run.ui')
-
         self.post_man = PM
+        self.log_window = log_window.Log()
+        self.log_window.start()
         self.post_man.send_to_RW.connect(self.receive_message)
         self.files = files
         self.right_file, self.right_function = None, None
         self.web = None
         """需要设置列的数量，文件名"""
         self.init_table(header_labels=self.files)
+        self.window.log_pushButton.clicked.connect(self.log)
+        # 进度条
+        self.progress_total_number = len(self.files) * 81
+        self.progress_now_number = 1
+        # 状态栏
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_status_bar)
+        self.timer.start(1000)
         self.window.window().show()
 
     def init_table(self, header_labels: list):
@@ -80,7 +90,6 @@ class RunWindow(QThread):
             plot_window.window.show()
             del tickets
         elif event.text() == "模型原理" or event.text() == "排查方案":
-            print(type(self.right_function), self.right_function)
             self.web = web_window.WebWindow(self.right_function)
             self.web.show()
 
@@ -104,9 +113,17 @@ class RunWindow(QThread):
         except Exception as e:
             log.error(e)
 
+    def progress(self, value: int):
+        self.window.progressBar.setValue(value)
+        # if value >= 100:
+        #     self.progress_now_number = 1
+
+    def update_status_bar(self):
+        self.window.statusbar.showMessage(self.get_memory())
+
     @staticmethod
     def get_plot_tickets(function_name):
-        f = open("../db/function_tickets.json", 'r', encoding='gbk')
+        f = open("../db/function_tickets.json", 'r', encoding='utf8')
         tickets_data = dict(json.load(f))
         d = tickets_data.get(function_name)
         return d
@@ -118,12 +135,33 @@ class RunWindow(QThread):
         col = msg["file"]
         result = msg["result"]
         self.add_cell(row, col, result)
+        self.log_window.log_signal.emit(message)
+        self.progress_now_number += 1
+        value = float(self.progress_now_number / self.progress_total_number) * 100
+        self.progress(value)
 
     def run(self):
         pass
 
     def close(self, event):
         print(event)
+
+    def log(self):
+        self.log_window.window.show()
+
+    @staticmethod
+    def get_memory():
+        mem = psutil.virtual_memory()
+        # round方法进行四舍五入，然后转换成字符串 字节/1024得到kb 再/1024得到M
+        total = str(round(mem.total / 1024 / 1024))
+        used = str(round(mem.used / 1024 / 1024))
+        use_per = str(round(mem.percent))
+        free = str(round(mem.free / 1024 / 1024))
+        process = psutil.Process(os.getpid())
+        memInfo = process.memory_info()
+        me = str(round(memInfo.rss / 1024 / 1024))
+        message = "本机内存：{}M，已使用：{}M({}%)，本程序占用：{}M,可使用:{}M".format(total, used, use_per, me, free)
+        return message
 
 
 if __name__ == '__main__':
@@ -144,6 +182,7 @@ if __name__ == '__main__':
     manage = ModelManager(["../db/60005064_20200930（南鹏岛）.csv"],
                           [gearbox, generator],
                           postman)
+
     run_window = RunWindow(["南鹏岛111111111111"], postman)
     manage.start()
 

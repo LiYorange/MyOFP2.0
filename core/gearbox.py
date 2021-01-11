@@ -21,10 +21,7 @@ log = my_log.Log(__name__).getlog()
 
 def log_except_hook(*exc_info):
     text = "".join(traceback.format_exception(*exc_info))
-
     log.critical("Unhandled exception: %s", text)
-
-
 sys.excepthook = log_except_hook
 
 
@@ -127,7 +124,6 @@ class GearBox(QThread):
                         ]
         self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
         self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
-        # self.tickets = [li[1] is not None for li in self.tickets]
         for li in self.tickets:
             if li is not None:
                 self.tickets[self.tickets.index(li)] = li[1]
@@ -281,8 +277,7 @@ class GearBox(QThread):
             log.info("正常")
             self.send_message({"message": {"function": 3, "result": 1}})
         else:
-            # 删除所有温度<=58
-            df = df.drop(df[(df[tickets[2]] <= 58) & (df[tickets[3]] <= 58) & (df[tickets[4]] <= 58)].index)
+            df = df[(df[tickets[2]] > 58) | (df[tickets[3]] > 58) | (df[tickets[4]] > 58)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 3, "result": 1}})
@@ -435,8 +430,9 @@ class GearBox(QThread):
             self.send_message({"message": {"function": 7, "result": 1}})
         else:
             # 删除所有温度<=45 & abs()<=5
-            df = df.drop(df[(df[tickets[2]] <= 45) & (df[tickets[3]] <= 45) & (
-                    (df[tickets[2]] - df[tickets[3]]).abs() <= 5)].index)
+            # df = df.drop(df[(df[tickets[2]] <= 45) & (df[tickets[3]] <= 45) & (
+            #         (df[tickets[2]] - df[tickets[3]]).abs() <= 5)].index)
+            df = df[((df[tickets[2]] > 45) | (df[tickets[3]] > 45)) | ((df[tickets[2]] - df[tickets[3]]).abs() > 5)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 7, "result": 1}})
@@ -821,7 +817,7 @@ class GearBox(QThread):
         else:
             # 发电机润滑泵3_1或发电机润滑泵3_2=1,A4口压力<2或>5
             df = df[((df[tickets[2]] == 1) | (df[tickets[3]] == 1)) &
-                    ((df[tickets[4]] < 2) | (df[tickets[4]] > 5))].copy()
+                    ((df[tickets[4]] < 2) | (df[tickets[4]] > 5))]
             # 判断是否未空
             if df.empty:
                 log.info("正常")
@@ -1330,7 +1326,7 @@ class GearBox(QThread):
         12≤运行模式≤14，齿轮箱油位>80%或<30%，持续30s
         """
         try:
-            # 获取 1 时间 2 机组模式 3 齿轮箱主轴承温度英文标签
+            # 获取 1 时间 2 机组模式 齿轮箱油位英文标签
             tickets = [self.tickets[0], self.tickets[1], self.tickets[39]]
             df = self.df[['time', tickets[0], tickets[1], tickets[2]]]
         except Exception as e:
@@ -1345,7 +1341,7 @@ class GearBox(QThread):
             self.send_message({"message": {"function": 26, "result": 1}})
         else:
             # 删除齿轮箱油位<=80%且>=30%
-            df = df.drop(df[(df[tickets[2]] >= 30 & (df[tickets[2]] <= 80))].index)
+            df = df[(df[tickets[2]] < 30) & (df[tickets[2]] > 80)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 26, "result": 1}})
@@ -1378,13 +1374,13 @@ class GearBox(QThread):
             self.send_message({"message": {"function": 27, "result": -1}})
             return
 
-        df = df.drop(df[(df[tickets[1]] != 1)].index)
+        df = df[(df[tickets[1]] == 1) & (df[tickets[2]] == 1)]
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 27, "result": 1}})
         else:
             # 判断 齿轮箱水冷风扇1高速启动=1，齿轮箱水泵出口温度-齿轮箱水泵入口温度1＜2.2
-            df = df[(df[tickets[2]] == 1) & (df[tickets[3]] - df[tickets[4]] < 2.2)]
+            df = df[(df[tickets[3]] - df[tickets[4]] < 2.2)]
             # ------------------判断连续性
             result = tool.duration_calculation_to_csv(tickets,
                                                       df,
@@ -1413,19 +1409,19 @@ class GearBox(QThread):
             self.send_message({"message": {"function": 28, "result": -1}})
             return
 
-        df = df.drop(df[(df[tickets[1]] != 1)].index)
+        df = df[(df[tickets[1]] == 1) & (df[tickets[2]] == 1)]
         if df.empty:
             log.info("正常")
             self.send_message({"message": {"function": 28, "result": 1}})
         else:
             # 判断 齿轮箱水冷风扇2高速启动=1，齿轮箱水泵出口温度-齿轮箱水泵入口温度2＜2.2
-            df = df[(df[tickets[2]] == 1) & (df[tickets[3]] - df[tickets[4]] < 2.2)]
+            df = df[(df[tickets[3]] - df[tickets[4]] < 2.2)]
             # ------------------判断连续性
             result = tool.duration_calculation_to_csv(tickets,
                                                       df,
                                                       1,
                                                       str(gl.now_file).split(r'/')[-1].split('.')[0] +
-                                                      '/齿轮箱水泵2温差.csv')
+                                                      '/齿轮箱水泵2温差异常.csv')
             if result[0]:
                 log.info("正常")
                 self.send_message({"message": {"function": 28, "result": 1}})
@@ -1453,7 +1449,7 @@ class GearBox(QThread):
             self.send_message({"message": {"function": 29, "result": 1}})
         else:
             # 齿轮箱水泵1出口压力小于3或者大于6，持续30s
-            df = df.drop(df[(df[tickets[2]] >= 3 & (df[tickets[2]] <= 6))].index)
+            df = df[(df[tickets[2]] < 3) | (df[tickets[2]] > 6)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 29, "result": 1}})
@@ -1491,7 +1487,7 @@ class GearBox(QThread):
             self.send_message({"message": {"function": 30, "result": 1}})
         else:
             # 齿轮箱水泵1入口压力小于1或大于3，持续30s
-            df = df.drop(df[(df[tickets[2]] >= 1 & (df[tickets[2]] <= 3))].index)
+            df = df[(df[tickets[2]] < 1) | (df[tickets[2]] > 3)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 30, "result": 1}})
@@ -1529,7 +1525,7 @@ class GearBox(QThread):
             self.send_message({"message": {"function": 31, "result": 1}})
         else:
             # 齿轮箱水泵1出口压力小于3或者大于6，持续30s
-            df = df.drop(df[(df[tickets[2]] >= 3 & (df[tickets[2]] <= 6))].index)
+            df = df[(df[tickets[2]] < 3) | (df[tickets[2]] > 6)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 31, "result": 1}})
@@ -1567,7 +1563,7 @@ class GearBox(QThread):
             self.send_message({"message": {"function": 32, "result": 1}})
         else:
             # 齿轮箱水泵1入口压力小于1或大于3，持续30s
-            df = df.drop(df[(df[tickets[2]] >= 1 & (df[tickets[2]] <= 3))].index)
+            df = df[(df[tickets[2]] < 1) | (df[tickets[2]] > 3)]
             if df.empty:
                 log.info("正常")
                 self.send_message({"message": {"function": 32, "result": 1}})
@@ -1609,7 +1605,7 @@ class GearBox(QThread):
             # ------------------判断连续性
             result = tool.duration_calculation_to_csv(tickets,
                                                       df,
-                                                      1,
+                                                      30,
                                                       str(gl.now_file).split(r'/')[-1].split('.')[0] +
                                                       '/齿轮箱水泵1压力差异常.csv')
             if result[0]:
@@ -1643,7 +1639,7 @@ class GearBox(QThread):
             # ------------------判断连续性
             result = tool.duration_calculation_to_csv(tickets,
                                                       df,
-                                                      1,
+                                                      30,
                                                       str(gl.now_file).split(r'/')[-1].split('.')[0] +
                                                       '/齿轮箱水泵2压力差异常.csv')
             if result[0]:

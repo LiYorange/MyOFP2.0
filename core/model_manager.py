@@ -70,6 +70,8 @@ class ModelManager(QThread):
         if to == "model_manager":
             try:
                 message["message"]["file"] = self.files_length - len(self.files)-1
+                message["message"]["file_name"] = self.file
+
                 self.postman.send_to_RW.emit(message)
             except KeyError as e:
                 log.warning(e)

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>723</width>
-    <height>461</height>
+    <height>505</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,7 +92,7 @@
       <property name="title">
        <string/>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_8">
+      <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0">
        <item>
         <widget class="QFrame" name="frame">
          <property name="frameShape">
@@ -130,13 +130,6 @@
               </widget>
              </item>
              <item>
-              <widget class="QCheckBox" name="subplot_checkBox">
-               <property name="text">
-                <string>绘制子图</string>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QCheckBox" name="grid_checkBox">
                <property name="text">
                 <string>网格</string>
@@ -151,57 +144,21 @@
             <property name="title">
              <string/>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_4">
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
                <item>
                 <widget class="QLabel" name="label">
                  <property name="text">
-                  <string>X上限：</string>
+                  <string>X缩放：</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_3">
-                 <property name="text">
-                  <string>X下限：</string>
+                <widget class="QDoubleSpinBox" name="x_L_doubleSpinBox">
+                 <property name="minimum">
+                  <double>-0.490000000000000</double>
                  </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_2">
-                 <property name="text">
-                  <string>Y上限：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_4">
-                 <property name="text">
-                  <string>Y下限：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_5">
-                 <property name="text">
-                  <string>线形：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_7">
-                 <property name="text">
-                  <string>高级绘图</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_7">
-               <item>
-                <widget class="QDoubleSpinBox" name="x_UL_doubleSpinBox">
                  <property name="maximum">
                   <double>5.900000000000000</double>
                  </property>
@@ -213,21 +170,22 @@
                  </property>
                 </widget>
                </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item>
-                <widget class="QDoubleSpinBox" name="x_LL_doubleSpinBox">
-                 <property name="maximum">
-                  <double>5.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>0.100000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>0.400000000000000</double>
+                <widget class="QLabel" name="label_2">
+                 <property name="text">
+                  <string>Y缩放：</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QDoubleSpinBox" name="y_UL_doubleSpinBox">
+                <widget class="QDoubleSpinBox" name="y_L_doubleSpinBox">
+                 <property name="minimum">
+                  <double>-0.490000000000000</double>
+                 </property>
                  <property name="maximum">
                   <double>5.000000000000000</double>
                  </property>
@@ -239,95 +197,33 @@
                  </property>
                 </widget>
                </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
                <item>
-                <widget class="QDoubleSpinBox" name="y_LL_doubleSpinBox">
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>采样间隔：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="r_s_spinBox">
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
                  <property name="maximum">
-                  <double>5.000000000000000</double>
+                  <number>5000</number>
                  </property>
                  <property name="singleStep">
-                  <double>0.100000000000000</double>
+                  <number>1</number>
                  </property>
-                 <property name="value">
-                  <double>0.400000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QComboBox" name="line_shape_comboBox">
-                 <item>
-                  <property name="text">
-                   <string>-</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>-.</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>.</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>o</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>^</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>&gt;</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>2</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>4</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>p</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>h</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>+</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>D</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>_</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton">
-                 <property name="text">
-                  <string>...</string>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                 <property name="displayIntegerBase">
+                  <number>10</number>
                  </property>
                 </widget>
                </item>
