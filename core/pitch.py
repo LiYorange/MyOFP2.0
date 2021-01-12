@@ -45,39 +45,42 @@ class Pitch(QThread):
         ]
 
     def get_df(self):
-        tickets_list = ["时间",
-                        "机组运行模式",
-                        "变桨驱动柜温度1",
-                        "变桨驱动柜温度2",
-                        "变桨驱动柜温度3",
-                        "桨叶角度1A",
-                        "桨叶角度2A",
-                        "桨叶角度3A",
-                        "桨叶角度1B",
-                        "桨叶角度2B",
-                        "桨叶角度3B",
-                        "叶轮速度1",
-                        "叶轮速度2",
-                        "风速",
-                        "变桨电机温度1",
-                        "变桨电机温度2",
-                        "变桨电机温度3",
-                        "变桨驱动柜散热器温度1",
-                        "变桨驱动柜散热器温度2",
-                        "变桨驱动柜散热器温度3",
-                        "变桨后备电源柜温度1",
-                        "变桨后备电源柜温度2",
-                        "变桨后备电源柜温度3"]
-        self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
-        self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
-        # self.tickets = [li[1] is not None for li in self.tickets]
-        for li in self.tickets:
-            if li is not None:
-                self.tickets[self.tickets.index(li)] = li[1]
-            else:
-                self.tickets[self.tickets.index(li)] = False
-        self.df = cores.read_csv(gl.now_file, tickets_list)
-        self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        if gl.df is None:
+            tickets_list = ["时间",
+                            "机组运行模式",
+                            "变桨驱动柜温度1",
+                            "变桨驱动柜温度2",
+                            "变桨驱动柜温度3",
+                            "桨叶角度1A",
+                            "桨叶角度2A",
+                            "桨叶角度3A",
+                            "桨叶角度1B",
+                            "桨叶角度2B",
+                            "桨叶角度3B",
+                            "叶轮速度1",
+                            "叶轮速度2",
+                            "风速",
+                            "变桨电机温度1",
+                            "变桨电机温度2",
+                            "变桨电机温度3",
+                            "变桨驱动柜散热器温度1",
+                            "变桨驱动柜散热器温度2",
+                            "变桨驱动柜散热器温度3",
+                            "变桨后备电源柜温度1",
+                            "变桨后备电源柜温度2",
+                            "变桨后备电源柜温度3"]
+            self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
+            self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
+            # self.tickets = [li[1] is not None for li in self.tickets]
+            for li in self.tickets:
+                if li is not None:
+                    self.tickets[self.tickets.index(li)] = li[1]
+                else:
+                    self.tickets[self.tickets.index(li)] = False
+            self.df = cores.read_csv(gl.now_file, tickets_list)
+            self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        else:
+            self.df = gl.df
 
     def send_message(self, message: dict):
         message["from"] = "pitch"
@@ -392,6 +395,9 @@ class Pitch(QThread):
                     self.send_message({"message": {"function": 55, "result": 0, "details": result[1]}})
 
     def over(self):
+        # # #  ************************ # # #
+        self.df = None
+        # # #  ************************ # # #
         log.info("变桨系统处理完成")
         self.postman.send_to_MM.emit(
             {"from": "pitch", "to": "thread_manager",

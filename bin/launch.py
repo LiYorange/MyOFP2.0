@@ -14,7 +14,9 @@ import merge_window
 import unpack_window
 import run_window
 import subprocess
-from core import cores
+from res.icon import main_icons
+import web_window
+import about_window
 from core.post_man import PostMan
 from core.thread_manager import ThreadManage
 from core.model_manager import ModelManager
@@ -109,11 +111,13 @@ class LaunchWindow(QWidget):
         self.hydraulic = Hydraulic(self.postman)
         self.sensor = Sensor(self.postman)
         # 创建模块管理者，并雇佣postman
-        self.model_manager = ModelManager(self.files, [self.gearbox, self.generator, self.pitch, self.converter, self.hydraulic, self.sensor],
+        self.model_manager = ModelManager(self.files,
+                                          [self.gearbox, self.generator, self.pitch, self.converter, self.hydraulic,
+                                           self.sensor],
                                           self.postman)
-        # self.model_manager = ModelManager(self.files, [self.gearbox], self.postman)
         self.model_manager.start()
         self.run_window = run_window.RunWindow(self.files, PM=self.postman)
+        self.run_window.window.show()
         self.run_window.start()
 
     def DEL(self, *args):
@@ -150,12 +154,16 @@ class LaunchWindow(QWidget):
             pass
 
     def about(self):
-        msg = "线下故障预警模型软件V2.0版本\n海上工程技术部\n如有问题请联系:\nchencheng06@mywind.com.cn\n或malinlin@mywind.com.cn"
-        QMessageBox.about(self.window, "关于", msg)
+        self.about_window = about_window.AboutWindow()
+        self.about_window.window.show()
+        # msg = "线下故障预警模型软件V2.0版本\n海上工程技术部\n如有问题请联系:\nchencheng06@mywind.com.cn\n或malinlin@mywind.com.cn"
+        # QMessageBox.about(self.window, "关于", msg)
 
     def help(self):
-        cmd = os.path.abspath(os.path.dirname(os.getcwd())) + "\\res\说明文档.docx"
-        os.system(cmd)
+        self.web = web_window.WebWindow("说明文档")
+        self.web.show()
+        # cmd = os.path.abspath(os.path.dirname(os.getcwd())) + "\\res\说明文档.docx"
+        # os.system(cmd)
 
 
 if __name__ == '__main__':

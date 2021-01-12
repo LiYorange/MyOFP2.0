@@ -10,14 +10,21 @@
     <file>设置.png</file>
     <file>添加项目.png</file>
     <file>修改项目标签.png</file>
-    <file>修改控制逻辑.png</file>
   </qresource>
   <qresource prefix="帮助">
     <file>帮助.png</file>
     <file>关于.png</file>
+    <file>关于图标.png</file>
   </qresource>
   <qresource prefix="背景">
     <file>主界面背景.png</file>
     <file>主界面背景折叠.jpg</file>
+    <file>背景.png</file>
+  </qresource>
+  <qresource prefix="绘图">
+    <file>绘图.png</file>
+  </qresource>
+  <qresource prefix="logo">
+    <file>风机.png</file>
   </qresource>
 </RCC>

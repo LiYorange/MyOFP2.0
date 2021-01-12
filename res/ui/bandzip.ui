@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>758</width>
-    <height>576</height>
+    <width>600</width>
+    <height>350</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -18,6 +18,10 @@
   </property>
   <property name="windowTitle">
    <string>解压工具-bandzip.exe</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../icon/launch.qrc">
+    <normaloff>:/开始一个项目/解压包.png</normaloff>:/开始一个项目/解压包.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -46,6 +50,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icon/launch.qrc"/>
+ </resources>
  <connections/>
 </ui>

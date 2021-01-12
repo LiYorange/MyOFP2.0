@@ -48,36 +48,39 @@ class Hydraulic(QThread):
         ]
 
     def get_df(self):
-        tickets_list = ["时间",
-                        "机组运行模式",
-                        "液压系统压力",
-                        "液压泵1开",
-                        "液压泵2开",
-                        "顺时针偏航",
-                        "逆时针偏航",
-                        "偏航制动出口压力1",
-                        "偏航制动出口压力2",
-                        "偏航制动入口压力1",
-                        "偏航制动入口压力2",
-                        "偏航半释放阀",
-                        "液压主泵处油温",
-                        "液压泵出口压力",
-                        "液压回油口油温",
-                        "叶轮锁定压力1",
-                        "叶轮锁定压力2",
-                        "叶轮锁蓄能器压力1",
-                        "叶轮锁蓄能器压力2"
-                        ]
-        self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
-        self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
-        # self.tickets = [li[1] is not None for li in self.tickets]
-        for li in self.tickets:
-            if li is not None:
-                self.tickets[self.tickets.index(li)] = li[1]
-            else:
-                self.tickets[self.tickets.index(li)] = False
-        self.df = cores.read_csv(gl.now_file, tickets_list)
-        self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        if gl.df is None:
+            tickets_list = ["时间",
+                            "机组运行模式",
+                            "液压系统压力",
+                            "液压泵1开",
+                            "液压泵2开",
+                            "顺时针偏航",
+                            "逆时针偏航",
+                            "偏航制动出口压力1",
+                            "偏航制动出口压力2",
+                            "偏航制动入口压力1",
+                            "偏航制动入口压力2",
+                            "偏航半释放阀",
+                            "液压主泵处油温",
+                            "液压泵出口压力",
+                            "液压回油口油温",
+                            "叶轮锁定压力1",
+                            "叶轮锁定压力2",
+                            "叶轮锁蓄能器压力1",
+                            "叶轮锁蓄能器压力2"
+                            ]
+            self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
+            self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
+            # self.tickets = [li[1] is not None for li in self.tickets]
+            for li in self.tickets:
+                if li is not None:
+                    self.tickets[self.tickets.index(li)] = li[1]
+                else:
+                    self.tickets[self.tickets.index(li)] = False
+            self.df = cores.read_csv(gl.now_file, tickets_list)
+            self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        else:
+            self.df =gl.df
 
     def send_message(self, message: dict):
         message["from"] = "hydraulic"
@@ -155,8 +158,10 @@ class Hydraulic(QThread):
                 self.send_message({"message": {"function": 64, "result": 1}})
             else:
                 # 液压系统压力值的瞬时值与上一秒瞬时值差值的绝对值≥0.1bar, 持续1min
-                df['shift'] = df[tickets[2]].shift(1)
-                df = df[(df['shift'] >= 0.1)]
+                # df['shift'] = df[tickets[2]].shift(1)
+                df['diff'] = df[tickets[2]].diff(1).abs()
+                # df = df[(df['shift'] >= 0.1)]
+                df = df[(df['diff'] >= 0.1)]
                 if df.empty:
                     log.info("正常")
                     self.send_message({"message": {"function": 64, "result": 1}})
@@ -603,6 +608,9 @@ class Hydraulic(QThread):
                     self.send_message({"message": {"function": 73, "result": 0, "details": result[1]}})
 
     def over(self):
+        # # #  ************************ # # #
+        self.df = None
+        # # #  ************************ # # #
         log.info("液压系统处理完成")
         self.postman.send_to_MM.emit(
             {"from": "hydraulic", "to": "thread_manager",

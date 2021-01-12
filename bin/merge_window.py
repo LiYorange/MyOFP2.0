@@ -8,6 +8,7 @@
 from PySide2.QtWidgets import QApplication, QFileDialog, QMessageBox
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import QThread, Signal
+from res.icon import main_icons
 import os
 import sys
 from core import cores

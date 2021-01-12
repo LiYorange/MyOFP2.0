@@ -6,12 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>727</width>
-    <height>576</height>
+    <width>600</width>
+    <height>350</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>合并工具</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../icon/launch.qrc">
+    <normaloff>:/开始一个项目/合并.png</normaloff>:/开始一个项目/合并.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -43,6 +47,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icon/launch.qrc"/>
+ </resources>
  <connections/>
 </ui>

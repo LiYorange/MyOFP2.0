@@ -45,31 +45,35 @@ class Converter(QThread):
         ]
 
     def get_df(self):
-        tickets_list = ["时间",
-                        "机组运行模式",
-                        "变频器主机igbt温度",
-                        "变频器从机igbt温度",
-                        "变流器发电机转速",
-                        "叶轮速度2",
-                        "变频器主机冷却液温度",
-                        "变频器主机风扇运行1",
-                        "变频器主机水泵运行",
-                        "变频器从机冷却液温度",
-                        "变频器从机风扇运行1",
-                        "变频器从机水泵运行",
-                        "变频器主机冷却液压力",
-                        "变频器从机冷却液压力"
-                        ]
-        self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
-        self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
-        # self.tickets = [li[1] is not None for li in self.tickets]
-        for li in self.tickets:
-            if li is not None:
-                self.tickets[self.tickets.index(li)] = li[1]
-            else:
-                self.tickets[self.tickets.index(li)] = False
-        self.df = cores.read_csv(gl.now_file, tickets_list)
-        self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        if gl.df is None:
+
+            tickets_list = ["时间",
+                            "机组运行模式",
+                            "变频器主机igbt温度",
+                            "变频器从机igbt温度",
+                            "变流器发电机转速",
+                            "叶轮速度2",
+                            "变频器主机冷却液温度",
+                            "变频器主机风扇运行1",
+                            "变频器主机水泵运行",
+                            "变频器从机冷却液温度",
+                            "变频器从机风扇运行1",
+                            "变频器从机水泵运行",
+                            "变频器主机冷却液压力",
+                            "变频器从机冷却液压力"
+                            ]
+            self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
+            self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
+            # self.tickets = [li[1] is not None for li in self.tickets]
+            for li in self.tickets:
+                if li is not None:
+                    self.tickets[self.tickets.index(li)] = li[1]
+                else:
+                    self.tickets[self.tickets.index(li)] = False
+            self.df = cores.read_csv(gl.now_file, tickets_list)
+            self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        else:
+            self.df = gl.df
 
     def send_message(self, message: dict):
         message["from"] = "converter"
@@ -435,6 +439,9 @@ class Converter(QThread):
                     self.send_message({"message": {"function": 62, "result": 0, "details": result[1]}})
 
     def over(self):
+        # # #  ************************ # # #
+        self.df = None
+        # # #  ************************ # # #
         log.info("变频系统处理完成")
         self.postman.send_to_MM.emit(
             {"from": "converter", "to": "thread_manager",

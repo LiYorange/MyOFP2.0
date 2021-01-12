@@ -18,6 +18,11 @@ import gloable_var as gl
 import my_log
 from gearbox import GearBox
 from generator import Generator
+from pitch import Pitch
+from converter import Converter
+from hydraulic import Hydraulic
+from sensor import Sensor
+from get_df import GetDf
 from post_man import PostMan
 from thread_manager import ThreadManage
 import traceback
@@ -60,7 +65,9 @@ class ModelManager(QThread):
         self.small_file_signal.connect(self.deal_small_file)
         self.big_file_signal.connect(self.deal_big_file)
         # 线程状态  -1 未知状态，0 退出 1 活动
-        self.thread_state = {"GearBox": -1, "Generator": -1}
+        self.DF = None
+        self.thread_state = {"GearBox": -1, "Generator": -1, "Pitch": -1, "Converter": -1, "Hydraulic": -1,
+                             "Sensor": -1}
 
     def send_message(self, message: dict):
         """"""
@@ -69,7 +76,7 @@ class ModelManager(QThread):
         to = message.get("to")
         if to == "model_manager":
             try:
-                message["message"]["file"] = self.files_length - len(self.files)-1
+                message["message"]["file"] = self.files_length - len(self.files) - 1
                 message["message"]["file_name"] = self.file
 
                 self.postman.send_to_RW.emit(message)
@@ -128,6 +135,9 @@ class ModelManager(QThread):
         """拿到一个文件判断大小"""
         self.file = self.files.pop()
         gl.now_file = self.file
+        self.DF = GetDf(self.file)
+        self.DF.start()
+
         file_size = float(os.path.getsize(self.file)) / float(1024 * 1024)
         if file_size < 300:
             # self.deal_small_file(self.file)
@@ -136,6 +146,7 @@ class ModelManager(QThread):
             self.big_file_signal.emit(([self.model_list[0]], self.file))
 
     def deal_small_file(self, tup: tuple):
+
         # self.get_data(tup[1], tickets=None)
         """小文件一次开启所有线程"""
         log.warning("处理小文件:{}".format(tup[1]))
@@ -179,10 +190,13 @@ class ModelManager(QThread):
                 import time
                 time.sleep(1)
                 self.assign_task_signal.emit(True)
+                # ***************************
+                self.DF.quit()
+                gl.df = None
+                # ***************************
 
-    @staticmethod
-    def get_data(file, tickets=None):
-        gl.df = cores.read_csv(file, tickets)
+    def get_data(self, file, tickets=None):
+        self.df = cores.read_csv(self.file)
 
 
 if __name__ == '__main__':

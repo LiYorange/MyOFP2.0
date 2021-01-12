@@ -254,28 +254,10 @@
 # par2.axis['right2'].set_axisline_style('-|>', size=1.5)  # 轴的形状色
 # par2.axis['right2'].line.set_color(p3.get_color())  # 轴的颜色
 # plt.show()
-
-from core import cores
-import time
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
-
-def read_df(file, tickets):
-    df = cores.read_csv(file=file, tickets=tickets)
-    df["time"] = df["时间"].apply(
-        lambda x: time.mktime(time.strptime(x, '%Y-%m-%d %H:%M:%S')))
-    df["time"] = df["time"].map(lambda x: pd.Timestamp(x, unit="s"))
-    df.set_index("time", inplace=True)
-    df = df.resample("600s").mean()
-    plt.plot(df.index, df["grGearboxMainBearingTemperature"], label='123')
-    plt.margins(x=5, y=500)
-    plt.legend()
-    plt.show()
-
-
-# read_df("../db/60005064_20200930（南鹏岛）.csv",
-#         tickets=["时间", "giWindTurbineOperationMode", "grGearboxMainBearingTemperature"])
-read_df("../db/60005064_20200930（南鹏岛）.csv",
-        tickets=["时间", "齿轮箱主轴承温度"])
+df = pd.DataFrame({"A": -np.arange(1,10),
+                   "B": np.arange(3, 12)})
+df["diff"] = df["A"].diff(1).abs()
+print(df)

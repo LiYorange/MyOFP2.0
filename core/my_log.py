@@ -40,9 +40,9 @@ class Log(object):
         self.logger.setLevel(logging.DEBUG)
         # 创建一个handler，用于写入日志文件
         self.log_time = time.strftime("%Y_%m_%d")
-        file_dir = os.getcwd()
+        file_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
         self.log_path = file_dir
-        self.log_name = self.log_path + "/" + log_cate + "." + self.log_time + '.log'
+        self.log_name = self.log_path + "/LOG/" + log_cate + "." + self.log_time + '.log'
 
         fh = logging.FileHandler(self.log_name, 'a')  # 追加模式  这个是python2的
         # fh = logging.FileHandler(self.log_name, 'a', encoding='utf-8')  # 这个是python3的
@@ -56,7 +56,7 @@ class Log(object):
         fh_formatter = logging.Formatter(
             '%(asctime)s %(filename)s->%(funcName)s line:%(lineno)d [%(levelname)s] -- %(message)s')
         ch_formatter = colorlog.ColoredFormatter(
-            '%(log_color)s[%(filename)s:%(lineno)d] [%(levelname)s]- %(message)s',
+            '%(log_color)s %(asctime)s [%(filename)s:%(lineno)d] [%(levelname)s]- %(message)s',
             log_colors=log_colors_config)  # 日志输出格式
         fh.setFormatter(fh_formatter)
         ch.setFormatter(ch_formatter)

@@ -22,6 +22,8 @@ log = my_log.Log(__name__).getlog()
 def log_except_hook(*exc_info):
     text = "".join(traceback.format_exception(*exc_info))
     log.critical("Unhandled exception: %s", text)
+
+
 sys.excepthook = log_except_hook
 
 
@@ -73,64 +75,67 @@ class GearBox(QThread):
         ]
 
     def get_df(self):
-        tickets_list = ["时间",
-                        "机组运行模式",
-                        "齿轮箱主轴承温度",
-                        "齿轮箱轮毂侧轴承温度",
-                        "齿轮箱发电机侧轴承温度",
-                        "齿轮箱油温",
-                        "齿轮箱离线过滤泵处油温",
-                        "齿轮箱主泵处油温",
-                        "润滑油冷却器入口油温",
-                        "润滑油冷却器出口油温",
-                        "齿轮箱水泵出口温度",
-                        "齿轮箱水泵入口温度1",
-                        "齿轮箱水泵入口温度2",
-                        "齿轮箱A1口温度",
-                        "齿轮箱A2口温度",
-                        "齿轮箱A3口温度",
-                        "齿轮箱A4口温度",
-                        "齿轮箱主泵1_1高速",
-                        "齿轮箱主泵1_2高速",
-                        "齿轮箱主泵1_1低速",
-                        "齿轮箱主泵1_2低速",
-                        "齿轮箱A1口压力",
-                        "齿轮箱主泵2_1高速",
-                        "齿轮箱主泵2_2高速",
-                        "齿轮箱主泵2_1低速",
-                        "齿轮箱主泵2_2低速",
-                        "齿轮箱A2口压力",
-                        "齿轮箱A3口压力",
-                        "发电机润滑泵3_1",
-                        "发电机润滑泵3_2",
-                        "齿轮箱A4口压力",
-                        "齿轮箱主泵1_1出口压力",
-                        "齿轮箱主泵1_2出口压力",
-                        "齿轮箱主泵2_1出口压力",
-                        "齿轮箱主泵2_2出口压力",
-                        "齿轮箱冷却泵出口压力",
-                        "齿轮箱冷却泵",
-                        "齿轮箱过滤泵",
-                        "齿轮箱过滤泵出口压力",
-                        "齿轮箱油位",
-                        "齿轮箱水泵1启动",
-                        "齿轮箱水冷风扇1高速启动",
-                        "齿轮箱水泵2启动",
-                        "齿轮箱水冷风扇2高速启动",
-                        "齿轮箱水泵1出口压力",
-                        "齿轮箱水泵1入口压力",
-                        "齿轮箱水泵2出口压力",
-                        "齿轮箱水泵2入口压力"
-                        ]
-        self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
-        self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
-        for li in self.tickets:
-            if li is not None:
-                self.tickets[self.tickets.index(li)] = li[1]
-            else:
-                self.tickets[self.tickets.index(li)] = False
-        self.df = cores.read_csv(gl.now_file, tickets_list)
-        self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        if gl.df is None:
+            tickets_list = ["时间",
+                            "机组运行模式",
+                            "齿轮箱主轴承温度",
+                            "齿轮箱轮毂侧轴承温度",
+                            "齿轮箱发电机侧轴承温度",
+                            "齿轮箱油温",
+                            "齿轮箱离线过滤泵处油温",
+                            "齿轮箱主泵处油温",
+                            "润滑油冷却器入口油温",
+                            "润滑油冷却器出口油温",
+                            "齿轮箱水泵出口温度",
+                            "齿轮箱水泵入口温度1",
+                            "齿轮箱水泵入口温度2",
+                            "齿轮箱A1口温度",
+                            "齿轮箱A2口温度",
+                            "齿轮箱A3口温度",
+                            "齿轮箱A4口温度",
+                            "齿轮箱主泵1_1高速",
+                            "齿轮箱主泵1_2高速",
+                            "齿轮箱主泵1_1低速",
+                            "齿轮箱主泵1_2低速",
+                            "齿轮箱A1口压力",
+                            "齿轮箱主泵2_1高速",
+                            "齿轮箱主泵2_2高速",
+                            "齿轮箱主泵2_1低速",
+                            "齿轮箱主泵2_2低速",
+                            "齿轮箱A2口压力",
+                            "齿轮箱A3口压力",
+                            "发电机润滑泵3_1",
+                            "发电机润滑泵3_2",
+                            "齿轮箱A4口压力",
+                            "齿轮箱主泵1_1出口压力",
+                            "齿轮箱主泵1_2出口压力",
+                            "齿轮箱主泵2_1出口压力",
+                            "齿轮箱主泵2_2出口压力",
+                            "齿轮箱冷却泵出口压力",
+                            "齿轮箱冷却泵",
+                            "齿轮箱过滤泵",
+                            "齿轮箱过滤泵出口压力",
+                            "齿轮箱油位",
+                            "齿轮箱水泵1启动",
+                            "齿轮箱水冷风扇1高速启动",
+                            "齿轮箱水泵2启动",
+                            "齿轮箱水冷风扇2高速启动",
+                            "齿轮箱水泵1出口压力",
+                            "齿轮箱水泵1入口压力",
+                            "齿轮箱水泵2出口压力",
+                            "齿轮箱水泵2入口压力"
+                            ]
+            self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
+            self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
+            for li in self.tickets:
+                if li is not None:
+                    self.tickets[self.tickets.index(li)] = li[1]
+                else:
+                    self.tickets[self.tickets.index(li)] = False
+            self.df = cores.read_csv(gl.now_file, tickets_list)
+            self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        else:
+            self.df = gl.df
 
     def send_message(self, message: dict):
         message["from"] = "gearbox"
@@ -1649,6 +1654,9 @@ class GearBox(QThread):
                 self.send_message({"message": {"function": 34, "result": 0, "details": result[1]}})
 
     def over(self):
+        # # #  ************************ # # #
+        self.df = None
+        # # #  ************************ # # #
         log.info("齿轮箱处理完成")
         self.postman.send_to_MM.emit(
             {"from": "gearbox", "to": "thread_manager",

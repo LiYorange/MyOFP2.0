@@ -12,6 +12,7 @@ from PySide2.QtCore import QTimer
 from PySide2.QtUiTools import QUiLoader
 from PyQt5 import uic
 from functools import partial
+from res.icon import main_icons
 import psutil
 import os
 from conf import config_draw_setting

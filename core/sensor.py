@@ -46,42 +46,45 @@ class Sensor(QThread):
         ]
 
     def get_df(self):
-        tickets_list = ["时间",
-                        "机组运行模式",
-                        "塔基变压器温度",
-                        "塔筒第一层平台温度",
-                        "塔基柜温度",
-                        "机舱高压柜温度",
-                        "机舱温度",
-                        "机舱低压柜温度",
-                        "变频器温度1",
-                        "变频器温度2",
-                        "变频器温度3",
-                        "变频器温度4",
-                        "变频器温度5",
-                        "变频器温度6",
-                        "变频器温度7",
-                        "变频器温度8",
-                        "变频器温度9",
-                        "变频器温度10",
-                        "变频器温度11",
-                        "变频器温度12",
-                        "变频器温度13",
-                        "变频器温度14",
-                        "变频器温度15",
-                        "变频器温度16",
-                        "变频器温度17"
-                        ]
-        self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
-        self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
-        # self.tickets = [li[1] is not None for li in self.tickets]
-        for li in self.tickets:
-            if li is not None:
-                self.tickets[self.tickets.index(li)] = li[1]
-            else:
-                self.tickets[self.tickets.index(li)] = False
-        self.df = cores.read_csv(gl.now_file, tickets_list)
-        self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        if gl.df is None:
+            tickets_list = ["时间",
+                            "机组运行模式",
+                            "塔基变压器温度",
+                            "塔筒第一层平台温度",
+                            "塔基柜温度",
+                            "机舱高压柜温度",
+                            "机舱温度",
+                            "机舱低压柜温度",
+                            "变频器温度1",
+                            "变频器温度2",
+                            "变频器温度3",
+                            "变频器温度4",
+                            "变频器温度5",
+                            "变频器温度6",
+                            "变频器温度7",
+                            "变频器温度8",
+                            "变频器温度9",
+                            "变频器温度10",
+                            "变频器温度11",
+                            "变频器温度12",
+                            "变频器温度13",
+                            "变频器温度14",
+                            "变频器温度15",
+                            "变频器温度16",
+                            "变频器温度17"
+                            ]
+            self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
+            self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
+            # self.tickets = [li[1] is not None for li in self.tickets]
+            for li in self.tickets:
+                if li is not None:
+                    self.tickets[self.tickets.index(li)] = li[1]
+                else:
+                    self.tickets[self.tickets.index(li)] = False
+            self.df = cores.read_csv(gl.now_file, tickets_list)
+            self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        else:
+            self.df = gl.df
 
     def send_message(self, message: dict):
         message["from"] = "sensor"
@@ -394,6 +397,9 @@ class Sensor(QThread):
                 self.send_message({"message": {"function": 81, "result": 0, "details": result[1]}})
 
     def over(self):
+        # # #  ************************ # # #
+        self.df = None
+        # # #  ************************ # # #
         log.info("传感器处理完成")
         self.postman.send_to_MM.emit(
             {"from": "sensor", "to": "thread_manager",

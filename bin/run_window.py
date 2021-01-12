@@ -16,6 +16,7 @@ import draw_window
 import web_window
 from post_man import PostMan
 import log_window
+from core import cores
 from core import my_log
 import traceback
 import json
@@ -53,11 +54,13 @@ class RunWindow(QThread):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_status_bar)
         self.timer.start(1000)
-        self.window.window().show()
+        # self.window.window().show()
 
     def init_table(self, header_labels: list):
         self.window.tableWidget.setColumnCount(len(header_labels))
         self.window.tableWidget.setHorizontalHeaderLabels(header_labels)
+        # 不允许排序
+        self.window.tableWidget.setSortingEnabled(False)
         # 设置自适应列宽
         # self.window.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         # self.window.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
@@ -67,6 +70,7 @@ class RunWindow(QThread):
         self.window.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 打开右键菜单的策略
         self.window.tableWidget.customContextMenuRequested.connect(self.tableWidget_right_click)  # 绑定事件
         # 单机事件
+
 
     def tableWidget_right_click(self, pos):
         item = self.window.tableWidget.currentItem()
@@ -143,8 +147,9 @@ class RunWindow(QThread):
     def run(self):
         pass
 
-    def close(self, event):
-        print(event)
+    def close(self):
+        pass
+        # self.window.window().show()
 
     def log(self):
         self.log_window.window.show()

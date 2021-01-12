@@ -22,6 +22,8 @@ log = my_log.Log(__name__).getlog()
 def log_except_hook(*exc_info):
     text = "".join(traceback.format_exception(*exc_info))
     log.critical("Unhandled exception: %s", text)
+
+
 sys.excepthook = log_except_hook
 
 
@@ -51,36 +53,39 @@ class Generator(QThread):
         ]
 
     def get_df(self):
-        tickets_list = ["时间",
-                        "机组运行模式",
-                        "发电机绕组温度1",
-                        "发电机绕组温度2",
-                        "发电机绕组温度3",
-                        "发电机绕组温度4",
-                        "发电机绕组温度5",
-                        "发电机绕组温度6",
-                        "发电机齿轮箱侧轴承温度",
-                        "发电机机舱侧轴承温度",
-                        "变流器功率",
-                        "发电机空空冷内循环入口温度1",
-                        "发电机空空冷内循环入口温度2",
-                        "发电机空空冷内循环出口温度1",
-                        "发电机空空冷内循环出口温度2",
-                        "发电机空空冷外循环入口温度1",
-                        "发电机空空冷外循环入口温度2",
-                        "发电机空空冷外循环出口温度1",
-                        "发电机空空冷外循环出口温度2"
-                        ]
-        self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
-        self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
-        # self.tickets = [li[1] is not None for li in self.tickets]
-        for li in self.tickets:
-            if li is not None:
-                self.tickets[self.tickets.index(li)] = li[1]
-            else:
-                self.tickets[self.tickets.index(li)] = False
-        self.df = cores.read_csv(gl.now_file, tickets_list)
-        self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        if gl.df is None:
+            tickets_list = ["时间",
+                            "机组运行模式",
+                            "发电机绕组温度1",
+                            "发电机绕组温度2",
+                            "发电机绕组温度3",
+                            "发电机绕组温度4",
+                            "发电机绕组温度5",
+                            "发电机绕组温度6",
+                            "发电机齿轮箱侧轴承温度",
+                            "发电机机舱侧轴承温度",
+                            "变流器功率",
+                            "发电机空空冷内循环入口温度1",
+                            "发电机空空冷内循环入口温度2",
+                            "发电机空空冷内循环出口温度1",
+                            "发电机空空冷内循环出口温度2",
+                            "发电机空空冷外循环入口温度1",
+                            "发电机空空冷外循环入口温度2",
+                            "发电机空空冷外循环出口温度1",
+                            "发电机空空冷外循环出口温度2"
+                            ]
+            self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
+            self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
+            # self.tickets = [li[1] is not None for li in self.tickets]
+            for li in self.tickets:
+                if li is not None:
+                    self.tickets[self.tickets.index(li)] = li[1]
+                else:
+                    self.tickets[self.tickets.index(li)] = False
+            self.df = cores.read_csv(gl.now_file, tickets_list)
+            self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
+        else:
+            self.df = gl.df
 
     def send_message(self, message: dict):
         message["from"] = "generator"
@@ -647,12 +652,16 @@ class Generator(QThread):
                         self.send_message({"message": {"function": 47, "result": 0, "details": result[1]}})
 
     def over(self):
+        # # #  ************************ # # #
+        self.df = None
+        # # #  ************************ # # #
         log.info("发电机处理完成")
         self.postman.send_to_MM.emit(
             {"from": "generator", "to": "thread_manager",
              "message": {"thread_name": self,
                          "do_what": "quit"}}
-            )
+        )
+
 
 if __name__ == '__main__':
     g = Generator(pm=None)

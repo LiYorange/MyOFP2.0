@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../icon/launch.qrc">
+    <normaloff>:/绘图/绘图.png</normaloff>:/绘图/绘图.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,3,2">
     <item>
@@ -263,13 +267,6 @@
      <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>帮助</string>
-    </property>
-    <addaction name="action"/>
-   </widget>
-   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action">
@@ -278,6 +275,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icon/launch.qrc"/>
+ </resources>
  <connections/>
 </ui>

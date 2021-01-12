@@ -119,26 +119,46 @@ def get_df(file, li):
     df_bool = pd.DataFrame()
     df = pd.DataFrame()
     try:
-        if li[0] is not None:
-            """0:o1:f 2:i 3:b """
-            if li[0][0] is not None:
-                data_object = pd.read_csv(file, usecols=li[0][0], chunksize=10000, encoding='gbk', engine='python')
-                df_object = pd.concat(data_object, ignore_index=True)
+        file_size = float(os.path.getsize(file)) / float(1024 * 1024)
+        if file_size > 300:
+            if li[0] is not None:
+                """0:o 1:f 2:i 3:b """
+                if li[0][0] is not None:
+                    t1 = time.time()
+                    data_object = pd.read_csv(file, usecols=li[0][0], chunksize=10000, encoding='gbk')
+                    log.info("object:{}".format(time.time() - t1))
+                    t1 = time.time()
+                    df_object = pd.concat(data_object, ignore_index=True)
+                    log.info("object_concat:{}".format(time.time() - t1))
+                if li[0][1] is not None:
+                    t1 = time.time()
+                    data_float = pd.read_csv(file, usecols=li[0][1], chunksize=10000, encoding='gbk',
+                                             dtype="float16")
+                    log.info("float:{}".format(time.time() - t1))
+                    t1 = time.time()
+                    df_float = pd.concat(data_float, ignore_index=True).astype(dtype="float32", copy=False)
+                    log.info("float_concat:{}".format(time.time() - t1))
+                if li[0][2] is not None:
+                    t1 = time.time()
+                    data_int = pd.read_csv(file, usecols=li[0][2], chunksize=10000, encoding='gbk',
+                                           dtype="int32")
+                    log.info("int:{}".format(time.time() - t1))
+                    t1 = time.time()
+                    df_int = pd.concat(data_int, ignore_index=True).astype(dtype="int32", copy=False)
+                    log.info("int_concat:{}".format(time.time() - t1))
+                if li[0][3] is not None:
+                    t1 = time.time()
+                    data_bool = pd.read_csv(file, usecols=li[0][3], chunksize=10000, encoding='gbk',)
+                    log.info("bool:{}".format(time.time() - t1))
+                    t1 = time.time()
+                    df_bool = pd.concat(data_bool, ignore_index=True)
+                    log.info("bool_concat:{}".format(time.time() - t1))
+                df = pd.concat([df_object, df_float, df_int, df_bool], axis=1)
+        else:
+            l1 = sum(li[0], [])
+            df = pd.read_csv(file, usecols=l1, encoding='gbk')
+            del l1
 
-            if li[0][1] is not None:
-                data_float = pd.read_csv(file, usecols=li[0][1], chunksize=10000, encoding='gbk', engine='python',
-                                         dtype="float16")
-                df_float = pd.concat(data_float, ignore_index=True).astype(dtype="float32", copy=False)
-                # df_float = pd.concat(data_float, ignore_index=True)
-            if li[0][2] is not None:
-                data_int = pd.read_csv(file, usecols=li[0][2], chunksize=10000, encoding='gbk', engine='python',
-                                       dtype="int32")
-                df_int = pd.concat(data_int, ignore_index=True).astype(dtype="int32", copy=False)
-                # df_int = pd.concat(data_int, ignore_index=True)
-            if li[0][3] is not None:
-                data_bool = pd.read_csv(file, usecols=li[0][3], chunksize=10000, encoding='gbk', engine='python')
-                df_bool = pd.concat(data_bool, ignore_index=True)
-        df = pd.concat([df_object, df_float, df_int, df_bool], axis=1)
         if li[1] is not None:
             for tup in li[1]:
                 df.insert(tup[1], tup[0], np.nan)
@@ -246,8 +266,13 @@ def merge(merge_files=None):
 if __name__ == '__main__':
     pass
     # print(get_en_tickets("../db/tickets.my", "60004"))
-    x = read_csv("../db/60004036_20200930（外罗）.csv", ["时间", "机组运行模", "机组行模", "机组运模"])
-    print(x)
+    x = read_csv("../db/60004036_20200930（外罗）.csv", ["时间", "机组运行模式"])
+    print("-" * 40)
+    del x
+    t = time.time()
+    df1 = pd.read_csv("../db/60004036_20200930（外罗）.csv", sep=',', encoding="gbk",
+                      )
+    # print(time.time() - t)
 
     # read_csv(r"E:\桌面\Py\temporary\60004036_20200930（外罗）.csv")
     # en = get_en_tickets("../db/tickets.my", "60004")
