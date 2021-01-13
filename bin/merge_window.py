@@ -1,19 +1,13 @@
-# -------------------------------------------------------------------------------
-# Name:         core
-# Description:
-# Author:       A07567
-# Date:         2020/12/18
-# Description:  所有的功能实现核心
-# -------------------------------------------------------------------------------
+
 from PySide2.QtWidgets import QApplication, QFileDialog, QMessageBox
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import QThread, Signal
-from res.icon import main_icons
 import os
+import traceback
 import sys
+from conf import main_icons
 from core import cores
 from core import my_log
-import traceback
 
 log = my_log.Log(__name__).getlog()
 

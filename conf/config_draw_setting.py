@@ -8,7 +8,8 @@
 import configparser
 import os
 import sys
-import my_log
+sys.path.append('..')
+from core import my_log
 import traceback
 
 log = my_log.Log(__name__).getlog()

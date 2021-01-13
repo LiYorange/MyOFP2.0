@@ -6,12 +6,13 @@
 # Description:
 # -------------------------------------------------------------------------------
 from PySide2.QtCore import QThread, Signal
-import my_log
 import time
 import os
 import sys
+sys.path.append("..")
 import pandas as pd
-import cores
+from core import cores
+from core import my_log
 import tool
 import gloable_var as gl
 import traceback
@@ -22,6 +23,8 @@ log = my_log.Log(__name__).getlog()
 def log_except_hook(*exc_info):
     text = "".join(traceback.format_exception(*exc_info))
     log.critical("Unhandled exception: %s", text)
+
+
 sys.excepthook = log_except_hook
 
 
@@ -45,38 +48,37 @@ class Pitch(QThread):
         ]
 
     def get_df(self):
+        tickets_list = ["时间",
+                        "机组运行模式",
+                        "变桨驱动柜温度1",
+                        "变桨驱动柜温度2",
+                        "变桨驱动柜温度3",
+                        "桨叶角度1A",
+                        "桨叶角度2A",
+                        "桨叶角度3A",
+                        "桨叶角度1B",
+                        "桨叶角度2B",
+                        "桨叶角度3B",
+                        "叶轮速度1",
+                        "叶轮速度2",
+                        "风速",
+                        "变桨电机温度1",
+                        "变桨电机温度2",
+                        "变桨电机温度3",
+                        "变桨驱动柜散热器温度1",
+                        "变桨驱动柜散热器温度2",
+                        "变桨驱动柜散热器温度3",
+                        "变桨后备电源柜温度1",
+                        "变桨后备电源柜温度2",
+                        "变桨后备电源柜温度3"]
+        self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
+        self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
+        for li in self.tickets:
+            if li is not None:
+                self.tickets[self.tickets.index(li)] = li[1]
+            else:
+                self.tickets[self.tickets.index(li)] = False
         if gl.df is None:
-            tickets_list = ["时间",
-                            "机组运行模式",
-                            "变桨驱动柜温度1",
-                            "变桨驱动柜温度2",
-                            "变桨驱动柜温度3",
-                            "桨叶角度1A",
-                            "桨叶角度2A",
-                            "桨叶角度3A",
-                            "桨叶角度1B",
-                            "桨叶角度2B",
-                            "桨叶角度3B",
-                            "叶轮速度1",
-                            "叶轮速度2",
-                            "风速",
-                            "变桨电机温度1",
-                            "变桨电机温度2",
-                            "变桨电机温度3",
-                            "变桨驱动柜散热器温度1",
-                            "变桨驱动柜散热器温度2",
-                            "变桨驱动柜散热器温度3",
-                            "变桨后备电源柜温度1",
-                            "变桨后备电源柜温度2",
-                            "变桨后备电源柜温度3"]
-            self.project_name = str(os.path.basename(gl.now_file)).split(".")[-2].split("_")[0][:5]
-            self.tickets = cores.get_en_tickets("../db/tickets.my", self.project_name, tickets_list)
-            # self.tickets = [li[1] is not None for li in self.tickets]
-            for li in self.tickets:
-                if li is not None:
-                    self.tickets[self.tickets.index(li)] = li[1]
-                else:
-                    self.tickets[self.tickets.index(li)] = False
             self.df = cores.read_csv(gl.now_file, tickets_list)
             self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
         else:

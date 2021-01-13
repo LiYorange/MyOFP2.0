@@ -9,13 +9,13 @@
 import os
 import sys
 import re
-
+sys.path.append("..")
 from PySide2.QtCore import QThread, Signal
 from PySide2.QtWidgets import QApplication
 
-import cores
+from core import cores
+from core import my_log
 import gloable_var as gl
-import my_log
 from gearbox import GearBox
 from generator import Generator
 from pitch import Pitch
@@ -114,7 +114,7 @@ class ModelManager(QThread):
                     if gl.started_thread_name == quit_thread_name:
                         if gl.started_thread_number is not None:
                             number = gl.started_thread_number + 1
-                            if number < 2:
+                            if number < 6:
                                 self.big_file_signal.emit(([self.model_list[number]], self.file))
                     self.statistic_thread_number(message)
             else:
@@ -135,18 +135,20 @@ class ModelManager(QThread):
         """拿到一个文件判断大小"""
         self.file = self.files.pop()
         gl.now_file = self.file
-        self.DF = GetDf(self.file)
-        self.DF.start()
 
         file_size = float(os.path.getsize(self.file)) / float(1024 * 1024)
         if file_size < 300:
-            # self.deal_small_file(self.file)
-            self.small_file_signal.emit((self.model_list, self.file))
+            self.DF = GetDf(self.file)
+            self.DF.start()
+
+            def over_DF(flag):
+                if flag:
+                    self.small_file_signal.emit((self.model_list, self.file))
+            self.DF.over_signal.connect(over_DF)
         else:
             self.big_file_signal.emit(([self.model_list[0]], self.file))
 
     def deal_small_file(self, tup: tuple):
-
         # self.get_data(tup[1], tickets=None)
         """小文件一次开启所有线程"""
         log.warning("处理小文件:{}".format(tup[1]))
@@ -186,7 +188,7 @@ class ModelManager(QThread):
                 # 重新修改 thread_state
                 for k in self.thread_state:
                     self.thread_state[k] = -1
-                log.warning("over")
+                log.warning("over_signal")
                 import time
                 time.sleep(1)
                 self.assign_task_signal.emit(True)

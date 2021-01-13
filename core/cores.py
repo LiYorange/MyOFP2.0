@@ -12,10 +12,7 @@ import numpy as np
 import os
 import shutil
 import sys
-import my_log
-import gc
-import matplotlib.pyplot as plt
-import gloable_var
+from core import my_log
 
 sys.path.append("..")
 sys.path.append("../db")
@@ -140,15 +137,15 @@ def get_df(file, li):
                     log.info("float_concat:{}".format(time.time() - t1))
                 if li[0][2] is not None:
                     t1 = time.time()
-                    data_int = pd.read_csv(file, usecols=li[0][2], chunksize=10000, encoding='gbk',
-                                           dtype="int32")
+                    # data_int = pd.read_csv(file, usecols=li[0][2], chunksize=10000, encoding='gbk',dtype="int32")
+                    data_int = pd.read_csv(file, usecols=li[0][2], chunksize=10000, encoding='gbk')
                     log.info("int:{}".format(time.time() - t1))
                     t1 = time.time()
                     df_int = pd.concat(data_int, ignore_index=True).astype(dtype="int32", copy=False)
                     log.info("int_concat:{}".format(time.time() - t1))
                 if li[0][3] is not None:
                     t1 = time.time()
-                    data_bool = pd.read_csv(file, usecols=li[0][3], chunksize=10000, encoding='gbk',)
+                    data_bool = pd.read_csv(file, usecols=li[0][3], chunksize=10000, encoding='gbk', )
                     log.info("bool:{}".format(time.time() - t1))
                     t1 = time.time()
                     df_bool = pd.concat(data_bool, ignore_index=True)
@@ -166,6 +163,7 @@ def get_df(file, li):
         return df
 
     except Exception as e:
+        raise e
         log.error(e)
 
 
@@ -265,16 +263,53 @@ def merge(merge_files=None):
 
 if __name__ == '__main__':
     pass
-    # print(get_en_tickets("../db/tickets.my", "60004"))
-    x = read_csv("../db/60004036_20200930（外罗）.csv", ["时间", "机组运行模式"])
-    print("-" * 40)
-    del x
-    t = time.time()
-    df1 = pd.read_csv("../db/60004036_20200930（外罗）.csv", sep=',', encoding="gbk",
-                      )
-    # print(time.time() - t)
-
-    # read_csv(r"E:\桌面\Py\temporary\60004036_20200930（外罗）.csv")
-    # en = get_en_tickets("../db/tickets.my", "60004")
-    # get_df("../db/60004036_20200930（外罗）.csv", en)
-    # print(df.info())
+    tickets_list = ["时间",
+                    "机组运行模式",
+                    "齿轮箱主轴承温度",
+                    "齿轮箱轮毂侧轴承温度",
+                    "齿轮箱发电机侧轴承温度",
+                    "齿轮箱油温",
+                    "齿轮箱离线过滤泵处油温",
+                    "齿轮箱主泵处油温",
+                    "润滑油冷却器入口油温",
+                    "润滑油冷却器出口油温",
+                    "齿轮箱水泵出口温度",
+                    "齿轮箱水泵入口温度1",
+                    "齿轮箱水泵入口温度2",
+                    "齿轮箱A1口温度",
+                    "齿轮箱A2口温度",
+                    "齿轮箱A3口温度",
+                    "齿轮箱A4口温度",
+                    "齿轮箱主泵1_1高速",
+                    "齿轮箱主泵1_2高速",
+                    "齿轮箱主泵1_1低速",
+                    "齿轮箱主泵1_2低速",
+                    "齿轮箱A1口压力",
+                    "齿轮箱主泵2_1高速",
+                    "齿轮箱主泵2_2高速",
+                    "齿轮箱主泵2_1低速",
+                    "齿轮箱主泵2_2低速",
+                    "齿轮箱A2口压力",
+                    "齿轮箱A3口压力",
+                    "发电机润滑泵3_1",
+                    "发电机润滑泵3_2",
+                    "齿轮箱A4口压力",
+                    "齿轮箱主泵1_1出口压力",
+                    "齿轮箱主泵1_2出口压力",
+                    "齿轮箱主泵2_1出口压力",
+                    "齿轮箱主泵2_2出口压力",
+                    "齿轮箱冷却泵出口压力",
+                    "齿轮箱冷却泵",
+                    "齿轮箱过滤泵",
+                    "齿轮箱过滤泵出口压力",
+                    "齿轮箱油位",
+                    "齿轮箱水泵1启动",
+                    "齿轮箱水冷风扇1高速启动",
+                    "齿轮箱水泵2启动",
+                    "齿轮箱水冷风扇2高速启动",
+                    "齿轮箱水泵1出口压力",
+                    "齿轮箱水泵1入口压力",
+                    "齿轮箱水泵2出口压力",
+                    "齿轮箱水泵2入口压力"
+                    ]
+    x = read_csv("../db/60004036_20200930（外罗）.csv", tickets=tickets_list)

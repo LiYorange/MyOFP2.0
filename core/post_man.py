@@ -6,7 +6,9 @@
 # Description:  
 # -------------------------------------------------------------------------------
 from PySide2.QtCore import QObject, Signal
-import my_log
+import sys
+sys.path.append("..")
+from core import my_log
 log = my_log.Log(__name__).getlog()
 
 

@@ -8,9 +8,10 @@
 from PySide2.QtCore import QThread, QObject, Signal, QMutex
 from PySide2.QtWidgets import QApplication
 import sys
+sys.path.append("..")
 import time
 import os
-import my_log
+from core import my_log
 import traceback
 
 log = my_log.Log(__name__).getlog()

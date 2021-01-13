@@ -5,13 +5,14 @@
 # Date:         2021/1/9
 # Description:  
 # -------------------------------------------------------------------------------
-from PySide2.QtWidgets import QWidget, QApplication
+from PySide2.QtWidgets import QApplication
 from PySide2.QtCore import QThread, Signal
 from PySide2.QtUiTools import QUiLoader
 import json
 import csv
 import os
 import sys
+sys.path.append('..')
 import traceback
 from core import my_log
 

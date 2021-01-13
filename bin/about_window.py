@@ -7,7 +7,9 @@
 # -------------------------------------------------------------------------------
 from PySide2.QtWidgets import QApplication
 from PySide2.QtUiTools import QUiLoader
-from res.icon import main_icons
+import sys
+sys.path.append('..')
+from conf import main_icons
 
 
 class AboutWindow:

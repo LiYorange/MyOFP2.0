@@ -7,9 +7,10 @@
 # -------------------------------------------------------------------------------
 import os
 import sys
+sys.path.append("..")
 # 回收内存
 import gc
-import my_log
+from core import my_log
 import traceback
 
 log = my_log.Log(__name__).getlog()

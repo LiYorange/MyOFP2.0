@@ -12,13 +12,15 @@ from PySide2.QtCore import QTimer
 from PySide2.QtUiTools import QUiLoader
 from PyQt5 import uic
 from functools import partial
-from res.icon import main_icons
+
 import psutil
 import os
+import sys
+sys.path.append('..')
 from conf import config_draw_setting
 from core import draw
-import sys
-import my_log
+from conf import main_icons
+from core import my_log
 import traceback
 
 log = my_log.Log(__name__).getlog()

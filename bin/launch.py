@@ -10,11 +10,20 @@ from PySide2.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox, Q
 import os
 import sys
 import gc
+import traceback
+import subprocess
+
+# --------------------
+rootpath = str(os.path.abspath(os.path.dirname(os.getcwd())))
+syspath = sys.path
+sys.path = []
+sys.path.append(rootpath)  # 将工程根目录加入到python搜索路径中
+sys.path.extend([rootpath + "\\" + i for i in os.listdir(rootpath) if i[0] != "."])  # 将工程目录下的一级目录添加到python搜索路径中
+sys.path.extend(syspath)
+# --------------------
 import merge_window
 import unpack_window
 import run_window
-import subprocess
-from res.icon import main_icons
 import web_window
 import about_window
 from core.post_man import PostMan
@@ -26,8 +35,7 @@ from core.pitch import Pitch
 from core.converter import Converter
 from core.hydraulic import Hydraulic
 from core.sensor import Sensor
-
-import traceback
+from conf import main_icons
 from core import my_log
 
 log = my_log.Log(__name__).getlog()

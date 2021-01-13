@@ -8,11 +8,12 @@
 
 import os
 import sys
+sys.path.append("..")
 import shutil
-import my_log
+from core import cores
+from core import my_log
 from PySide2.QtCore import QThread, Signal
 
-import my_log
 import traceback
 
 log = my_log.Log(__name__).getlog()

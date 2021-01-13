@@ -5,6 +5,7 @@ from PySide2.QtWidgets import *
 from PySide2.QtWebEngineWidgets import QWebEngineView
 import os
 import sys
+sys.path.append('..')
 import traceback
 from core import my_log
 

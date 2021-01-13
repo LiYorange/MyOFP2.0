@@ -10,16 +10,16 @@ from PySide2.QtWidgets import QWidget, QApplication, QMenu, QAction, QTableWidge
 from PySide2.QtCore import Qt, QThread, QTimer
 from PySide2.QtGui import QCursor, QColor
 from PySide2.QtUiTools import QUiLoader
+import traceback
+import json
 import os
 import sys
 import draw_window
 import web_window
-from post_man import PostMan
 import log_window
-from core import cores
+from core.post_man import PostMan
 from core import my_log
-import traceback
-import json
+
 
 log = my_log.Log(__name__).getlog()
 

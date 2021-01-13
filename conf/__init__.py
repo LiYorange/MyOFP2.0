@@ -1,7 +1,4 @@
-# -------------------------------------------------------------------------------
-# Name:         __init__.py
-# Description:
-# Author:       A07567
-# Date:         2020/12/16
-# Description:  
-# -------------------------------------------------------------------------------
+__all__ = ['config_draw_setting', 'main_icons']
+
+from conf import config_draw_setting
+from conf import main_icons
