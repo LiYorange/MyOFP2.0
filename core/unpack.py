@@ -8,12 +8,9 @@
 
 import os
 import sys
-sys.path.append("..")
 import shutil
-from core import cores
 from core import my_log
-from PySide2.QtCore import QThread, Signal
-
+from PyQt5.QtCore import QThread, pyqtSignal
 import traceback
 
 log = my_log.Log(__name__).getlog()
@@ -29,7 +26,7 @@ sys.excepthook = log_except_hook
 
 
 class UnPack(QThread):
-    signal_result = Signal(str)
+    signal_result = pyqtSignal(str)
 
     def __init__(self, files=None):
         super(UnPack, self).__init__()
@@ -57,8 +54,7 @@ class UnPack(QThread):
                 shutil.rmtree(data)
                 os.mkdir(data)
         except Exception as e:
-            all_log.logger.debug(e)
-            err_log.logger.error(e)
+            log.error(e)
         try:
             result = []
             for file in self.files:
@@ -71,8 +67,7 @@ class UnPack(QThread):
             else:
                 self.signal_result.emit("解压失败，请重试或更换解压软件！")
         except Exception as e:
-            all_log.logger.debug(e)
-            err_log.logger.error(e)
+            log.error(e)
 
     def run(self):
         self.unpack()

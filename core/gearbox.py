@@ -5,15 +5,14 @@
 # Date:         2020/12/29
 # Description:  
 # -------------------------------------------------------------------------------
-from PySide2.QtCore import QThread, Signal
+from PyQt5.QtCore import QThread
 import os
 import sys
-sys.path.append('..')
 import pandas as pd
 from core import cores
 from core import my_log
-import tool
-import gloable_var as gl
+from core import tool
+from core import gloable_var as gl
 import traceback
 
 log = my_log.Log(__name__).getlog()
@@ -132,7 +131,6 @@ class GearBox(QThread):
             else:
                 self.tickets[self.tickets.index(li)] = False
         if gl.df is None:
-
             self.df = cores.read_csv(gl.now_file, tickets_list)
             self.df.insert(0, "time", pd.to_datetime(self.df[self.tickets[0]]))
         else:
@@ -153,7 +151,6 @@ class GearBox(QThread):
         """
         12 ≤ 机组运行模式 ≤ 14，齿轮箱主轴承温度 > 67.5℃，持续 10min
         """
-        log.info("齿轮箱正在处理")
         try:
             # 获取 1 时间 2 机组模式 3 齿轮箱主轴承温度英文标签
             tickets = [self.tickets[0], self.tickets[1], self.tickets[2]]

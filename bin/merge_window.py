@@ -1,7 +1,7 @@
 
-from PySide2.QtWidgets import QApplication, QFileDialog, QMessageBox
-from PySide2.QtUiTools import QUiLoader
-from PySide2.QtCore import QThread, Signal
+from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox
+from PyQt5 import uic
+from PyQt5.QtCore import QThread, pyqtSignal
 import os
 import traceback
 import sys
@@ -22,7 +22,7 @@ sys.excepthook = log_except_hook
 
 
 class Merge_Window(QThread):
-    signal_log = Signal(str)
+    signal_log = pyqtSignal(str)
 
     def __init__(self):
         """
@@ -33,7 +33,7 @@ class Merge_Window(QThread):
         """
         # 1 初始化UI
         super(Merge_Window, self).__init__()
-        self.window = QUiLoader().load('../res/ui/merge.ui')
+        self.window = uic.loadUi('../res/ui/merge.ui')
         self.window.setFixedSize(self.window.width(), self.window.height())
         # 2 初始化变量
         # # 2.1 >>> 合并区

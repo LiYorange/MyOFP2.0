@@ -7,7 +7,6 @@
 # -------------------------------------------------------------------------------
 import os
 import sys
-sys.path.append("..")
 # 回收内存
 import gc
 from core import my_log

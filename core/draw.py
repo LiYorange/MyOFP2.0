@@ -11,13 +11,9 @@ import sys
 import time
 import traceback
 import matplotlib.pyplot as plt
-import mpl_toolkits.axisartist as AA
-from mpl_toolkits.axes_grid1 import host_subplot
 import pandas as pd
-sys.path.append('..')
 from core import cores
 from core import my_log
-
 plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
 log = my_log.Log(__name__).getlog()
 

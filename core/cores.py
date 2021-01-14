@@ -13,7 +13,6 @@ import os
 import shutil
 import sys
 from core import my_log
-
 sys.path.append("..")
 sys.path.append("../db")
 

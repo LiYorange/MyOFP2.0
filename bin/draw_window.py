@@ -7,16 +7,14 @@
 # -------------------------------------------------------------------------------
 
 import logging
-from PySide2.QtWidgets import QWidget, QApplication
-from PySide2.QtCore import QTimer
-from PySide2.QtUiTools import QUiLoader
+from PyQt5.QtWidgets import QWidget, QApplication
+from PyQt5.QtCore import QTimer
 from PyQt5 import uic
 from functools import partial
 
 import psutil
 import os
 import sys
-sys.path.append('..')
 from conf import config_draw_setting
 from core import draw
 from conf import main_icons

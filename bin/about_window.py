@@ -5,16 +5,14 @@
 # Date:         2021/1/12
 # Description:  
 # -------------------------------------------------------------------------------
-from PySide2.QtWidgets import QApplication
-from PySide2.QtUiTools import QUiLoader
-import sys
-sys.path.append('..')
+from PyQt5.QtWidgets import QApplication
+from PyQt5 import uic
 from conf import main_icons
 
 
 class AboutWindow:
     def __init__(self):
-        self.window = QUiLoader().load('../res/ui/about.ui')
+        self.window = uic.loadUi('../res/ui/about.ui')
 
 
 if __name__ == '__main__':

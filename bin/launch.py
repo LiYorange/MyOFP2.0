@@ -5,8 +5,8 @@
 # Date:         2020/12/16
 # Description:  
 # -------------------------------------------------------------------------------
-from PySide2.QtUiTools import QUiLoader
-from PySide2.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox, QInputDialog, QLineEdit
+from PyQt5 import uic
+from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox, QInputDialog, QLineEdit
 import os
 import sys
 import gc
@@ -54,7 +54,7 @@ class LaunchWindow(QWidget):
     def __init__(self):
         super(LaunchWindow, self).__init__()
         # 初始化界面
-        self.window = QUiLoader().load('../res/ui/launch.ui')
+        self.window = uic.loadUi('../res/ui/launch.ui')
         self.unpack = None
         self.merge = None
         self.run_window = None
@@ -169,7 +169,7 @@ class LaunchWindow(QWidget):
 
     def help(self):
         self.web = web_window.WebWindow("说明文档")
-        self.web.show()
+        self.web.window.show()
         # cmd = os.path.abspath(os.path.dirname(os.getcwd())) + "\\res\说明文档.docx"
         # os.system(cmd)
 

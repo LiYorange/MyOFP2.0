@@ -1,7 +1,6 @@
 import sys
 import traceback
 from core import my_log
-
 log = my_log.Log(__name__).getlog()
 
 

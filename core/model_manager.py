@@ -9,22 +9,10 @@
 import os
 import sys
 import re
-sys.path.append("..")
-from PySide2.QtCore import QThread, Signal
-from PySide2.QtWidgets import QApplication
-
-from core import cores
+from PyQt5.QtCore import QThread, pyqtSignal
 from core import my_log
-import gloable_var as gl
-from gearbox import GearBox
-from generator import Generator
-from pitch import Pitch
-from converter import Converter
-from hydraulic import Hydraulic
-from sensor import Sensor
-from get_df import GetDf
-from post_man import PostMan
-from thread_manager import ThreadManage
+from core import gloable_var as gl
+from core.get_df import GetDf
 import traceback
 
 log = my_log.Log(__name__).getlog()
@@ -41,9 +29,9 @@ sys.excepthook = log_except_hook
 
 class ModelManager(QThread):
     # thread_state: dict[str, int]
-    assign_task_signal = Signal(bool)
-    small_file_signal = Signal(tuple)
-    big_file_signal = Signal(tuple)
+    assign_task_signal = pyqtSignal(bool)
+    small_file_signal = pyqtSignal(tuple)
+    big_file_signal = pyqtSignal(tuple)
 
     def __init__(self, files: list, model_list: list, pm):
         """
@@ -109,6 +97,7 @@ class ModelManager(QThread):
                 if msg.get("state") == "started":
                     gl.started_thread_number = msg.get("thread_number")
                     gl.started_thread_name = re.findall(r"'(.+?)'", str(msg.get("thread_name").__class__))
+                    # log.error((gl.started_thread_name,gl.now_file))
                 if msg.get("state") == "quitted":
                     quit_thread_name = re.findall(r"'(.+?)'", str(msg.get("thread_name").__class__))
                     if gl.started_thread_name == quit_thread_name:
@@ -135,7 +124,6 @@ class ModelManager(QThread):
         """拿到一个文件判断大小"""
         self.file = self.files.pop()
         gl.now_file = self.file
-
         file_size = float(os.path.getsize(self.file)) / float(1024 * 1024)
         if file_size < 300:
             self.DF = GetDf(self.file)
@@ -144,6 +132,7 @@ class ModelManager(QThread):
             def over_DF(flag):
                 if flag:
                     self.small_file_signal.emit((self.model_list, self.file))
+
             self.DF.over_signal.connect(over_DF)
         else:
             self.big_file_signal.emit(([self.model_list[0]], self.file))
@@ -191,29 +180,10 @@ class ModelManager(QThread):
                 log.warning("over_signal")
                 import time
                 time.sleep(1)
-                self.assign_task_signal.emit(True)
                 # ***************************
                 self.DF.quit()
                 gl.df = None
                 # ***************************
-
-    def get_data(self, file, tickets=None):
-        self.df = cores.read_csv(self.file)
+                self.assign_task_signal.emit(True)
 
 
-if __name__ == '__main__':
-    app = QApplication([])
-    # 创建postman用于投递消息
-    postman = PostMan()
-    # 创建线程管理者，并雇佣postman
-    thread_manager = ThreadManage(postman)
-    thread_manager.start()
-    gearbox = GearBox(postman)
-    generator = Generator(postman)
-    # 创建模块管理者，并雇佣postman
-    manage = ModelManager(["../db/60005064_20200930（南鹏岛）.csv", "../db/60005064_20200930（南鹏岛） (2).csv"],
-                          [gearbox, generator],
-                          postman)
-
-    manage.start()
-    app.exec_()

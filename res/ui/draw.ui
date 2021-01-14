@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>723</width>
-    <height>505</height>
+    <width>691</width>
+    <height>440</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <normaloff>:/绘图/绘图.png</normaloff>:/绘图/绘图.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,3,2">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,2,1">
     <item>
      <widget class="QGroupBox" name="data_tickets_groupBox">
       <property name="title">
@@ -263,7 +263,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>723</width>
+     <width>691</width>
      <height>23</height>
     </rect>
    </property>

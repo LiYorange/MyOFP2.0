@@ -5,18 +5,16 @@
 # Date:         2020/12/29
 # Description:
 # -------------------------------------------------------------------------------
-from PySide2.QtCore import QThread, Signal
-import pandas as pd
-import time
+from PyQt5.QtCore import QThread
 import os
 import sys
-sys.path.append('..')
-import traceback
+import pandas as pd
+from core import my_log
 from core import cores
 from core import tool
 from core import gloable_var as gl
+import traceback
 
-from core import my_log
 log = my_log.Log(__name__).getlog()
 
 

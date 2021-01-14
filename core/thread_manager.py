@@ -5,12 +5,8 @@
 # Date:         2020/12/25
 # Description:  线程管理，负责开关线程
 # -------------------------------------------------------------------------------
-from PySide2.QtCore import QThread, QObject, Signal, QMutex
-from PySide2.QtWidgets import QApplication
+from PyQt5.QtCore import QThread
 import sys
-sys.path.append("..")
-import time
-import os
 from core import my_log
 import traceback
 

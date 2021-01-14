@@ -5,18 +5,25 @@
 # Date:         2021/1/11
 # Description:  
 # -------------------------------------------------------------------------------
-from PySide2.QtWidgets import QApplication
-from PySide2.QtCore import QThread, Signal
-import sys
-sys.path.append('..')
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore import QThread, pyqtSignal
 from core import cores
 from core import my_log
-import gloable_var as gl
+from core import gloable_var as gl
 import pandas as pd
+import traceback
+
+log = my_log.Log(__name__).getlog()
+
+
+def log_except_hook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+
+    log.critical("Unhandled exception: %s", text)
 
 
 class GetDf(QThread):
-    over_signal = Signal(bool)
+    over_signal = pyqtSignal(bool)
 
     def __init__(self, file):
         super(GetDf, self).__init__()
@@ -36,14 +43,14 @@ class GetDf(QThread):
         self.over_flag = flag
 
 
-if __name__ == '__main__':
-    app = QApplication([])
-    df = GetDf("../db/60004036_20200930（外罗）.csv")
-    df.start()
-    import time
-
-    while not df.over_flag:
-        print(df.over_flag)
-        time.sleep(1)
-    print(123)
-    app.exec_()
+# if __name__ == '__main__':
+#     app = QApplication([])
+#     df = GetDf("../db/60004036_20200930（外罗）.csv")
+#     df.start()
+#     import time
+#
+#     while not df.over_flag:
+#         print(df.over_flag)
+#         time.sleep(1)
+#     print(123)
+#     app.exec_()

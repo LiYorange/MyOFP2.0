@@ -5,14 +5,13 @@
 # Date:         2021/1/9
 # Description:  
 # -------------------------------------------------------------------------------
-from PySide2.QtWidgets import QApplication
-from PySide2.QtCore import QThread, Signal
-from PySide2.QtUiTools import QUiLoader
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5 import uic
 import json
 import csv
 import os
 import sys
-sys.path.append('..')
 import traceback
 from core import my_log
 
@@ -29,11 +28,11 @@ sys.excepthook = log_except_hook
 
 
 class Log(QThread):
-    log_signal = Signal(tuple)
+    log_signal = pyqtSignal(dict)
 
     def __init__(self):
         super(Log, self).__init__()
-        self.window = QUiLoader().load("../res/ui/log.ui")
+        self.window = uic.loadUi("../res/ui/log.ui")
         self.function_name = None
         self.log_signal.connect(self.receive_mmessage)
         self.number_flag = 0

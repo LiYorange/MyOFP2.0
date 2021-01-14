@@ -6,20 +6,19 @@
 # Description:  
 # -------------------------------------------------------------------------------
 import psutil
-from PySide2.QtWidgets import QWidget, QApplication, QMenu, QAction, QTableWidgetItem, QTableWidget, QHeaderView
-from PySide2.QtCore import Qt, QThread, QTimer
-from PySide2.QtGui import QCursor, QColor
-from PySide2.QtUiTools import QUiLoader
+from PyQt5.QtWidgets import QWidget, QApplication, QMenu, QAction, QTableWidgetItem, QTableWidget, QHeaderView
+from PyQt5.QtCore import Qt, QThread, QTimer
+from PyQt5.QtGui import QCursor, QColor
+from PyQt5 import uic
 import traceback
 import json
 import os
 import sys
-import draw_window
-import web_window
-import log_window
+from bin import draw_window
+from bin import web_window
+from bin import log_window
 from core.post_man import PostMan
 from core import my_log
-
 
 log = my_log.Log(__name__).getlog()
 
@@ -36,7 +35,7 @@ sys.excepthook = log_except_hook
 class RunWindow(QThread):
     def __init__(self, files: list, PM: PostMan):
         super(RunWindow, self).__init__()
-        self.window = QUiLoader().load('../res/ui/run.ui')
+        self.window = uic.loadUi('../res/ui/run.ui')
         self.post_man = PM
         self.log_window = log_window.Log()
         self.log_window.start()
@@ -71,7 +70,6 @@ class RunWindow(QThread):
         self.window.tableWidget.customContextMenuRequested.connect(self.tableWidget_right_click)  # 绑定事件
         # 单机事件
 
-
     def tableWidget_right_click(self, pos):
         item = self.window.tableWidget.currentItem()
         item1 = self.window.tableWidget.itemAt(pos)
@@ -95,20 +93,20 @@ class RunWindow(QThread):
             del tickets
         elif event.text() == "模型原理" or event.text() == "排查方案":
             self.web = web_window.WebWindow(self.right_function)
-            self.web.show()
+            self.web.window.show()
 
     def add_cell(self, row, col, result):
         try:
             newItem = QTableWidgetItem()
             if result == -1:
                 newItem = QTableWidgetItem("缺失")
-                newItem.setTextColor(QColor('gray'))
+                newItem.setForeground(QColor('gray'))
             elif result == 0:
                 newItem = QTableWidgetItem("异常")
-                newItem.setTextColor(QColor('red'))
+                newItem.setForeground(QColor('red'))
             elif result == 1:
                 newItem = QTableWidgetItem("正常")
-                newItem.setTextColor(QColor('green'))
+                newItem.setForeground(QColor('green'))
             self.window.tableWidget.setItem(row, col, newItem)
             del result
             del row

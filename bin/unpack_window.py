@@ -5,13 +5,11 @@
 # Date:         2020/12/18
 # Description:  所有的功能实现核心
 # -------------------------------------------------------------------------------
-from PySide2.QtWidgets import QApplication, QFileDialog, QMessageBox
-from PySide2.QtUiTools import QUiLoader
-from PySide2.QtCore import QThread, Signal
-
+from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox
+from PyQt5 import uic
+from PyQt5.QtCore import QThread, pyqtSignal
 import os
 import sys
-sys.path.append('..')
 from conf import main_icons
 from core import cores
 from core import my_log
@@ -30,7 +28,7 @@ sys.excepthook = log_except_hook
 
 
 class Unpack_Window(QThread):
-    signal_log = Signal(str)
+    signal_log = pyqtSignal(str)
 
     def __init__(self):
         """
@@ -41,7 +39,7 @@ class Unpack_Window(QThread):
         """
         # 1 初始化UI
         super(Unpack_Window, self).__init__()
-        self.window = QUiLoader().load('../res/ui/bandzip.ui')
+        self.window = uic.loadUi('../res/ui/bandzip.ui')
         self.window.setFixedSize(self.window.width(), self.window.height())
         # 2 初始化变量
         # # 2.1 >>> 解压区

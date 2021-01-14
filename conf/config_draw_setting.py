@@ -8,7 +8,6 @@
 import configparser
 import os
 import sys
-sys.path.append('..')
 from core import my_log
 import traceback
 
@@ -23,9 +22,10 @@ def log_except_hook(*exc_info):
 
 sys.excepthook = log_except_hook
 
-cur_path = os.path.dirname(os.path.realpath(__file__))
+cur_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) + "\\conf"
 default_cfg_path = os.path.join(cur_path, "default_draw_setting.ini")
 user_cfg_path = os.path.join(cur_path, "user_draw_setting.ini")
+print(default_cfg_path)
 
 
 def read_cfg(flag=False):
